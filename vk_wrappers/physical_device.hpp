@@ -5,17 +5,17 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_PHYSICAL_DEVICE_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_PHYSICAL_DEVICE_HPP_
 
-#include "vk_wrappers/forward_declarations.hpp"
 #include <optional>
 #include <string>
+
+#include "vk_wrappers/forward_declarations.hpp"
 
 namespace gfx {
 
 // Wrapper class around vk::PhysicalDevice which simplifies
 // the interface for ease of use.
 class PhysicalDevice {
-public:
-
+   public:
     // Struct to store the queue indices that are used to
     // create the queues used by the logical device.
     struct QueueFamilyIndices {
@@ -25,10 +25,8 @@ public:
         std::optional<uint32_t> transfer_family;
 
         bool isComplete() {
-            return graphics_family.has_value() &&
-                   present_family.has_value() &&
-                   compute_family.has_value() &&
-                   transfer_family.has_value();
+            return graphics_family.has_value() && present_family.has_value() &&
+                   compute_family.has_value() && transfer_family.has_value();
         }
     };
 
@@ -53,7 +51,7 @@ public:
     uint32_t findMemoryType(uint32_t type_filter, vk::MemoryPropertyFlags mem_properties);
 
     // Getter for the queue family indices.
-    QueueFamilyIndices queue_family_indices(const vk::SurfaceKHR& surface) const { 
+    QueueFamilyIndices queue_family_indices(const vk::SurfaceKHR& surface) const {
         return findQueueFamilies(surface);
     }
 
@@ -65,16 +63,11 @@ public:
 
     vk::SampleCountFlagBits maximumMSAA() const;
 
+    const std::string name() const { return properties_.deviceName; }
 
-    const std::string name() const {
-        return properties_.deviceName;
-    }
+    const vk::PhysicalDeviceFeatures features() const { return features_; }
 
-    const vk::PhysicalDeviceFeatures features() const {
-        return features_;
-    }
-
-private:
+   private:
     friend class Instance;
 
     // Constructor - Must take in a raw vulkan physical device.
@@ -90,6 +83,6 @@ private:
     std::vector<vk::QueueFamilyProperties> queue_family_properties_;
     std::vector<vk::LayerProperties> layer_properties_;
 };
-} // gfx
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_PHYSICAL_DEVICE_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_PHYSICAL_DEVICE_HPP_

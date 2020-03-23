@@ -11,13 +11,11 @@ namespace gfx {
 // beginRenderPass() and it will handle the issue of resolving
 // it to a frame buffer.
 class RenderPass {
-
-public:
-
+   public:
     // Checks to see if the current render pass is valid. It will
     // fail if certain criteria are not met. For example, an
     // attachment cannot have both |load| and |clear| operations.
     bool validate() const;
 };
 
-} // gfx
+}  // namespace gfx

@@ -5,23 +5,24 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_CONTEXT_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_CONTEXT_HPP_
 
-#include "vk_wrappers/forward_declarations.hpp"
 #include <stdio.h>
+
 #include <string>
 #include <vector>
+
+#include "vk_wrappers/forward_declarations.hpp"
 
 namespace gfx {
 
 // Wrapper for vk::UniqueInstance. This is needed to instantiate Vulkan.
 class Instance {
-public:
-
+   public:
     // Construct an instance with a name |name|, list of extensions |extensions|
     // and with validation layers enabled or disabled with |validation|.
     static InstanceUnique create(const std::string& name,
-                                const std::vector<const char*>& extensions, 
-                                bool validation = false);
-    
+                                 const std::vector<const char*>& extensions,
+                                 bool validation = false);
+
     // Destructor.
     ~Instance();
 
@@ -29,16 +30,15 @@ public:
     const vk::Instance& vk() const { return instance_.get(); }
 
     // Vector of all the physical devices found on the current platform.
-    const std::vector<PhysicalDevicePtr>& physical_devices() const {
-        return physical_devices_;
-    }
+    const std::vector<PhysicalDevicePtr>& physical_devices() const { return physical_devices_; }
 
     // Returns the physical device with the spec that is most optimal for the
     // passed in Vulkan surface.
     const PhysicalDevicePtr& pickBestDevice(const vk::SurfaceKHR& surface) const;
 
-private:
-    explicit Instance(const std::string& name, const std::vector<const char*>& extensions, bool validation);
+   private:
+    explicit Instance(const std::string& name, const std::vector<const char*>& extensions,
+                      bool validation);
 
     void locatePhysicalDevices();
 
@@ -46,9 +46,8 @@ private:
     vk::UniqueInstance instance_;
     vk::DebugUtilsMessengerEXT debugMessenger_;
     bool enable_validation_layers_;
-
 };
 
-} // gfx
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_CONTEXT_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_CONTEXT_HPP_

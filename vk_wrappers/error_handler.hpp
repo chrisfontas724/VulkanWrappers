@@ -5,14 +5,15 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_ERROR_HANDLER_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_ERROR_HANDLER_HPP_
 
+#include <string>
+
 #include "vk_wrappers/vulkan.hpp"
-#include <string> 
 
 namespace gfx {
 class ErrorHandler {
-public:
+   public:
     static std::string description(const VkResult& result);
 };
-} // gfx
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_ERROR_HANDLER_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_ERROR_HANDLER_HPP_

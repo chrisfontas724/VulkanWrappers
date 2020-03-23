@@ -3,28 +3,31 @@
 // found in the LICENSE file.
 
 #include "vk_wrappers/instance.hpp"
-#include "vk_wrappers/error_handler.hpp"
-#include "vk_wrappers/physical_device.hpp"
-#include "logging/logging.hpp"
-#include <optional>
-#include <iostream>
+
+#include <array>
+#include <cstddef>
+#include <cstdlib>
+#include <cstring>
 #include <fstream>
+#include <iostream>
+#include <map>
+#include <optional>
+#include <set>
 #include <stdexcept>
 #include <vector>
-#include <cstring>
-#include <cstdlib>
-#include <map>
-#include <set>
-#include <cstddef>
-#include <array>
+
+#include "logging/logging.hpp"
+#include "vk_wrappers/error_handler.hpp"
+#include "vk_wrappers/physical_device.hpp"
 
 namespace {
 
-static const std::vector<const char*> validationLayers = {
-    "VK_LAYER_KHRONOS_validation"
-};
-    
-static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
+static const std::vector<const char*> validationLayers = {"VK_LAYER_KHRONOS_validation"};
+
+static VKAPI_ATTR VkBool32 VKAPI_CALL
+debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+              VkDebugUtilsMessageTypeFlagsEXT messageType,
+              const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) {
     std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
     return VK_FALSE;
 }
@@ -32,20 +35,20 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityF
 static bool checkValidationLayerSupport() {
     uint32_t layerCount;
     vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
-    
+
     std::vector<VkLayerProperties> availableLayers(layerCount);
     vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-    
+
     for (const char* layerName : validationLayers) {
         bool layerFound = false;
-        
+
         for (const auto& layerProperties : availableLayers) {
             if (strcmp(layerName, layerProperties.layerName) == 0) {
                 layerFound = true;
                 break;
             }
         }
-        
+
         if (!layerFound) {
             return false;
         }
@@ -53,11 +56,12 @@ static bool checkValidationLayerSupport() {
     return true;
 }
 
-} // anonymous namespace
+}  // anonymous namespace
 
 namespace gfx {
 
-InstanceUnique Instance::create(const std::string& name, const std::vector<const char*>& extensions, bool validation) {
+InstanceUnique Instance::create(const std::string& name, const std::vector<const char*>& extensions,
+                                bool validation) {
     try {
         return std::unique_ptr<Instance>(new Instance(name, extensions, validation));
     } catch (...) {
@@ -66,8 +70,9 @@ InstanceUnique Instance::create(const std::string& name, const std::vector<const
     }
 }
 
-Instance::Instance(const std::string& name, const std::vector<const char*>& extensions, bool validation)
-: enable_validation_layers_(validation) {
+Instance::Instance(const std::string& name, const std::vector<const char*>& extensions,
+                   bool validation)
+    : enable_validation_layers_(validation) {
     if (enable_validation_layers_ && !checkValidationLayerSupport()) {
         throw std::runtime_error("validation layers requested, but not available!");
     }
@@ -78,13 +83,8 @@ Instance::Instance(const std::string& name, const std::vector<const char*>& exte
 
         // Initialize the vk::InstanceCreateInfo.
         vk::InstanceCreateInfo instanceCreateInfo(
-            /*flags*/ {},
-            &applicationInfo, 
-            validation ? validationLayers.size() : 0, 
-            validation ? validationLayers.data() : nullptr, 
-            extensions.size(), 
-            extensions.data()
-        );
+            /*flags*/ {}, &applicationInfo, validation ? validationLayers.size() : 0,
+            validation ? validationLayers.data() : nullptr, extensions.size(), extensions.data());
 
         // Setup debug information.
         vk::DebugUtilsMessengerCreateInfoEXT debugCreateInfo;
@@ -99,7 +99,7 @@ Instance::Instance(const std::string& name, const std::vector<const char*>& exte
         // Get physical devices.
         locatePhysicalDevices();
 
-     } catch (vk::SystemError err) {
+    } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;
         throw;
     } catch (...) {
@@ -107,7 +107,6 @@ Instance::Instance(const std::string& name, const std::vector<const char*>& exte
         throw;
     }
 }
-
 
 Instance::~Instance() {
     for (auto& physical_device : physical_devices_) {
@@ -117,22 +116,23 @@ Instance::~Instance() {
 
 void Instance::locatePhysicalDevices() {
     std::vector<vk::PhysicalDevice> physical_devices = instance_->enumeratePhysicalDevices();
-    for(auto& device : physical_devices) {
-        auto physical_device =  std::shared_ptr<PhysicalDevice>(new PhysicalDevice(device));
+    for (auto& device : physical_devices) {
+        auto physical_device = std::shared_ptr<PhysicalDevice>(new PhysicalDevice(device));
         physical_device->printDiagnostics();
         physical_devices_.push_back(std::move(physical_device));
     }
 }
 
-const std::shared_ptr<PhysicalDevice>& Instance::pickBestDevice(const vk::SurfaceKHR& surface) const {
+const std::shared_ptr<PhysicalDevice>& Instance::pickBestDevice(
+    const vk::SurfaceKHR& surface) const {
     // Use an ordered map to automatically sort candidates by increasing score.
     std::multimap<uint32_t, const std::shared_ptr<PhysicalDevice>> candidates;
-        
+
     for (const auto& device : physical_devices_) {
         uint32_t score = device->performanceScore(surface);
         candidates.insert(std::make_pair(score, std::move(device)));
     }
-        
+
     // Check if the best candidate is suitable at all.
     if (candidates.rbegin()->first > 0) {
         return candidates.rbegin()->second;
@@ -141,4 +141,4 @@ const std::shared_ptr<PhysicalDevice>& Instance::pickBestDevice(const vk::Surfac
     }
 }
 
-} // gfx
+}  // namespace gfx

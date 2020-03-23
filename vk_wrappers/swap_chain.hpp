@@ -5,41 +5,34 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_SWAP_CHAIN_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_SWAP_CHAIN_HPP_
 
-#include "vk_wrappers/frame_buffer.hpp"
 #include <tuple>
+
+#include "vk_wrappers/frame_buffer.hpp"
 
 namespace gfx {
 
 // Wrapper around Vulkan's SwapchainKHR.
 class SwapChain {
-public:
+   public:
+    using RenderFunction = std::function<std::vector<vk::Semaphore>&(
+        FrameBufferPtr, vk::Semaphore&, vk::Fence&, uint32_t, uint32_t)>;
 
-    SwapChain(LogicalDevicePtr logical_device,
-              vk::SurfaceKHR surface,
-              uint32_t width, uint32_t height);
+    SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, uint32_t width,
+              uint32_t height);
 
     ~SwapChain();
 
     const vk::SwapchainKHR& vk() const { return swap_chain_.get(); }
 
-    const vk::Semaphore& current_semaphore() { return image_available_semaphores_[current_frame_]; }
-
-    const vk::Fence& current_fence() const { return in_flight_fences_[current_frame_]; }
-
-    uint32_t current_frame() const { return current_frame_; }
-
-    void createFrameBuffers(const vk::RenderPass& render_pass);
-
-    std::pair<const FrameBufferPtr, uint32_t> beginFrame();
-
-    void present(const std::vector<vk::Semaphore>& semaphores);
-
-    const std::vector<FrameBufferPtr>& frame_buffers() const { return frame_buffers_; }
+    void beginFrame(RenderFunction& callback);
 
     const vk::SurfaceFormatKHR format() const { return surface_format_; }
-    static vk::SurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<vk::SurfaceFormatKHR>& availableFormats);
 
-private:
+   private:
+    static vk::SurfaceFormatKHR chooseSwapSurfaceFormat(
+        const std::vector<vk::SurfaceFormatKHR>& availableFormats);
+    void createFrameBuffers(const vk::RenderPass& render_pass);
+    void present(const std::vector<vk::Semaphore>& semaphores);
 
     std::weak_ptr<LogicalDevice> logical_device_;
     vk::SurfaceKHR surface_;
@@ -61,6 +54,6 @@ private:
     uint32_t image_index_;
     uint32_t current_frame_;
 };
-} // gfx
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_SWAP_CHAIN_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_SWAP_CHAIN_HPP_

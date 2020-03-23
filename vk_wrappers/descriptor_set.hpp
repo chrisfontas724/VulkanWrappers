@@ -5,16 +5,15 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_SET_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_SET_HPP_
 
-#include "vk_wrappers/logical_device.hpp"
 #include "vk_wrappers/compute_buffer.hpp"
 #include "vk_wrappers/compute_texture.hpp"
+#include "vk_wrappers/logical_device.hpp"
 
 namespace gfx {
 class DescriptorSetLayout;
 class DescriptorSetAllocator;
 class DescriptorSet {
-public:
-
+   public:
     ~DescriptorSet();
 
     vk::DescriptorSet vk() const { return descriptor_set_; }
@@ -23,19 +22,17 @@ public:
 
     void set_texture(uint32_t index, std::shared_ptr<ComputeTexture> texture) const;
 
-private:
+   private:
     friend class DescriptorSetLayout;
 
-    DescriptorSet(std::shared_ptr<LogicalDevice> device, vk::DescriptorSet set, vk::DescriptorSetLayoutCreateInfo info)
-    : device_(device)
-    , descriptor_set_(set)
-    , create_info_(info)
-    {}
+    DescriptorSet(std::shared_ptr<LogicalDevice> device, vk::DescriptorSet set,
+                  vk::DescriptorSetLayoutCreateInfo info)
+        : device_(device), descriptor_set_(set), create_info_(info) {}
 
     std::weak_ptr<LogicalDevice> device_;
     vk::DescriptorSet descriptor_set_;
     vk::DescriptorSetLayoutCreateInfo create_info_;
 };
-} // gfx
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_SET_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_SET_HPP_

@@ -7,18 +7,14 @@
 
 #include "vk_wrappers/pipeline.hpp"
 
-namespace gfx{
+namespace gfx {
 class GraphicsPipeline : public Pipeline {
-public:
-
-    GraphicsPipeline(std::shared_ptr<LogicalDevice> device,
-                     const cxl::FileSystem* fs,
-                     const std::string& vertex_shader,
-                     const std::string& fragment_shader,
+   public:
+    GraphicsPipeline(std::shared_ptr<LogicalDevice> device, const cxl::FileSystem* fs,
+                     const std::string& vertex_shader, const std::string& fragment_shader,
                      std::vector<vk::VertexInputAttributeDescription> vertex_attributes,
                      vk::VertexInputBindingDescription vertex_bindings,
-                     vk::PrimitiveTopology topology,
-                     vk::RenderPass render_pass,
+                     vk::PrimitiveTopology topology, vk::RenderPass render_pass,
                      vk::Extent2D extent);
 
     GraphicsPipeline(std::shared_ptr<LogicalDevice> device,
@@ -26,16 +22,14 @@ public:
                      const std::vector<uint32_t>& fragment_shader,
                      std::vector<vk::VertexInputAttributeDescription> vertex_attributes,
                      vk::VertexInputBindingDescription vertex_bindings,
-                     vk::PrimitiveTopology topology,
-                     vk::RenderPass render_pass,
+                     vk::PrimitiveTopology topology, vk::RenderPass render_pass,
                      vk::Extent2D extent);
 
     ~GraphicsPipeline();
 
-   vk::PipelineBindPoint bind_point() override { return vk::PipelineBindPoint::eGraphics; }
+    vk::PipelineBindPoint bind_point() override { return vk::PipelineBindPoint::eGraphics; }
 
-private:
-
+   private:
     void initialize();
 
     std::unique_ptr<Reflection> reflection_;
@@ -46,6 +40,6 @@ private:
     vk::Extent2D extent_;
 };
 
-} // gfx
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_GRAPHICS_PIPELINE_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_GRAPHICS_PIPELINE_HPP_

@@ -1,8 +1,10 @@
 #include "vk_wrappers/compute_pipeline.hpp"
-#include "streaming/file_stream.hpp"
-#include "logging/logging.hpp"
-#include <string>
+
 #include <iostream>
+#include <string>
+
+#include "logging/logging.hpp"
+#include "streaming/file_stream.hpp"
 
 namespace gfx {
 
@@ -15,12 +17,12 @@ void recursiveIncludeCheck(const cxl::FileSystem* fs, const std::string& file_na
     if (!fs->fileExists(file_name)) {
         return;
     }
-        
+
     *recompile |= fs->fileModified(file_name, last_run);
     if (fs->fileModified(file_name, last_run)) {
-        CXL_LOG(INFO) <<  "File modified: " << file_name.c_str();
+        CXL_LOG(INFO) << "File modified: " << file_name.c_str();
     }
-        
+
     std::string line;
     cxl::FileStream stream(fs, file_name);
     while (stream.getLine(line)) {
@@ -31,31 +33,29 @@ void recursiveIncludeCheck(const cxl::FileSystem* fs, const std::string& file_na
             file.erase(std::remove(file.begin(), file.end(), ' '), file.end());
             if (file.find(".hpp") != std::string::npos) {
                 file = "../Interface/" + file;
-            }  
+            }
             recursiveIncludeCheck(fs, file, last_run, recompile);
         }
     }
 }
-} // namespace
+}  // namespace
 
-ComputePipeline::ComputePipeline(std::shared_ptr<LogicalDevice> device,
-                                 const cxl::FileSystem* fs,
+ComputePipeline::ComputePipeline(std::shared_ptr<LogicalDevice> device, const cxl::FileSystem* fs,
                                  const std::string& file)
-: Pipeline(device) {
+    : Pipeline(device) {
     CXL_DCHECK(fs);
     try {
         CXL_VLOG(7) << "Creating compute pipeline " << file << std::endl;
         shader_ = std::make_unique<ShaderModule>(device, fs, file);
         __initialize(shader_->spir_v());
         CXL_VLOG(7) << "\n\n" << file << std::endl;
-    } catch(...) {
-
-    }              
+    } catch (...) {
+    }
 }
 
 ComputePipeline::ComputePipeline(std::shared_ptr<LogicalDevice> device,
                                  const std::vector<uint32_t>& shader)
-: Pipeline(device) {
+    : Pipeline(device) {
     shader_ = std::make_unique<ShaderModule>(device, vk::ShaderStageFlagBits::eCompute, shader);
     __initialize(shader);
 }
@@ -82,11 +82,8 @@ void ComputePipeline::__initialize(const std::vector<uint32_t>& spir_v) {
     }
 
     // The pipeline layout allows the pipeline to access descriptor sets.
-    vk::PipelineLayoutCreateInfo layout_info({}, 
-                                             vk_layouts.size(),
-                                             vk_layouts.data(), 
-                                             push_constants_.size(), 
-                                             push_constants_.data());
+    vk::PipelineLayoutCreateInfo layout_info({}, vk_layouts.size(), vk_layouts.data(),
+                                             push_constants_.size(), push_constants_.data());
     pipeline_layout_ = device->vk().createPipelineLayout(layout_info);
 
     // Now create the actual pipeline.
@@ -105,4 +102,4 @@ ComputePipeline::~ComputePipeline() {
         device->vk().destroy(pipeline_);
     }
 }
-} // gfx
+}  // namespace gfx

@@ -12,10 +12,8 @@
 namespace gfx {
 
 class Pipeline {
-public:
-
-    Pipeline(LogicalDevicePtr device)
-    : device_(device) {}
+   public:
+    Pipeline(LogicalDevicePtr device) : device_(device) {}
 
     vk::Pipeline vk() const { return pipeline_; }
 
@@ -32,7 +30,7 @@ public:
 
     virtual vk::PipelineBindPoint bind_point() = 0;
 
-protected:
+   protected:
     LogicalDeviceWeakPtr device_;
     vk::Pipeline pipeline_;
     vk::PipelineLayout pipeline_layout_;
@@ -40,6 +38,6 @@ protected:
     std::vector<vk::PushConstantRange> push_constants_;
 };
 
-} // gfx
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_PIPELINE_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_PIPELINE_HPP_

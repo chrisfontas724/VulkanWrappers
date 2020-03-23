@@ -1,6 +1,7 @@
 #include "vk_wrappers/queue.hpp"
-#include "vk_wrappers/command_buffer.hpp"
+
 #include "logging/logging.hpp"
+#include "vk_wrappers/command_buffer.hpp"
 
 namespace gfx {
 
@@ -10,11 +11,10 @@ namespace gfx {
 // unique so they don't run into this problem.
 static std::mutex lock_;
 
-Queue::Queue(vk::Queue queue)
-: queue_(queue) {}
+Queue::Queue(vk::Queue queue) : queue_(queue) {}
 
 void Queue::submit(const vk::SubmitInfo submit_info, const vk::Fence& fence) const {
-	std::lock_guard<std::mutex> lock(lock_);
+    std::lock_guard<std::mutex> lock(lock_);
     vk::Result result = queue_.submit(1, &submit_info, fence);
     if (result != vk::Result::eSuccess) {
         CXL_LOG(ERROR) << "Could not submit info to queue";
@@ -54,4 +54,4 @@ void Queue::waitIdle() const {
     queue_.waitIdle();
 }
 
-} // gfx
+}  // namespace gfx

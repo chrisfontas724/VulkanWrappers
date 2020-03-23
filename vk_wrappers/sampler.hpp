@@ -8,8 +8,7 @@ namespace gfx {
 
 // Wrapper class for vk::Sampler.
 class Sampler {
-public:
-
+   public:
     static SamplerPtr create(LogicalDevicePtr device, bool lerp = true, bool unnormalized = false);
 
     const vk::Sampler& vk() const { return sampler_; }
@@ -18,12 +17,12 @@ public:
 
     bool unnormalized() const { return unnormalized_; }
 
-private:
+   private:
     explicit Sampler(LogicalDevicePtr device, bool lerp, bool unnormalized);
- 
+
     vk::Sampler sampler_;
     bool lerp_;
     bool unnormalized_;
 };
 
-} // gfx
+}  // namespace gfx

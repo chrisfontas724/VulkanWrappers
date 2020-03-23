@@ -5,36 +5,32 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_COMPUTE_PIPELINE_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_COMPUTE_PIPELINE_HPP_
 
-#include "vk_wrappers/pipeline.hpp"
 #include "logical_device.hpp"
-#include "vk_wrappers/utils/shader_compiler.hpp"
-#include "vk_wrappers/utils/reflection/reflection.hpp"
-#include "vk_wrappers/descriptor_allocator.hpp"
-#include "vk_wrappers/shader_module.hpp"
 #include "streaming/file_system.hpp"
+#include "vk_wrappers/descriptor_allocator.hpp"
+#include "vk_wrappers/pipeline.hpp"
+#include "vk_wrappers/shader_module.hpp"
+#include "vk_wrappers/utils/reflection/reflection.hpp"
+#include "vk_wrappers/utils/shader_compiler.hpp"
 
 namespace gfx {
 class ComputePipeline : public Pipeline {
-public:
-    ComputePipeline(std::shared_ptr<LogicalDevice> device,
-                    const cxl::FileSystem* fs,
+   public:
+    ComputePipeline(std::shared_ptr<LogicalDevice> device, const cxl::FileSystem* fs,
                     const std::string& file);
 
-    ComputePipeline(std::shared_ptr<LogicalDevice> device,
-                    const std::vector<uint32_t>& shader);
+    ComputePipeline(std::shared_ptr<LogicalDevice> device, const std::vector<uint32_t>& shader);
 
     ~ComputePipeline();
 
     vk::PipelineBindPoint bind_point() override { return vk::PipelineBindPoint::eCompute; }
 
-private:
-
+   private:
     void __initialize(const std::vector<uint32_t>& spir_v);
 
     std::unique_ptr<Reflection> reflection_;
     std::unique_ptr<ShaderModule> shader_;
 };
-}
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_COMPUTE_PIPELINE_HPP_
-
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_COMPUTE_PIPELINE_HPP_

@@ -5,8 +5,9 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_FORWARD_DECLARATIONS_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_FORWARD_DECLARATIONS_HPP_
 
-#include "vulkan.hpp"
 #include <memory>
+
+#include "vulkan.hpp"
 
 namespace gfx {
 
@@ -56,6 +57,6 @@ typedef std::weak_ptr<ComputeTexture> ComputeTextureWeakPtr;
 typedef std::weak_ptr<Pipeline> PipelineWeakPtr;
 typedef std::weak_ptr<RayTracingPipeline> RayTracingPipelineWeakPtr;
 
-} // gfx
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_FORWARD_DECLARATIONS_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_FORWARD_DECLARATIONS_HPP_

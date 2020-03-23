@@ -3,44 +3,40 @@
 // found in the LICENSE file.
 
 #include "vk_wrappers/frame_buffer.hpp"
+
+#include "logging/logging.hpp"
+#include "vk_wrappers/compute_texture.hpp"
 #include "vk_wrappers/logical_device.hpp"
 #include "vk_wrappers/utils/image_utils.hpp"
-#include "vk_wrappers/compute_texture.hpp"
-#include "logging/logging.hpp"
 
 namespace gfx {
 
-FrameBuffer::FrameBuffer(gfx::LogicalDevicePtr & device,
+FrameBuffer::FrameBuffer(gfx::LogicalDevicePtr& device,
                          const std::map<AttachmentFlags, ComputeTexturePtr> views,
-                         const vk::RenderPass& render_pass,
-                         uint32_t width, uint32_t height)
-: views_(views)
-, width_(width)
-, height_(height) {
-
+                         const vk::RenderPass& render_pass, uint32_t width, uint32_t height)
+    : views_(views), width_(width), height_(height) {
     try {
         std::vector<vk::ImageView> image_views;
         for (auto& iter : views_) {
             image_views.push_back(iter.second->image_view());
         }
 
-        vk::FramebufferCreateInfo info({}, render_pass, image_views.size(), image_views.data(), width, height, 1);   
+        vk::FramebufferCreateInfo info({}, render_pass, image_views.size(), image_views.data(),
+                                       width, height, 1);
         frame_buffer_ = device->vk().createFramebufferUnique(info);
-    } catch(vk::SystemError err) {
+    } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;
         exit(-1);
-    } catch(...) {
+    } catch (...) {
         std::cout << "unknown error\n";
         exit(-1);
     }
 }
 
 FrameBuffer::FrameBuffer(const std::shared_ptr<LogicalDevice> device,
-                         const vk::RenderPass& render_pass,
-                         AttachmentFlags flags,
-                         uint32_t width, uint32_t height) 
-: width_(width)
-, height_(height) {
+                         const vk::RenderPass& render_pass, AttachmentFlags flags, uint32_t width,
+                         uint32_t height)
+    : width_(width), height_(height) {
     try {
         if ((flags & AttachmentFlags::kColor1) != AttachmentFlags::kNoAttachments) {
             auto attachment_data = ImageUtils::createColorAttachment(device, width, height);
@@ -67,13 +63,14 @@ FrameBuffer::FrameBuffer(const std::shared_ptr<LogicalDevice> device,
             image_views.push_back(iter.second->image_view());
         }
 
-        vk::FramebufferCreateInfo info({}, render_pass, image_views.size(), image_views.data(), width, height, 1);   
+        vk::FramebufferCreateInfo info({}, render_pass, image_views.size(), image_views.data(),
+                                       width, height, 1);
         frame_buffer_ = device->vk().createFramebufferUnique(info);
         CXL_VLOG(3) << "Made frame buffer!";
-    } catch(vk::SystemError err) {
+    } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;
         exit(-1);
-    } catch(...) {
+    } catch (...) {
         std::cout << "unknown error\n";
         exit(-1);
     }
@@ -85,4 +82,4 @@ FrameBuffer::~FrameBuffer() {
     }
 }
 
-} // gfx
+}  // namespace gfx

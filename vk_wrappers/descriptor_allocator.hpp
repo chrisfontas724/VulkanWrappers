@@ -5,15 +5,15 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_ALLOCATOR_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_ALLOCATOR_HPP_
 
-#include "vk_wrappers/logical_device.hpp"
 #include "vk_wrappers/descriptor_set.hpp"
+#include "vk_wrappers/logical_device.hpp"
 
 namespace gfx {
 
 class DescriptorSetLayout {
-public:
-
-    DescriptorSetLayout(std::shared_ptr<LogicalDevice> device, vk::DescriptorSetLayoutCreateInfo info);
+   public:
+    DescriptorSetLayout(std::shared_ptr<LogicalDevice> device,
+                        vk::DescriptorSetLayoutCreateInfo info);
     ~DescriptorSetLayout();
 
     vk::DescriptorSetLayout vk() const { return layout_; }
@@ -21,15 +21,12 @@ public:
     std::vector<DescriptorSet> createDescriptorSets(uint32_t num = 1);
     std::shared_ptr<DescriptorSet> createDescriptorSet();
 
-private:
-
+   private:
     class Allocator {
-    public:
-
-        Allocator(std::shared_ptr<LogicalDevice> device, vk::DescriptorSetLayoutCreateInfo info, uint32_t num_per_pool)
-        : device_(device)
-        , create_info_(info)
-        , num_per_pool_(num_per_pool) {
+       public:
+        Allocator(std::shared_ptr<LogicalDevice> device, vk::DescriptorSetLayoutCreateInfo info,
+                  uint32_t num_per_pool)
+            : device_(device), create_info_(info), num_per_pool_(num_per_pool) {
             addPool();
         }
 
@@ -37,14 +34,13 @@ private:
 
         std::vector<vk::DescriptorSet> allocate(vk::DescriptorSetLayout layout, uint32_t num);
 
-
-    private:
+       private:
         void addPool();
 
         std::weak_ptr<LogicalDevice> device_;
         vk::DescriptorSetLayoutCreateInfo create_info_;
         std::vector<vk::DescriptorPool> pools_;
-    
+
         std::vector<uint32_t> remaining_allocations_;
         uint32_t num_per_pool_;
         uint32_t current_pool_index_;
@@ -55,7 +51,7 @@ private:
     std::unique_ptr<Allocator> allocator_;
     vk::DescriptorSetLayoutCreateInfo create_info_;
     vk::DescriptorSetLayout layout_;
-}; 
-} // gfx
+};
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_ALLOCATOR_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_ALLOCATOR_HPP_

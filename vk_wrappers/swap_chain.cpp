@@ -3,11 +3,14 @@
 // found in the LICENSE file.
 
 #include "vk_wrappers/swap_chain.hpp"
+
+#include <map>
+
+#include "logging/logging.hpp"
 #include "vk_wrappers/compute_texture.hpp"
 #include "vk_wrappers/physical_device.hpp"
 #include "vk_wrappers/utils/image_utils.hpp"
-#include "logging/logging.hpp"
-#include <map>
+#include "vk_wrappers/utils/render_pass_utils.hpp"
 
 namespace gfx {
 
@@ -15,8 +18,9 @@ namespace {
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
-vk::PresentModeKHR chooseSwapPresentMode(const std::vector<vk::PresentModeKHR>& available_present_modes) {
-    vk::PresentModeKHR best_mode = vk::PresentModeKHR::eFifo; 
+vk::PresentModeKHR chooseSwapPresentMode(
+    const std::vector<vk::PresentModeKHR>& available_present_modes) {
+    vk::PresentModeKHR best_mode = vk::PresentModeKHR::eFifo;
     for (const auto& available_present_mode : available_present_modes) {
         if (available_present_mode == vk::PresentModeKHR::eMailbox) {
             return available_present_mode;
@@ -27,43 +31,38 @@ vk::PresentModeKHR chooseSwapPresentMode(const std::vector<vk::PresentModeKHR>& 
     return best_mode;
 }
 
-
-vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR& capabilities, uint32_t width, uint32_t height) {
+vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR& capabilities, uint32_t width,
+                              uint32_t height) {
     if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max()) {
         return capabilities.currentExtent;
     } else {
-        vk::Extent2D actualExtent = {
-            static_cast<uint32_t>(width),
-            static_cast<uint32_t>(height)
-        };
-            
+        vk::Extent2D actualExtent = {static_cast<uint32_t>(width), static_cast<uint32_t>(height)};
+
         return actualExtent;
     }
 }
 
-} // anonymous namespace
+}  // anonymous namespace
 
-vk::SurfaceFormatKHR SwapChain::chooseSwapSurfaceFormat(const std::vector<vk::SurfaceFormatKHR>& availableFormats) {
+vk::SurfaceFormatKHR SwapChain::chooseSwapSurfaceFormat(
+    const std::vector<vk::SurfaceFormatKHR>& availableFormats) {
     if (availableFormats.size() == 1 && availableFormats[0].format == vk::Format::eUndefined) {
         return {vk::Format::eB8G8R8A8Unorm, vk::ColorSpaceKHR::eSrgbNonlinear};
     }
-        
+
     for (const auto& availableFormat : availableFormats) {
-        if (availableFormat.format == vk::Format::eB8G8R8A8Unorm && availableFormat.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear) {
+        if (availableFormat.format == vk::Format::eB8G8R8A8Unorm &&
+            availableFormat.colorSpace == vk::ColorSpaceKHR::eSrgbNonlinear) {
             return availableFormat;
         }
     }
-    
+
     return availableFormats[0];
 }
 
-
-SwapChain::SwapChain(LogicalDevicePtr logical_device,
-                     vk::SurfaceKHR surface,
-                     uint32_t width, uint32_t height)
-: logical_device_(logical_device)
-, surface_(surface) 
-, current_frame_(0) {
+SwapChain::SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, uint32_t width,
+                     uint32_t height)
+    : logical_device_(logical_device), surface_(surface), current_frame_(0) {
     // Make sure everything is valid.
     CXL_DCHECK(logical_device);
     CXL_DCHECK(surface);
@@ -83,26 +82,24 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device,
         CXL_VLOG(5) << "        Extent: (" << extent_.width << ", " << extent_.height << ")";
 
         uint32_t image_count = support_details.capabilities.minImageCount + 1;
-        if (support_details.capabilities.maxImageCount > 0 && image_count > support_details.capabilities.maxImageCount) {
+        if (support_details.capabilities.maxImageCount > 0 &&
+            image_count > support_details.capabilities.maxImageCount) {
             image_count = support_details.capabilities.maxImageCount;
-        } 
+        }
         CXL_VLOG(5) << "    Image count is " << image_count;
 
-
-        vk::SwapchainCreateInfoKHR create_info({}, surface,
-                                              image_count,
-                                              surface_format_.format,
-                                              surface_format_.colorSpace,
-                                              extent_, 
-                                              1, /*array layers*/
-                                              vk::ImageUsageFlagBits::eColorAttachment | 
-                                              vk::ImageUsageFlagBits::eTransferSrc | 
-                                              vk::ImageUsageFlagBits::eTransferDst);
+        vk::SwapchainCreateInfoKHR create_info(
+            {}, surface, image_count, surface_format_.format, surface_format_.colorSpace, extent_,
+            1, /*array layers*/
+            vk::ImageUsageFlagBits::eColorAttachment | vk::ImageUsageFlagBits::eTransferSrc |
+                vk::ImageUsageFlagBits::eTransferDst);
         CXL_VLOG(5) << "    Initialize create info";
 
         auto indices = physical_device->queue_family_indices(surface);
-        uint32_t queue_family_indices[] = {indices.graphics_family.value(), indices.present_family.value()};
-        CXL_VLOG(5) << "    Queue family indices: " << queue_family_indices[0] << " " << queue_family_indices[1];
+        uint32_t queue_family_indices[] = {indices.graphics_family.value(),
+                                           indices.present_family.value()};
+        CXL_VLOG(5) << "    Queue family indices: " << queue_family_indices[0] << " "
+                    << queue_family_indices[1];
 
         if (indices.graphics_family != indices.present_family) {
             create_info.imageSharingMode = vk::SharingMode::eConcurrent;
@@ -111,7 +108,7 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device,
         } else {
             create_info.imageSharingMode = vk::SharingMode::eExclusive;
         }
-        
+
         create_info.preTransform = support_details.capabilities.currentTransform;
         create_info.compositeAlpha = vk::CompositeAlphaFlagBitsKHR::eOpaque;
         create_info.presentMode = present_mode_;
@@ -124,8 +121,8 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device,
         CXL_VLOG(5) << "    Created swap chain images!";
 
         for (const auto& image : images_) {
-            image_views_.push_back(ImageUtils::createImageView(logical_device,
-                                                               image, surface_format_.format));
+            image_views_.push_back(
+                ImageUtils::createImageView(logical_device, image, surface_format_.format));
         }
         CXL_VLOG(5) << "    Created swap chain image views!";
 
@@ -133,78 +130,86 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device,
         in_flight_fences_.resize(MAX_FRAMES_IN_FLIGHT);
         images_in_flight_.resize(images_.size());
 
-        in_flight_fences_ = logical_device->createFences(MAX_FRAMES_IN_FLIGHT, vk::FenceCreateFlagBits::eSignaled);
+        in_flight_fences_ =
+            logical_device->createFences(MAX_FRAMES_IN_FLIGHT, vk::FenceCreateFlagBits::eSignaled);
         CXL_VLOG(5) << "    Created fences and semaphores!";
 
-     } catch (vk::SystemError err) {
+        // Create frame buffers.
+        auto display_render_pass = gfx::RenderPassUtils::createPresentationRenderPass(
+            logical_device, surface_format_.format);
+        createFrameBuffers(display_render_pass);
+
+    } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;
         exit(-1);
     } catch (...) {
         std::cout << "unknown error\n";
         exit(-1);
     }
- }
+}
 
- SwapChain::~SwapChain() {
-     if (const auto& device = logical_device_.lock()) {
+SwapChain::~SwapChain() {
+    if (const auto& device = logical_device_.lock()) {
         swap_chain_.reset();
-         for (const auto& semaphore : image_available_semaphores_) {
+        for (const auto& semaphore : image_available_semaphores_) {
             device->destroy(semaphore);
-         }
+        }
         for (const auto& fence : in_flight_fences_) {
             device->destroy(fence);
-         }
+        }
         for (const auto& image_view : image_views_) {
             device->destroy(image_view);
-         }
-     }
- }
-
- void SwapChain::createFrameBuffers(const vk::RenderPass& render_pass) {
-    if (auto device = logical_device_.lock()) {
-        for (size_t i = 0; i < image_views_.size(); i++) {
-
-            auto sampler = Sampler::create(device);
-            auto texture = std::make_shared<ComputeTexture>(image_views_[i], 
-                                                            images_[i],
-                                                            vk::ImageLayout::ePresentSrcKHR,
-                                                            surface_format_.format,
-                                                            std::move(sampler),
-                                                            extent_.width,
-                                                            extent_.height);
-
-            std::map<FrameBuffer::AttachmentFlags, ComputeTexturePtr> attachments = {
-                { FrameBuffer::AttachmentFlags::kColor1, texture},
-            };
-
-            CXL_VLOG(3) << "Creating swapchain framebuffer with extent: " << extent_.width << " " << extent_.height;
-            frame_buffers_.push_back(std::make_shared<FrameBuffer>(device, attachments, render_pass, extent_.width, extent_.height));
         }
     }
 }
 
-std::pair<const FrameBufferPtr, uint32_t> SwapChain::beginFrame() {
+void SwapChain::createFrameBuffers(const vk::RenderPass& render_pass) {
+    if (auto device = logical_device_.lock()) {
+        for (size_t i = 0; i < image_views_.size(); i++) {
+            auto sampler = Sampler::create(device);
+            auto texture = std::make_shared<ComputeTexture>(
+                image_views_[i], images_[i], vk::ImageLayout::ePresentSrcKHR,
+                surface_format_.format, std::move(sampler), extent_.width, extent_.height);
+
+            std::map<FrameBuffer::AttachmentFlags, ComputeTexturePtr> attachments = {
+                {FrameBuffer::AttachmentFlags::kColor1, texture},
+            };
+
+            CXL_VLOG(3) << "Creating swapchain framebuffer with extent: " << extent_.width << " "
+                        << extent_.height;
+            frame_buffers_.push_back(std::make_shared<FrameBuffer>(device, attachments, render_pass,
+                                                                   extent_.width, extent_.height));
+        }
+    }
+}
+
+void SwapChain::beginFrame(RenderFunction& callback) {
     const auto& device = logical_device_.lock();
     CXL_CHECK(device);
+    CXL_DCHECK(callback);
 
     // Wait for the current in flight fence.
     device->waitForFence(in_flight_fences_[current_frame_]);
 
     try {
-         image_index_ = device->vk().acquireNextImageKHR(swap_chain_.get(),
-                                                         std::numeric_limits<uint64_t>::max(), 
-                                                         image_available_semaphores_[current_frame_], 
-                                                         vk::Fence()).value;
+        image_index_ =
+            device->vk()
+                .acquireNextImageKHR(swap_chain_.get(), std::numeric_limits<uint64_t>::max(),
+                                     image_available_semaphores_[current_frame_], vk::Fence())
+                .value;
 
         if (images_in_flight_[image_index_] != vk::Fence()) {
             device->waitForFence(images_in_flight_[image_index_]);
         }
 
         images_in_flight_[image_index_] = in_flight_fences_[current_frame_];
-    
+
         device->vk().resetFences(1, &in_flight_fences_[current_frame_]);
-        return std::pair(frame_buffers_[image_index_], image_index_);
-    } catch(vk::SystemError err) {
+
+        present(callback(frame_buffers_[image_index_], image_available_semaphores_[current_frame_],
+                         in_flight_fences_[current_frame_], image_index_, current_frame_));
+
+    } catch (vk::SystemError err) {
         CXL_LOG(WARNING) << err.what();
         throw std::runtime_error("failed to acquire swap chain image!");
     }
@@ -215,15 +220,12 @@ void SwapChain::present(const std::vector<vk::Semaphore>& semaphores) {
     CXL_CHECK(device);
 
     // Present frame.
-    vk::PresentInfoKHR present_info(/*waitSemaphoreCount_*/ semaphores.size(), 
-                                    semaphores.data(),
-                                    /*swapChainCount_*/ 1, 
-                                    &vk(),
+    vk::PresentInfoKHR present_info(/*waitSemaphoreCount_*/ semaphores.size(), semaphores.data(),
+                                    /*swapChainCount_*/ 1, &vk(),
                                     /*pImageIndices*/ &image_index_);
     device->getQueue(gfx::Queue::Type::kPresent).present(present_info);
-
 
     current_frame_ = (current_frame_ + 1) % MAX_FRAMES_IN_FLIGHT;
 }
 
-} // gfx
+}  // namespace gfx

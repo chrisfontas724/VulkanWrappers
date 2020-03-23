@@ -11,22 +11,20 @@ namespace gfx {
 
 // Wrapper for vk::Image.
 class Image {
+   public:
+    struct Info {
+        vk::Format format = vk::Format::eUndefined;
+        uint32_t width = 0;
+        uint32_t height = 0;
+        uint32_t sample_count = 1;
+        vk::ImageUsageFlags usage;
+        vk::MemoryPropertyFlags memory_flags = vk::MemoryPropertyFlagBits::eDeviceLocal;
+        vk::ImageTiling tiling = vk::ImageTiling::eOptimal;
+        bool is_mutable = true;
+        bool is_external = false;
 
-public:
-
-struct Info {
-  vk::Format format = vk::Format::eUndefined;
-  uint32_t width = 0;
-  uint32_t height = 0;
-  uint32_t sample_count = 1;
-  vk::ImageUsageFlags usage;
-  vk::MemoryPropertyFlags memory_flags = vk::MemoryPropertyFlagBits::eDeviceLocal;
-  vk::ImageTiling tiling = vk::ImageTiling::eOptimal;
-  bool is_mutable = true;
-  bool is_external = false;
-
-  bool operator==(const Info& other) const;
-};
+        bool operator==(const Info& other) const;
+    };
 
     const vk::Image& vk() const { return image_; }
 
@@ -36,16 +34,15 @@ struct Info {
     LogicalDevicePtr device() const { return device_.lock(); }
 
     // Used for transitioning image layouts with pipeline barriers.
-    static std::pair<vk::PipelineStageFlags, vk::AccessFlags> 
-    stageAndAccessFlagsForLayout(const vk::ImageLayout& layout);
+    static std::pair<vk::PipelineStageFlags, vk::AccessFlags> stageAndAccessFlagsForLayout(
+        const vk::ImageLayout& layout);
 
-private:
-
+   private:
     LogicalDevicePtr device_;
     vk::Image image_;
     Info info_;
 };
 
-} // gfx
+}  // namespace gfx
 
-#endif // VK_WRAPPERS_IMAGE_HPP_
+#endif  // VK_WRAPPERS_IMAGE_HPP_

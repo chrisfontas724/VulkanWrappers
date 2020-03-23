@@ -5,20 +5,15 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_QUEUE_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_QUEUE_HPP_
 
-#include "vk_wrappers/vulkan.hpp"
 #include <mutex>
+
+#include "vk_wrappers/vulkan.hpp"
 
 namespace gfx {
 class CommandBuffer;
 class Queue {
-public:
-
-    enum class Type {
-        kCompute,
-        kGraphics,
-        kPresent,
-        kTransfer
-    };
+   public:
+    enum class Type { kCompute, kGraphics, kPresent, kTransfer };
 
     Queue(vk::Queue queue);
 
@@ -27,16 +22,17 @@ public:
     void submit(const std::vector<vk::SubmitInfo>& submit_info, const vk::Fence& fence) const;
 
     void submit(std::shared_ptr<CommandBuffer> command_buffer) const;
-    void submit(const gfx::CommandBuffer& command_buffer, const vk::Fence& fence = vk::Fence()) const;
+    void submit(const gfx::CommandBuffer& command_buffer,
+                const vk::Fence& fence = vk::Fence()) const;
 
     void present(const vk::PresentInfoKHR& present_info) const;
 
     void waitIdle() const;
 
-private:
+   private:
     vk::Queue queue_;
 };
 
-} // gfx
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_QUEUE_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_QUEUE_HPP_

@@ -28,7 +28,8 @@ void DescriptorSetLayout::Allocator::addPool() {
     current_pool_index_ = pools_.size() - 1;
 }
 
-std::vector<vk::DescriptorSet> DescriptorSetLayout::Allocator::allocate(vk::DescriptorSetLayout layout, uint32_t num) {
+std::vector<vk::DescriptorSet> DescriptorSetLayout::Allocator::allocate(
+    vk::DescriptorSetLayout layout, uint32_t num) {
     auto device = device_.lock();
     CXL_DCHECK(device) << "Device not found";
 
@@ -37,7 +38,6 @@ std::vector<vk::DescriptorSet> DescriptorSetLayout::Allocator::allocate(vk::Desc
         addPool();
     }
     auto& pool = pools_[current_pool_index_];
-
 
     std::unique_lock<std::mutex> lock(mutex_);
     vk::DescriptorSetAllocateInfo alloc_info(pool, 1, &layout);
@@ -49,9 +49,9 @@ std::vector<vk::DescriptorSet> DescriptorSetLayout::Allocator::allocate(vk::Desc
     return sets;
 }
 
-DescriptorSetLayout::DescriptorSetLayout(std::shared_ptr<LogicalDevice> device, vk::DescriptorSetLayoutCreateInfo info)
-: device_(device)
-, create_info_(info) {
+DescriptorSetLayout::DescriptorSetLayout(std::shared_ptr<LogicalDevice> device,
+                                         vk::DescriptorSetLayoutCreateInfo info)
+    : device_(device), create_info_(info) {
     layout_ = device->vk().createDescriptorSetLayout(info);
 
     // TODO: Add device and variable number.
@@ -77,4 +77,4 @@ std::vector<DescriptorSet> DescriptorSetLayout::createDescriptorSets(uint32_t nu
     }
     return result;
 }
-}
+}  // namespace gfx

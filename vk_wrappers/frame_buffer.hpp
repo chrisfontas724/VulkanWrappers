@@ -5,33 +5,30 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_FRAME_BUFFER_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_FRAME_BUFFER_HPP_
 
+#include <map>
+
 #include "vk_wrappers/forward_declarations.hpp"
-#include <map> 
 
 namespace gfx {
 class FrameBuffer {
-public:
-
+   public:
     enum AttachmentFlags {
         kNoAttachments = 0,
         kColor1 = 0x01,
         kColor2 = 0x01 << 1,
         kColor3 = 0x01 << 2,
-        kDepth  = 0x01 << 3,
-        kAccum  = 0x01 << 4,
+        kDepth = 0x01 << 3,
+        kAccum = 0x01 << 4,
     };
 
     FrameBuffer(gfx::LogicalDevicePtr& device,
                 const std::map<AttachmentFlags, ComputeTexturePtr> views,
-                const vk::RenderPass& render_pass,
-                uint32_t width, uint32_t height);
+                const vk::RenderPass& render_pass, uint32_t width, uint32_t height);
 
     // This constructor generates the image views for the frame
     // buffer depending on the attachment flag settings.
-    FrameBuffer(gfx::LogicalDevicePtr device,
-                const vk::RenderPass& render_pass,
-                AttachmentFlags flags,
-                uint32_t width, uint32_t height);
+    FrameBuffer(gfx::LogicalDevicePtr device, const vk::RenderPass& render_pass,
+                AttachmentFlags flags, uint32_t width, uint32_t height);
 
     ~FrameBuffer();
 
@@ -44,12 +41,11 @@ public:
     uint32_t width() const { return width_; }
     uint32_t height() const { return height_; }
 
-private:
-
+   private:
     uint32_t width_, height_;
     vk::UniqueFramebuffer frame_buffer_;
     std::map<AttachmentFlags, ComputeTexturePtr> views_;
 };
-} // gfx
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_FRAME_BUFFER_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_FRAME_BUFFER_HPP_
