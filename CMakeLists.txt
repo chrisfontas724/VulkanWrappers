@@ -122,12 +122,22 @@ add_library (vulkan_wrappers
 find_package(Vulkan REQUIRED)
 
 
-# Get GLM
+# This is so that a parent project that links this library knows
+# which headers to include.
+set(VK_INCLUDE_DIRS
+   ${VK_INCLUDE_DIRS}
+   ${CMAKE_CURRENT_BINARY_DIR}/filesystem-src
+   ${CMAKE_CURRENT_BINARY_DIR}/openexr-src
+   ${CMAKE_CURRENT_BINARY_DIR}/glslang-src
+   ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src
+   PARENT_SCOPE
+)
+
+# Get GLM - This is required so we fail early if it cannot be found.
 find_package(glm REQUIRED)
 include_directories(${GLM_INCLUDE_DIRS})
 link_directories(${GLM_LIBRARY_DIRS})
 add_definitions(${GLM_DEFINITIONS})
-
 if(NOT glm_FOUND)
     message(Error "GLM not found")
 endif(NOT glm_FOUND)
