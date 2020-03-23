@@ -202,6 +202,7 @@ std::pair<const FrameBufferPtr, uint32_t> SwapChain::beginFrame() {
 
         images_in_flight_[image_index_] = in_flight_fences_[current_frame_];
     
+        device->vk().resetFences(1, &in_flight_fences_[current_frame_]);
         return std::pair(frame_buffers_[image_index_], image_index_);
     } catch(vk::SystemError err) {
         CXL_LOG(WARNING) << err.what();
@@ -212,10 +213,6 @@ std::pair<const FrameBufferPtr, uint32_t> SwapChain::beginFrame() {
 void SwapChain::present(const std::vector<vk::Semaphore>& semaphores) {
     const auto& device = logical_device_.lock();
     CXL_CHECK(device);
-
-    // Reset fence
-    device->vk().resetFences(1, &in_flight_fences_[current_frame_]);
-
 
     // Present frame.
     vk::PresentInfoKHR present_info(/*waitSemaphoreCount_*/ semaphores.size(), 
