@@ -142,6 +142,7 @@ if(NOT glm_FOUND)
     message(Error "GLM not found")
 endif(NOT glm_FOUND)
 
+# Link the dependencies.
 target_link_libraries(vulkan_wrappers Vulkan::Vulkan glm glslang SPIRV streaming core)
 target_include_directories(vulkan_wrappers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
