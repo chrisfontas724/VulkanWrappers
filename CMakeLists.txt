@@ -4,6 +4,96 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_CXX_FLAGS "-std=gnu++17")
 
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src
+                    ${CMAKE_CURRENT_BINARY_DIR}/openexr-src
+                    ${CMAKE_CURRENT_BINARY_DIR}/glslang-src
+                    ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src)
+
+
+
+
+# Add filesystem classes
+configure_file(CMakeLists.txt.in filesystem-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/filesystem-download )
+if(result)
+  message(FATAL_ERROR "CMake step for filesystem failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/filesystem-download )
+if(result)
+  message(FATAL_ERROR "Build step for filesystem failed: ${result}")
+endif()
+
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src 
+                 ${CMAKE_CURRENT_BINARY_DIR}/filesystem-build 
+                 EXCLUDE_FROM_ALL)
+
+
+
+# Add core classes
+configure_file(CMakeLists.txt.in coreclasses-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-download )
+if(result)
+  message(FATAL_ERROR "CMake step for filesystem failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-download )
+if(result)
+  message(FATAL_ERROR "Build step for filesystem failed: ${result}")
+endif()
+
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src 
+                 ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-build 
+                 EXCLUDE_FROM_ALL)
+
+
+
+# Add gslang directory
+configure_file(CMakeLists.txt.in glslang-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/glslang-download )
+if(result)
+  message(FATAL_ERROR "CMake step for glslang failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/glslang-download )
+if(result)
+  message(FATAL_ERROR "Build step for glslang failed: ${result}")
+endif()
+
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/glslang-src 
+                 ${CMAKE_CURRENT_BINARY_DIR}/glslang-build 
+                 EXCLUDE_FROM_ALL)
+
+
+# Add openexr classes
+configure_file(CMakeLists.txt.in openexr-download/CMakeLists.txt)
+execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/openexr-download )
+if(result)
+  message(FATAL_ERROR "CMake step for openexr failed: ${result}")
+endif()
+execute_process(COMMAND ${CMAKE_COMMAND} --build .
+  RESULT_VARIABLE result
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/openexr-download )
+if(result)
+  message(FATAL_ERROR "Build step for openexr failed: ${result}")
+endif()
+
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/openexr-src 
+                 ${CMAKE_CURRENT_BINARY_DIR}/openexr-build 
+                 EXCLUDE_FROM_ALL)
+
+
 
 add_library (vulkan_wrappers
     vk_wrappers/command_buffer.cpp
@@ -30,6 +120,18 @@ add_library (vulkan_wrappers
 )
 
 find_package(Vulkan REQUIRED)
-target_link_libraries(vulkan_wrappers Vulkan::Vulkan glslang SPIRV)
+
+
+# Get GLM
+find_package(glm REQUIRED)
+include_directories(${GLM_INCLUDE_DIRS})
+link_directories(${GLM_LIBRARY_DIRS})
+add_definitions(${GLM_DEFINITIONS})
+
+if(NOT glm_FOUND)
+    message(Error "GLM not found")
+endif(NOT glm_FOUND)
+
+target_link_libraries(vulkan_wrappers Vulkan::Vulkan glm glslang SPIRV streaming)
 target_include_directories(vulkan_wrappers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

@@ -1,6 +1,6 @@
 #include "reflection.hpp"
 #include "spirv_reflect.h"
-#include "core/logging/logging.hpp"
+#include "logging/logging.hpp"
 #include <map>
 
 namespace gfx {

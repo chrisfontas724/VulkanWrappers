@@ -4,7 +4,7 @@
 
 #include "vk_wrappers/shader_module.hpp"
 #include "vk_wrappers/utils/shader_compiler.hpp"
-#include "core/logging/logging.hpp"
+#include "logging/logging.hpp"
 
 namespace gfx {
 

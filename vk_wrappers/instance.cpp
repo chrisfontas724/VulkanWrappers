@@ -5,7 +5,7 @@
 #include "vk_wrappers/instance.hpp"
 #include "vk_wrappers/error_handler.hpp"
 #include "vk_wrappers/physical_device.hpp"
-#include "core/logging/logging.hpp"
+#include "logging/logging.hpp"
 #include <optional>
 #include <iostream>
 #include <fstream>

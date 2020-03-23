@@ -1,6 +1,6 @@
 #include "vk_wrappers/compute_pipeline.hpp"
 #include "streaming/file_stream.hpp"
-#include "core/logging/logging.hpp"
+#include "logging/logging.hpp"
 #include <string>
 #include <iostream>
 

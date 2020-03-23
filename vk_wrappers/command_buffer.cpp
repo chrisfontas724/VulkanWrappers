@@ -1,5 +1,5 @@
 #include "vk_wrappers/command_buffer.hpp"
-#include "core/logging/logging.hpp"
+#include "logging/logging.hpp"
 
 namespace gfx {
 

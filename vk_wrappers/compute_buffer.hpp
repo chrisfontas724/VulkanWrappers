@@ -6,6 +6,7 @@
 #define DALI_GRAPHICS_VK_WRAPPERS_COMPUTE_BUFFER_HPP_
 
 #include "vk_wrappers/logical_device.hpp"
+#include "logging/logging.hpp"
 
 namespace gfx {
 class ComputeBuffer {

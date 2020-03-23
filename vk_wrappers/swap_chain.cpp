@@ -6,7 +6,7 @@
 #include "vk_wrappers/compute_texture.hpp"
 #include "vk_wrappers/physical_device.hpp"
 #include "vk_wrappers/utils/image_utils.hpp"
-#include "core/logging/logging.hpp"
+#include "logging/logging.hpp"
 #include <map>
 
 namespace gfx {

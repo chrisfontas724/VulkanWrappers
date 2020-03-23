@@ -6,7 +6,7 @@
 #include "vk_wrappers/logical_device.hpp"
 #include "vk_wrappers/utils/image_utils.hpp"
 #include "vk_wrappers/compute_texture.hpp"
-#include "core/logging/logging.hpp"
+#include "logging/logging.hpp"
 
 namespace gfx {
 

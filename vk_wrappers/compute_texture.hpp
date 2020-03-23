@@ -9,7 +9,7 @@
 #include "vk_wrappers/sampler.hpp"
 #include "vk_wrappers/utils/image_utils.hpp"
 #include "forward_declarations.hpp"
-#include <OpenEXR/half.h>
+#include <IlmBase/Half/half.h>
 
 namespace gfx {
 

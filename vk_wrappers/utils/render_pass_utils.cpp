@@ -4,7 +4,7 @@
 
 #include "render_pass_utils.hpp"
 #include "vk_wrappers/logical_device.hpp"
-#include "core/logging/logging.hpp"
+#include "logging/logging.hpp"
 
 namespace gfx {
 

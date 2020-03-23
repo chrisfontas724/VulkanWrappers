@@ -4,8 +4,8 @@
 #include <glslang/Public/ShaderLang.h>
 #include <SPIRV/GlslangToSpv.h>
 #include <StandAlone/DirStackFileIncluder.h>
-#include "core/logging/logging.hpp"
-#include "core/utils/string_utils.hpp"
+#include "logging/logging.hpp"
+#include "utils/string_utils.hpp"
 #include <glslang/MachineIndependent/reflection.h>
 
 namespace {

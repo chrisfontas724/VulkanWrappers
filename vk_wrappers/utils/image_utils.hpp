@@ -6,7 +6,7 @@
 #define DALI_GRAPHICS_VK_WRAPPERS_UTILS_IMAGE_UTILS_HPP_
 
 #include "vk_wrappers/logical_device.hpp"
-#include <OpenEXR/half.h>
+#include <IlmBase/Half/half.h>
 
 namespace gfx {
 class ImageUtils {

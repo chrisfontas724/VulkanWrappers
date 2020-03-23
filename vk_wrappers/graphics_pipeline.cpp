@@ -1,5 +1,5 @@
 #include "graphics_pipeline.hpp"
-#include "core/logging/logging.hpp"
+#include "logging/logging.hpp"
 
 namespace gfx {
 

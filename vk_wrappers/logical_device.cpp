@@ -5,7 +5,7 @@
 #include "vk_wrappers/logical_device.hpp"
 #include "vk_wrappers/physical_device.hpp"
 #include "vk_wrappers/queue.hpp"
-#include "core/logging/logging.hpp"
+#include "logging/logging.hpp"
 #include <iostream>
 
 namespace gfx {

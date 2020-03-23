@@ -1,0 +1,52 @@
+cmake_minimum_required(VERSION 3.7)
+
+project(filesystem-download NONE)
+project(openexr-download NONE)
+project(coreclasses-download NONE)
+project(glslang-download NONE)
+
+include(ExternalProject)
+
+ExternalProject_Add(filesystem
+  GIT_REPOSITORY    https://github.com/chrisfontas724/FileSystem.git
+  GIT_TAG           master
+  SOURCE_DIR        "${CMAKE_CURRENT_BINARY_DIR}/filesystem-src"
+  BINARY_DIR        "${CMAKE_CURRENT_BINARY_DIR}/filesystem-build"
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND     ""
+  INSTALL_COMMAND   ""
+  TEST_COMMAND      ""
+)
+
+ExternalProject_Add(coreclasses
+  GIT_REPOSITORY    https://github.com/chrisfontas724/CoreClasses.git
+  GIT_TAG           master
+  SOURCE_DIR        "${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src"
+  BINARY_DIR        "${CMAKE_CURRENT_BINARY_DIR}/coreclasses-build"
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND     ""
+  INSTALL_COMMAND   ""
+  TEST_COMMAND      ""
+)
+
+ExternalProject_Add(glslang 
+  GIT_REPOSITORY    https://github.com/KhronosGroup/glslang.git
+  GIT_TAG           master
+  SOURCE_DIR        "${CMAKE_CURRENT_BINARY_DIR}/glslang-src"
+  BINARY_DIR        "${CMAKE_CURRENT_BINARY_DIR}/glslang-build"
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND     ""
+  INSTALL_COMMAND   ""
+  TEST_COMMAND      ""
+)
+
+ExternalProject_Add(openexr 
+  GIT_REPOSITORY    https://github.com/openexr/openexr.git
+  GIT_TAG           master
+  SOURCE_DIR        "${CMAKE_CURRENT_BINARY_DIR}/openexr-src"
+  BINARY_DIR        "${CMAKE_CURRENT_BINARY_DIR}/openexr-build"
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND     ""
+  INSTALL_COMMAND   ""
+  TEST_COMMAND      ""
+)
