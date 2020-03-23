@@ -14,7 +14,7 @@ namespace gfx {
 FrameBuffer::FrameBuffer(gfx::LogicalDevicePtr& device,
                          const std::map<AttachmentFlags, ComputeTexturePtr> views,
                          const vk::RenderPass& render_pass, uint32_t width, uint32_t height)
-    : views_(views), width_(width), height_(height) {
+    : views_(views), width_(width), height_(height), render_pass_(render_pass) {
     try {
         std::vector<vk::ImageView> image_views;
         for (auto& iter : views_) {

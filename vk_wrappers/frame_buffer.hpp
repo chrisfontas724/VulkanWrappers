@@ -41,10 +41,13 @@ class FrameBuffer {
     uint32_t width() const { return width_; }
     uint32_t height() const { return height_; }
 
+    vk::RenderPass render_pass() const { return render_pass_; }
+
    private:
     uint32_t width_, height_;
     vk::UniqueFramebuffer frame_buffer_;
     std::map<AttachmentFlags, ComputeTexturePtr> views_;
+    vk::RenderPass render_pass_;
 };
 }  // namespace gfx
 
