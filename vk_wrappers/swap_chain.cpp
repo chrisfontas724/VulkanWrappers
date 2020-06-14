@@ -183,7 +183,7 @@ void SwapChain::createFrameBuffers(const vk::RenderPass& render_pass) {
     }
 }
 
-void SwapChain::beginFrame(RenderFunction& callback) {
+void SwapChain::beginFrame(RenderFunction callback) {
     const auto& device = logical_device_.lock();
     CXL_CHECK(device);
     CXL_DCHECK(callback);

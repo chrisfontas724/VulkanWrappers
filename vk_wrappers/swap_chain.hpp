@@ -24,7 +24,7 @@ class SwapChain {
 
     const vk::SwapchainKHR& vk() const { return swap_chain_.get(); }
 
-    void beginFrame(RenderFunction& callback);
+    void beginFrame(RenderFunction callback);
 
     const vk::SurfaceFormatKHR format() const { return surface_format_; }
 
