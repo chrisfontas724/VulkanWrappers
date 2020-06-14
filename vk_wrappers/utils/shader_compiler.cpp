@@ -17,23 +17,26 @@ struct Initializer {
 static Initializer initializer;
 static const TBuiltInResource kDefaultTBuiltInResource = {
 
+    .maxDrawBuffers = 2,
     .maxComputeWorkGroupCountX = 4096,
     .maxComputeWorkGroupCountY = 4096,
     .maxComputeWorkGroupCountZ = 4096,
     .maxComputeWorkGroupSizeX = 4096,
     .maxComputeWorkGroupSizeY = 4096,
     .maxComputeWorkGroupSizeZ = 4096,
-    .maxDrawBuffers = 2,
     .maxVertexOutputComponents = 10,
     .maxFragmentInputComponents = 10,
-    .limits.generalUniformIndexing = true, // Allow non-const indexing.
-    .limits.generalVariableIndexing = true, // Allow non-const indexing.
-    .limits.generalSamplerIndexing = true, 
-    .limits.generalVaryingIndexing = true,
-    .limits.nonInductiveForLoops = true,
-    .limits.generalConstantMatrixVectorIndexing = true,
-    .limits.whileLoops = true,
-    .limits.doWhileLoops = true
+    .limits = {
+        .nonInductiveForLoops = true,
+        .whileLoops = true,
+        .doWhileLoops = true,
+        .generalUniformIndexing = true, // Allow non-const indexing
+        .generalVaryingIndexing = true,
+        .generalSamplerIndexing = true, 
+        .generalVariableIndexing = true, // Allow non-const indexing.
+        .generalConstantMatrixVectorIndexing = true,
+    },
+
  };
 
 } // namespace
