@@ -133,7 +133,7 @@ set(VK_INCLUDE_DIRS
    PARENT_SCOPE
 )
 
-# Get GLM - This is required so we fail early if it cannot be found.
+# Get GLM - This is a requirement so we fail early if it cannot be found.
 find_package(glm REQUIRED)
 include_directories(${GLM_INCLUDE_DIRS})
 link_directories(${GLM_LIBRARY_DIRS})
