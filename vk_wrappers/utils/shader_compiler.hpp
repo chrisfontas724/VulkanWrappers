@@ -15,10 +15,12 @@ class ShaderCompiler {
     ShaderCompiler();
 
     bool compile(const cxl::FileSystem* fs, const std::string& file,
-                 const std::vector<std::string>& macros, std::vector<uint32_t>* output);
+                 const std::vector<std::string>& include_paths,
+                 const std::vector<std::string>& macros, std::vector<uint32_t>* output) const;
 
     bool compile(const EShLanguage shader_type, const std::string& source_code,
-                 const std::vector<std::string>& macros, std::vector<uint32_t>* output);
+                 const std::vector<std::string>& include_paths,
+                 const std::vector<std::string>& macros, std::vector<uint32_t>* output) const;
 };
 }  // namespace gfx
 

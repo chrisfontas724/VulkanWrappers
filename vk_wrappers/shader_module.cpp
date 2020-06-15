@@ -26,11 +26,11 @@ vk::ShaderStageFlagBits getStage(const std::string& extension) {
 
 ShaderModule::~ShaderModule() { shader_module_.reset(); }
 
-ShaderModule::ShaderModule(const std::shared_ptr<LogicalDevice>& device, const cxl::FileSystem* fs,
+ShaderModule::ShaderModule(const std::shared_ptr<LogicalDevice>& device,
+                           const ShaderCompiler& compiler, const cxl::FileSystem* fs,
                            const std::string& file)
     : device_(device) {
-    ShaderCompiler compiler;
-    if (!compiler.compile(fs, file, /*options*/{}, &spir_v_)) {
+    if (!compiler.compile(fs, file, /*include_paths*/ {}, /*options*/ {}, &spir_v_)) {
         throw std::runtime_error("Could not create shader.");
     }
 

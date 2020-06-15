@@ -20,8 +20,9 @@ GraphicsPipeline::GraphicsPipeline(
     try {
         CXL_VLOG(7) << "Creating graphics pipeline (" << vertex_shader << ", " << fragment_shader
                     << ")";
-        vertex_shader_ = std::make_unique<ShaderModule>(device, fs, vertex_shader);
-        fragment_shader_ = std::make_unique<ShaderModule>(device, fs, fragment_shader);
+        ShaderCompiler compiler;
+        vertex_shader_ = std::make_unique<ShaderModule>(device, compiler, fs, vertex_shader);
+        fragment_shader_ = std::make_unique<ShaderModule>(device, compiler, fs, fragment_shader);
         auto spirv_code = {vertex_shader_->spir_v(), fragment_shader_->spir_v()};
 
         // Create reflection module.

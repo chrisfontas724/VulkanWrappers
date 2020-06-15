@@ -7,13 +7,16 @@
 
 #include "streaming/file_stream.hpp"
 #include "vk_wrappers/logical_device.hpp"
+#include "vk_wrappers/utils/shader_compiler.hpp"
 
 namespace gfx {
 
 // Wrapper around vk::ShaderModule.
 class ShaderModule {
    public:
-    ShaderModule(const std::shared_ptr<LogicalDevice>& device, const cxl::FileSystem* fs,
+    ShaderModule(const std::shared_ptr<LogicalDevice>& device,
+                 const ShaderCompiler& compiler,
+                 const cxl::FileSystem* fs,
                  const std::string& file);
 
     ShaderModule(const std::shared_ptr<LogicalDevice>& device, vk::ShaderStageFlagBits stage,

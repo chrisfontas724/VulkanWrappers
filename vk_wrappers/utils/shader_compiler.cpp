@@ -68,8 +68,9 @@ EShLanguage getShaderStage(const std::string& stage) {
 }
 
 bool ShaderCompiler::compile(const EShLanguage shader_type, const std::string& source_code,
+                             const std::vector<std::string>& include_paths,
                              const std::vector<std::string>& macros,
-                             std::vector<uint32_t>* output) {
+                             std::vector<uint32_t>* output) const {
     // Constants.
     int32_t ClientInputSemanticsVersion = 110;  // maps to, say, #define VULKAN 100
     glslang::EShTargetClientVersion VulkanClientVersion = glslang::EShTargetVulkan_1_1;
@@ -79,13 +80,10 @@ bool ShaderCompiler::compile(const EShLanguage shader_type, const std::string& s
     // Include directory information.
     DirStackFileIncluder includer;
 
-    // Get Path of File
-    // TODO: Remove this hardcoding.
-    // std::string path = fs->directory();
-    // includer.pushExternalLocalDirectory(path);
-    const auto& header_dir =
-        cxl::FileSystem::currentPath() + "../source/shaders/vulkan/header_files/";
-    includer.pushExternalLocalDirectory(header_dir);
+    // Add include header paths.
+    for (const auto& include_path : include_paths) {
+        includer.pushExternalLocalDirectory(include_path);
+    }
 
     glslang::TShader shader(shader_type);
 
@@ -153,8 +151,9 @@ bool ShaderCompiler::compile(const EShLanguage shader_type, const std::string& s
 }
 
 bool ShaderCompiler::compile(const cxl::FileSystem* fs, const std::string& file,
+                             const std::vector<std::string>& include_paths,
                              const std::vector<std::string>& macros,
-                             std::vector<uint32_t>* output) {
+                             std::vector<uint32_t>* output) const {
     std::string extension;
     if (!fs->fileExists(file)) {
         CXL_LOG(WARNING) << "Shader file does not exist!";
@@ -174,7 +173,7 @@ bool ShaderCompiler::compile(const cxl::FileSystem* fs, const std::string& file,
 
     EShLanguage shader_type = getShaderStage(extension);
 
-    return compile(shader_type, text, macros, output);
+    return compile(shader_type, text, include_paths, macros, output);
 }
 
 }  // namespace gfx

@@ -46,7 +46,8 @@ ComputePipeline::ComputePipeline(std::shared_ptr<LogicalDevice> device, const cx
     CXL_DCHECK(fs);
     try {
         CXL_VLOG(7) << "Creating compute pipeline " << file << std::endl;
-        shader_ = std::make_unique<ShaderModule>(device, fs, file);
+        ShaderCompiler compiler;
+        shader_ = std::make_unique<ShaderModule>(device, compiler, fs, file);
         __initialize(shader_->spir_v());
         CXL_VLOG(7) << "\n\n" << file << std::endl;
     } catch (...) {
