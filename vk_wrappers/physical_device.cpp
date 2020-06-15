@@ -10,7 +10,7 @@ namespace {
 
 const std::vector<const char*> device_extensions = {
     VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-    /* VK_NV_RAY_TRACING_EXTENSION_NAME */
+    VK_NV_RAY_TRACING_EXTENSION_NAME
 };
 
 bool checkDeviceExtensionSupport(const vk::PhysicalDevice& device) {

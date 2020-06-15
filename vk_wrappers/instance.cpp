@@ -116,6 +116,7 @@ Instance::~Instance() {
 
 void Instance::locatePhysicalDevices() {
     std::vector<vk::PhysicalDevice> physical_devices = instance_->enumeratePhysicalDevices();
+    std::cout << "Num physical devices: " << physical_devices.size() << std::endl;
     for (auto& device : physical_devices) {
         auto physical_device = std::shared_ptr<PhysicalDevice>(new PhysicalDevice(device));
         physical_device->printDiagnostics();
