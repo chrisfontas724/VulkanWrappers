@@ -79,7 +79,7 @@ Instance::Instance(const std::string& name, const std::vector<const char*>& exte
 
     try {
         // Initialize the vk::ApplicationInfo structure.
-        vk::ApplicationInfo applicationInfo(name.c_str(), 1, "christalz", 1, VK_API_VERSION_1_1);
+        vk::ApplicationInfo applicationInfo(name.c_str(), 1, "christalz", 1, VK_API_VERSION_1_2);
 
         // Initialize the vk::InstanceCreateInfo.
         vk::InstanceCreateInfo instanceCreateInfo(
