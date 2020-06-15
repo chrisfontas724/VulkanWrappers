@@ -45,7 +45,8 @@ class PhysicalDevice {
 
     // This is used to determine how good the device is.
     // The higher the score the better.
-    uint32_t performanceScore(const vk::SurfaceKHR& surface, const std::vector<const char*>& extensions = {}) const;
+    uint32_t performanceScore(const vk::SurfaceKHR& surface,
+                              const std::vector<const char*>& extensions = {}) const;
 
     // Returns the index of the requested memory type.
     uint32_t findMemoryType(uint32_t type_filter, vk::MemoryPropertyFlags mem_properties);

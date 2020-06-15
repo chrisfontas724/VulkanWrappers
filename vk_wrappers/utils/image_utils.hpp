@@ -5,12 +5,13 @@
 #ifndef DALI_GRAPHICS_VK_WRAPPERS_UTILS_IMAGE_UTILS_HPP_
 #define DALI_GRAPHICS_VK_WRAPPERS_UTILS_IMAGE_UTILS_HPP_
 
-#include "vk_wrappers/logical_device.hpp"
 #include <IlmBase/Half/half.h>
+
+#include "vk_wrappers/logical_device.hpp"
 
 namespace gfx {
 class ImageUtils {
-public:
+   public:
     struct Data {
         vk::Image image;
         vk::DeviceMemory memory;
@@ -20,15 +21,19 @@ public:
     };
 
     static vk::ImageView createImageView(std::shared_ptr<LogicalDevice> device, const Data& data);
-    static vk::ImageView createImageView(std::shared_ptr<LogicalDevice> device, const vk::Image& image, const vk::Format& format);
+    static vk::ImageView createImageView(std::shared_ptr<LogicalDevice> device,
+                                         const vk::Image& image, const vk::Format& format);
 
-    static Data create8BitUnormImage(std::shared_ptr<LogicalDevice> device, uint32_t width, uint32_t height, uint32_t channels, const uint8_t* pixels);
-    
-    
-    static Data createHDRImage(std::shared_ptr<LogicalDevice> device, uint32_t width, uint32_t height, const half* pixels);
-    static Data createColorAttachment(std::shared_ptr<LogicalDevice> device, uint32_t width, uint32_t height);
-    static Data createAccumulationAttachment(std::shared_ptr<LogicalDevice> device, uint32_t width, uint32_t height);
+    static Data create8BitUnormImage(std::shared_ptr<LogicalDevice> device, uint32_t width,
+                                     uint32_t height, uint32_t channels, const uint8_t* pixels);
+
+    static Data createHDRImage(std::shared_ptr<LogicalDevice> device, uint32_t width,
+                               uint32_t height, const half* pixels);
+    static Data createColorAttachment(std::shared_ptr<LogicalDevice> device, uint32_t width,
+                                      uint32_t height);
+    static Data createAccumulationAttachment(std::shared_ptr<LogicalDevice> device, uint32_t width,
+                                             uint32_t height);
 };
-}
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_UTILS_IMAGE_UTILS_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_UTILS_IMAGE_UTILS_HPP_

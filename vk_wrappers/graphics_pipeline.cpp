@@ -10,8 +10,12 @@ GraphicsPipeline::GraphicsPipeline(
     std::vector<vk::VertexInputAttributeDescription> vertex_attributes,
     vk::VertexInputBindingDescription vertex_bindings, vk::PrimitiveTopology topology,
     vk::RenderPass render_pass, vk::Extent2D extent)
-
-    : Pipeline(device), topology_(topology), render_pass_(render_pass), extent_(extent) {
+    : Pipeline(device),
+      topology_(topology),
+      vertex_attributes_(vertex_attributes),
+      vertex_bindings_(vertex_bindings),
+      render_pass_(render_pass),
+      extent_(extent) {
     CXL_DCHECK(fs);
     try {
         CXL_VLOG(7) << "Creating graphics pipeline (" << vertex_shader << ", " << fragment_shader
@@ -35,7 +39,12 @@ GraphicsPipeline::GraphicsPipeline(
     std::vector<vk::VertexInputAttributeDescription> vertex_attributes,
     vk::VertexInputBindingDescription vertex_bindings, vk::PrimitiveTopology topology,
     vk::RenderPass render_pass, vk::Extent2D extent)
-    : Pipeline(device), topology_(topology), render_pass_(render_pass), extent_(extent) {
+    : Pipeline(device),
+      topology_(topology),
+      vertex_attributes_(vertex_attributes),
+      vertex_bindings_(vertex_bindings),
+      render_pass_(render_pass),
+      extent_(extent) {
     vertex_shader_ =
         std::make_unique<ShaderModule>(device, vk::ShaderStageFlagBits::eVertex, vertex_shader);
     fragment_shader_ =
@@ -62,10 +71,8 @@ void GraphicsPipeline::initialize() {
     push_constants_ = reflection_->createPushConstants();
 
     // Vertex inputinfo
-    vk::PipelineVertexInputStateCreateInfo vertex_input_info({}, 0, nullptr, 0,
-                                                             nullptr);  // 1, &vertex_bindings,
-    // vertex_attributes.size(), vertex_attributes.data()
-    // );
+    vk::PipelineVertexInputStateCreateInfo vertex_input_info(
+        {}, 1, &vertex_bindings_, vertex_attributes_.size(), vertex_attributes_.data());
 
     // State create info.
     vk::PipelineInputAssemblyStateCreateInfo state_create_info({}, topology_);

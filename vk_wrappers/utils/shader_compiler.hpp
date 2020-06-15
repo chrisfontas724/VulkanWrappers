@@ -5,29 +5,21 @@
 #ifndef DALI_GRAPHICS_SHADERS_SHADER_COMPILER_HPP_
 #define DALI_GRAPHICS_SHADERS_SHADER_COMPILER_HPP_
 
-#include "streaming/file_system.hpp"
 #include <glslang/Public/ShaderLang.h>
+
+#include "streaming/file_system.hpp"
 
 namespace gfx {
 class ShaderCompiler {
-public:
+   public:
+    ShaderCompiler();
 
-    ShaderCompiler(std::vector<std::string> macros = {})
-    : macros_(macros){}
+    bool compile(const cxl::FileSystem* fs, const std::string& file,
+                 const std::vector<std::string>& macros, std::vector<uint32_t>* output);
 
-    bool compile(const cxl::FileSystem* fs,
-                 const std::string& file,
-                 std::vector<uint32_t>* output);
-
-    bool compile(const EShLanguage shader_type,
-                 const std::string& source_code, 
-                 std::vector<uint32_t>* output);
-
-private:
-
-    std::vector<std::string> macros_;
+    bool compile(const EShLanguage shader_type, const std::string& source_code,
+                 const std::vector<std::string>& macros, std::vector<uint32_t>* output);
 };
-} // gfx
+}  // namespace gfx
 
-
-#endif // DALI_GRAPHICS_SHADERS_SHADER_COMPILER_HPP_
+#endif  // DALI_GRAPHICS_SHADERS_SHADER_COMPILER_HPP_

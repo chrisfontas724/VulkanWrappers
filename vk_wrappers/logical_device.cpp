@@ -13,7 +13,7 @@
 namespace gfx {
 
 LogicalDevice::LogicalDevice(const std::shared_ptr<PhysicalDevice>& physical_device,
-                             const vk::SurfaceKHR& surface, 
+                             const vk::SurfaceKHR& surface,
                              const std::vector<const char*>& extensions)
     : physical_device_(physical_device), surface_(surface) {
     try {

@@ -1,18 +1,18 @@
 #include "vk_wrappers/utils/shader_compiler.hpp"
+
 #include <OGLCompilersDLL/InitializeDll.h>
-#include <glslang/Include/InitializeGlobals.h>
-#include <glslang/Public/ShaderLang.h>
 #include <SPIRV/GlslangToSpv.h>
 #include <StandAlone/DirStackFileIncluder.h>
+#include <glslang/Include/InitializeGlobals.h>
+#include <glslang/MachineIndependent/reflection.h>
+#include <glslang/Public/ShaderLang.h>
+
 #include "logging/logging.hpp"
 #include "utils/string_utils.hpp"
-#include <glslang/MachineIndependent/reflection.h>
 
 namespace {
 struct Initializer {
-    Initializer() {
-        glslang::InitializeProcess();
-    }
+    Initializer() { glslang::InitializeProcess(); }
 };
 static Initializer initializer;
 static const TBuiltInResource kDefaultTBuiltInResource = {
@@ -26,20 +26,21 @@ static const TBuiltInResource kDefaultTBuiltInResource = {
     .maxComputeWorkGroupSizeZ = 4096,
     .maxVertexOutputComponents = 10,
     .maxFragmentInputComponents = 10,
-    .limits = {
-        .nonInductiveForLoops = true,
-        .whileLoops = true,
-        .doWhileLoops = true,
-        .generalUniformIndexing = true, // Allow non-const indexing
-        .generalVaryingIndexing = true,
-        .generalSamplerIndexing = true, 
-        .generalVariableIndexing = true, // Allow non-const indexing.
-        .generalConstantMatrixVectorIndexing = true,
-    },
+    .limits =
+        {
+            .nonInductiveForLoops = true,
+            .whileLoops = true,
+            .doWhileLoops = true,
+            .generalUniformIndexing = true,  // Allow non-const indexing
+            .generalVaryingIndexing = true,
+            .generalSamplerIndexing = true,
+            .generalVariableIndexing = true,  // Allow non-const indexing.
+            .generalConstantMatrixVectorIndexing = true,
+        },
 
- };
+};
 
-} // namespace
+}  // namespace
 
 namespace gfx {
 
@@ -58,17 +59,19 @@ EShLanguage getShaderStage(const std::string& stage) {
         return EShLangFragment;
     } else if (stage == "comp") {
         return EShLangCompute;
+    } else if (stage == "raygen") {
+        return EShLangRayGenNV;
     } else {
         CXL_CHECK(0) << "Unknown shader stage";
         return EShLangCount;
     }
 }
 
-bool ShaderCompiler::compile(const EShLanguage shader_type, 
-                            const std::string& source_code,
-                            std::vector<uint32_t>* output) {
+bool ShaderCompiler::compile(const EShLanguage shader_type, const std::string& source_code,
+                             const std::vector<std::string>& macros,
+                             std::vector<uint32_t>* output) {
     // Constants.
-    int32_t ClientInputSemanticsVersion = 110; // maps to, say, #define VULKAN 100
+    int32_t ClientInputSemanticsVersion = 110;  // maps to, say, #define VULKAN 100
     glslang::EShTargetClientVersion VulkanClientVersion = glslang::EShTargetVulkan_1_1;
     glslang::EShTargetLanguageVersion TargetVersion = glslang::EShTargetSpv_1_0;
     const int DefaultVersion = 450;
@@ -78,14 +81,16 @@ bool ShaderCompiler::compile(const EShLanguage shader_type,
 
     // Get Path of File
     // TODO: Remove this hardcoding.
-    //std::string path = fs->directory();
-    //includer.pushExternalLocalDirectory(path);
-    const auto& header_dir = cxl::FileSystem::currentPath() + "../source/shaders/vulkan/header_files/";
+    // std::string path = fs->directory();
+    // includer.pushExternalLocalDirectory(path);
+    const auto& header_dir =
+        cxl::FileSystem::currentPath() + "../source/shaders/vulkan/header_files/";
     includer.pushExternalLocalDirectory(header_dir);
 
     glslang::TShader shader(shader_type);
 
-    shader.setEnvInput(glslang::EShSourceGlsl, shader_type, glslang::EShClientVulkan, ClientInputSemanticsVersion);
+    shader.setEnvInput(glslang::EShSourceGlsl, shader_type, glslang::EShClientVulkan,
+                       ClientInputSemanticsVersion);
     shader.setEnvClient(glslang::EShClientVulkan, VulkanClientVersion);
     shader.setEnvTarget(glslang::EShTargetSpv, TargetVersion);
 
@@ -95,7 +100,7 @@ bool ShaderCompiler::compile(const EShLanguage shader_type,
     extended_text += "#extension GL_ARB_separate_shader_objects : enable\n";
 
     // Add user defined macros.
-    for (auto& macro : macros_) {
+    for (auto& macro : macros) {
         extended_text += "#define " + macro + "\n";
     }
 
@@ -103,13 +108,14 @@ bool ShaderCompiler::compile(const EShLanguage shader_type,
     const char* final_code = extended_text.c_str();
     shader.setStrings(&final_code, 1);
 
-    // Preprocessing 
+    // Preprocessing
     TBuiltInResource resources;
     resources = kDefaultTBuiltInResource;
-    EShMessages messages = (EShMessages) (EShMsgSpvRules | EShMsgVulkanRules);
+    EShMessages messages = (EShMessages)(EShMsgSpvRules | EShMsgVulkanRules);
 
     std::string PreprocessedGLSL;
-    if (!shader.preprocess(&resources, DefaultVersion, ENoProfile, false, false, messages, &PreprocessedGLSL, includer)) {
+    if (!shader.preprocess(&resources, DefaultVersion, ENoProfile, false, false, messages,
+                           &PreprocessedGLSL, includer)) {
         CXL_LOG(INFO) << "GLSL Preprocessing Failed." << std::endl;
         CXL_LOG(INFO) << shader.getInfoLog() << std::endl;
         CXL_LOG(INFO) << shader.getInfoDebugLog() << std::endl;
@@ -146,7 +152,9 @@ bool ShaderCompiler::compile(const EShLanguage shader_type,
     return true;
 }
 
-bool ShaderCompiler::compile(const cxl::FileSystem* fs, const std::string& file, std::vector<uint32_t>* output) {
+bool ShaderCompiler::compile(const cxl::FileSystem* fs, const std::string& file,
+                             const std::vector<std::string>& macros,
+                             std::vector<uint32_t>* output) {
     std::string extension;
     if (!fs->fileExists(file)) {
         CXL_LOG(WARNING) << "Shader file does not exist!";
@@ -166,8 +174,7 @@ bool ShaderCompiler::compile(const cxl::FileSystem* fs, const std::string& file,
 
     EShLanguage shader_type = getShaderStage(extension);
 
-    return compile(shader_type, text, output);
+    return compile(shader_type, text, macros, output);
 }
 
-} // gfx
-
+}  // namespace gfx

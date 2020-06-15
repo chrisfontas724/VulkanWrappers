@@ -9,12 +9,13 @@
 
 namespace gfx {
 class RenderPassUtils {
-public:
-    static vk::RenderPass createStandardRenderPass(LogicalDevicePtr device, bool should_clear = true);
+   public:
+    static vk::RenderPass createStandardRenderPass(LogicalDevicePtr device,
+                                                   bool should_clear = true);
 
     static vk::RenderPass createAccumulationRenderPass(LogicalDevicePtr device);
-    static vk::RenderPass createPresentationRenderPass(LogicalDevicePtr device,  vk::Format format);
+    static vk::RenderPass createPresentationRenderPass(LogicalDevicePtr device, vk::Format format);
 };
-}
+}  // namespace gfx
 
-#endif // DALI_GRAPHICS_VK_WRAPPERS_UTILS_RENDER_PASS_UTILS_HPP_
+#endif  // DALI_GRAPHICS_VK_WRAPPERS_UTILS_RENDER_PASS_UTILS_HPP_

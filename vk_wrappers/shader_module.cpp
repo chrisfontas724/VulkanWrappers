@@ -30,7 +30,7 @@ ShaderModule::ShaderModule(const std::shared_ptr<LogicalDevice>& device, const c
                            const std::string& file)
     : device_(device) {
     ShaderCompiler compiler;
-    if (!compiler.compile(fs, file, &spir_v_)) {
+    if (!compiler.compile(fs, file, /*options*/{}, &spir_v_)) {
         throw std::runtime_error("Could not create shader.");
     }
 

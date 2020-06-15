@@ -96,16 +96,14 @@ void CommandBuffer::beginRecording() const {
     }
 }
 
-void CommandBuffer::beginRenderPass(const vk::RenderPass& render_pass,
-                                    const FrameBuffer& framebuffer,
-                                    const std::array<float, 4> clear_values) const {
+void CommandBuffer::beginRenderPass(const FrameBufferPtr& framebuffer,
+                                    const vk::ClearColorValue& clear_color) const {
     state_map[identifier_].in_render_pass = true;
-    vk::ClearColorValue clear_color(clear_values);
-    vk::ClearValue clear(clear_color);
+    vk::ClearValue clear_value(clear_color);
     vk::RenderPassBeginInfo info(
-        render_pass, framebuffer.vk(),
-        vk::Rect2D(vk::Offset2D(0, 0), vk::Extent2D(framebuffer.width(), framebuffer.height())), 1,
-        &clear);
+        framebuffer->render_pass(), framebuffer->vk(),
+        vk::Rect2D(vk::Offset2D(0, 0), vk::Extent2D(framebuffer->width(), framebuffer->height())),
+        1, &clear_value);
 
     command_buffer_.beginRenderPass(info, vk::SubpassContents::eInline);
 }

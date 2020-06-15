@@ -24,8 +24,8 @@ class CommandBuffer {
     void reset() const;
     void beginRecording() const;
 
-    void beginRenderPass(const vk::RenderPass& render_pass, const FrameBuffer& framebuffer,
-                         const std::array<float, 4> clear_values) const;
+    void beginRenderPass(const FrameBufferPtr& framebuffer,
+                         const vk::ClearColorValue& clear_color) const;
     void endRenderPass() const;
 
     void setViewPort(vk::Viewport viewport);

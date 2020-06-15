@@ -35,6 +35,8 @@ class GraphicsPipeline : public Pipeline {
     std::unique_ptr<Reflection> reflection_;
     std::unique_ptr<ShaderModule> vertex_shader_;
     std::unique_ptr<ShaderModule> fragment_shader_;
+    std::vector<vk::VertexInputAttributeDescription> vertex_attributes_;
+    vk::VertexInputBindingDescription vertex_bindings_;
     vk::PrimitiveTopology topology_;
     vk::RenderPass render_pass_;
     vk::Extent2D extent_;

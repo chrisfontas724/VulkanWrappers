@@ -8,8 +8,8 @@ namespace gfx {
 
 namespace {
 
-bool checkDeviceExtensionSupport(const vk::PhysicalDevice& device, 
-                                const std::vector<const char*>& input_extensions) {
+bool checkDeviceExtensionSupport(const vk::PhysicalDevice& device,
+                                 const std::vector<const char*>& input_extensions) {
     std::vector<vk::ExtensionProperties> available_extensions =
         device.enumerateDeviceExtensionProperties();
     std::set<std::string> required_extensions(input_extensions.begin(), input_extensions.end());
@@ -75,7 +75,7 @@ void PhysicalDevice::printDiagnostics() {
     CXL_LOG(INFO) << "\n\n";
 }
 
-uint32_t PhysicalDevice::performanceScore(const vk::SurfaceKHR& surface, 
+uint32_t PhysicalDevice::performanceScore(const vk::SurfaceKHR& surface,
                                           const std::vector<const char*>& extensions) const {
     CXL_VLOG(5) << "Checking performance score for " << name();
     uint32_t score = 0;
@@ -106,14 +106,12 @@ uint32_t PhysicalDevice::performanceScore(const vk::SurfaceKHR& surface,
         swap_chain_adequate =
             !swapChainSupport.formats.empty() && !swapChainSupport.present_modes.empty();
         CXL_VLOG(5) << "    Swapchain adequate:  " << swap_chain_adequate;
-    } 
+    }
 
-
-    uint32_t final_score =  (indices.isComplete() &&
-                             extensions_supported &&
-                             swap_chain_adequate &&
-                             features_.samplerAnisotropy)
-                             ? score : 0;
+    uint32_t final_score = (indices.isComplete() && extensions_supported && swap_chain_adequate &&
+                            features_.samplerAnisotropy)
+                               ? score
+                               : 0;
     CXL_VLOG(5) << "Final score is " << final_score;
     return final_score;
 }

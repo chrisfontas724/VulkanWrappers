@@ -17,10 +17,8 @@ namespace gfx {
 // Wrapper around vk::LogicalDevice.
 class LogicalDevice : public std::enable_shared_from_this<LogicalDevice> {
    public:
-
     LogicalDevice(const std::shared_ptr<PhysicalDevice>& physical_device,
-                  const vk::SurfaceKHR& surface,
-                  const std::vector<const char*>& extensions = {});
+                  const vk::SurfaceKHR& surface, const std::vector<const char*>& extensions = {});
     ~LogicalDevice();
 
     // Retrieve the physical device this logical device was created from.
