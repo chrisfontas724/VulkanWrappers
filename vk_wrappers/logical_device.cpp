@@ -13,7 +13,8 @@
 namespace gfx {
 
 LogicalDevice::LogicalDevice(const std::shared_ptr<PhysicalDevice>& physical_device,
-                             const vk::SurfaceKHR& surface)
+                             const vk::SurfaceKHR& surface, 
+                             const std::vector<const char*>& extensions)
     : physical_device_(physical_device), surface_(surface) {
     try {
         CXL_DCHECK(physical_device);
@@ -37,9 +38,8 @@ LogicalDevice::LogicalDevice(const std::shared_ptr<PhysicalDevice>& physical_dev
 
         // Create a UniqueDevice.
         auto features = physical_device->features();
-        std::vector<const char*> extensions = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
         vk::DeviceCreateInfo info({}, queue_create_infos.size(), queue_create_infos.data(), 0,
-                                  nullptr, 1, extensions.data(), &features);
+                                  nullptr, extensions.size(), extensions.data(), &features);
         device_ = physical_device->vk().createDeviceUnique(info);
 
         // Make queues.

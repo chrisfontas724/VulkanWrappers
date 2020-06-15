@@ -8,10 +8,6 @@ namespace gfx {
 
 namespace {
 
-const std::vector<const char*> device_extensions = {
-    VK_KHR_SWAPCHAIN_EXTENSION_NAME,
-};
-
 bool checkDeviceExtensionSupport(const vk::PhysicalDevice& device, 
                                 const std::vector<const char*>& input_extensions) {
     std::vector<vk::ExtensionProperties> available_extensions =
@@ -79,7 +75,8 @@ void PhysicalDevice::printDiagnostics() {
     CXL_LOG(INFO) << "\n\n";
 }
 
-uint32_t PhysicalDevice::performanceScore(const vk::SurfaceKHR& surface, const std::vector<const char*>& in_extensions) const {
+uint32_t PhysicalDevice::performanceScore(const vk::SurfaceKHR& surface, 
+                                          const std::vector<const char*>& extensions) const {
     CXL_VLOG(5) << "Checking performance score for " << name();
     uint32_t score = 0;
 
@@ -100,9 +97,6 @@ uint32_t PhysicalDevice::performanceScore(const vk::SurfaceKHR& surface, const s
     QueueFamilyIndices indices = findQueueFamilies(surface);
     CXL_VLOG(5) << "    Acquired queue families";
 
-    std::vector<const char*> extensions;
-    extensions.insert(extensions.begin(), in_extensions.begin(), in_extensions.end());
-    extensions.insert(extensions.end(), device_extensions.begin(), device_extensions.end());
     bool extensions_supported = checkDeviceExtensionSupport(physical_device_, extensions);
     CXL_VLOG(5) << "    Supports Extensions: " << extensions_supported;
 
