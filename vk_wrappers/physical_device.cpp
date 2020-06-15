@@ -85,8 +85,7 @@ uint32_t PhysicalDevice::performanceScore(const vk::SurfaceKHR& surface, const s
 
     // TODO: Figure out which is actually better. Seems like the integrated GPU is
     // performing better, but online guides say discrete GPUs are better...so this
-    // needs more research. For now, will give a higher weight to the integrated
-    // GPU.
+    // needs more research. For now, will give a higher weight to the discrete GPU.
     if (properties_.deviceType == vk::PhysicalDeviceType::eIntegratedGpu) {
         CXL_VLOG(5) << "    Is an integrated gpu!";
         score += 1000;
