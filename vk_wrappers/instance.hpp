@@ -34,7 +34,8 @@ class Instance {
 
     // Returns the physical device with the spec that is most optimal for the
     // passed in Vulkan surface.
-    const PhysicalDevicePtr& pickBestDevice(const vk::SurfaceKHR& surface) const;
+    const PhysicalDevicePtr& pickBestDevice(const vk::SurfaceKHR& surface,
+                                            const std::vector<const char*>& extensions = {}) const;
 
    private:
     explicit Instance(const std::string& name, const std::vector<const char*>& extensions,

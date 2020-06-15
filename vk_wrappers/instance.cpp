@@ -125,12 +125,12 @@ void Instance::locatePhysicalDevices() {
 }
 
 const std::shared_ptr<PhysicalDevice>& Instance::pickBestDevice(
-    const vk::SurfaceKHR& surface) const {
+    const vk::SurfaceKHR& surface, const std::vector<const char*>& extensions) const {
     // Use an ordered map to automatically sort candidates by increasing score.
     std::multimap<uint32_t, const std::shared_ptr<PhysicalDevice>> candidates;
 
     for (const auto& device : physical_devices_) {
-        uint32_t score = device->performanceScore(surface);
+        uint32_t score = device->performanceScore(surface, extensions);
         candidates.insert(std::make_pair(score, std::move(device)));
     }
 
