@@ -14,7 +14,7 @@ namespace gfx {
 // Wrapper around Vulkan's SwapchainKHR.
 class SwapChain {
    public:
-    using RenderFunction = std::function<std::vector<vk::Semaphore>&(
+    using RenderFunction = std::function<std::vector<vk::Semaphore>(
         FrameBufferPtr, vk::Semaphore&, vk::Fence&, uint32_t, uint32_t)>;
 
     SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, uint32_t width,
