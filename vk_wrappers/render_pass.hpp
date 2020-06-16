@@ -3,15 +3,33 @@
 // found in the LICENSE file.
 
 #include "vk_wrappers/forward_declarations.hpp"
+#include "vk_wrappers/compute_texture.hpp"
 
 namespace gfx {
 
-// Class that wraps both a vk::RenderPass and vk::Framebuffer.
-// Callers can simply pass this into the command buffer with
-// beginRenderPass() and it will handle the issue of resolving
-// it to a frame buffer.
-class RenderPass {
+// Struct that contains all of the data needed to create a vulkan
+// render pass and frame buffer. This way those items do not need
+// to be managed by the client directly.
+struct RenderPass {
    public:
+
+    struct SubPass {
+
+    };
+
+    void addAttachment(ComputeTexturePtr texture, bool is_swapchain_image, bool clear_begin, bool clear_end) {
+
+    }
+
+    void addSubPass(std::vector<uint32_t> inputs, std::vector<uint32_t> outputs, uint32_t depth);
+
+private:
+
+    std::vector<SubPass> subpasses;
+
+
+    std::vector<ComputeTexturePtr> attachments;
+
     // Checks to see if the current render pass is valid. It will
     // fail if certain criteria are not met. For example, an
     // attachment cannot have both |load| and |clear| operations.
