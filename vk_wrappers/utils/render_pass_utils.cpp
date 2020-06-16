@@ -18,7 +18,6 @@ namespace gfx {
 vk::RenderPass RenderPassUtils::createStandardRenderPass(LogicalDevicePtr device,
                                                          bool should_clear) {
     CXL_DCHECK(device);
-
     vk::AttachmentDescription colorAttachment(
         /*flags*/{},
         /*format*/vk::Format::eB8G8R8A8Unorm, 
@@ -33,6 +32,7 @@ vk::RenderPass RenderPassUtils::createStandardRenderPass(LogicalDevicePtr device
     vk::AttachmentReference colorAttachmentRef(0, vk::ImageLayout::eColorAttachmentOptimal);
     vk::SubpassDescription subpass({}, vk::PipelineBindPoint::eGraphics, 0, nullptr, 1,
                                    &colorAttachmentRef);
+
     vk::RenderPassCreateInfo pass_info({}, 1, &colorAttachment, 1, &subpass);
     return device->vk().createRenderPass(pass_info);
 }

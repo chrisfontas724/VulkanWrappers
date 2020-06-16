@@ -17,6 +17,10 @@ struct RenderPass {
 
     };
 
+    struct AttachmentInfo {
+
+    };
+
     void addAttachment(ComputeTexturePtr texture, bool is_swapchain_image, bool clear_begin, bool clear_end) {
 
     }

@@ -51,6 +51,8 @@ class PhysicalDevice {
     // Returns the index of the requested memory type.
     uint32_t findMemoryType(uint32_t type_filter, vk::MemoryPropertyFlags mem_properties);
 
+    vk::Format findDepthFormat() const;
+
     // Getter for the queue family indices.
     QueueFamilyIndices queue_family_indices(const vk::SurfaceKHR& surface) const {
         return findQueueFamilies(surface);
