@@ -108,6 +108,12 @@ void CommandBuffer::beginRenderPass(const FrameBufferPtr& framebuffer,
     command_buffer_.beginRenderPass(info, vk::SubpassContents::eInline);
 }
 
+
+void CommandBuffer::nextSubPass() const {
+    // TODO.
+    command_buffer_.nextSubpass(vk::SubpassContents::eInline);
+}
+
 void CommandBuffer::endRenderPass() const {
     state_map[identifier_].in_render_pass = false;
     command_buffer_.endRenderPass();
@@ -137,6 +143,10 @@ void CommandBuffer::pushConstants(const void* data, uint32_t index) {
     auto layout = pipeline->pipeline_layout();
     auto range = pipeline->push_constant(index);
     command_buffer_.pushConstants(layout, range.stageFlags, range.offset, range.size, data);
+}
+
+void CommandBuffer::setDepth(bool test, bool write) {
+    // TODO.
 }
 
 void CommandBuffer::dispatch(uint32_t group_x, uint32_t group_y, uint32_t group_z) {

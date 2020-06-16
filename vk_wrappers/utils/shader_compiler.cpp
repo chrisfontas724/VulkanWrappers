@@ -172,7 +172,6 @@ bool ShaderCompiler::compile(const cxl::FileSystem* fs, const std::string& file,
     }
 
     EShLanguage shader_type = getShaderStage(extension);
-
     return compile(shader_type, text, include_paths, macros, output);
 }
 

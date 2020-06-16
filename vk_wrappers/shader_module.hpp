@@ -2,8 +2,8 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#ifndef DALI_GRAPHICS_SHADERS_SHADER_MODULE_HPP_
-#define DALI_GRAPHICS_SHADERS_SHADER_MODULE_HPP_
+#ifndef GRAPHICS_SHADERS_SHADER_MODULE_HPP_
+#define GRAPHICS_SHADERS_SHADER_MODULE_HPP_
 
 #include "streaming/file_stream.hpp"
 #include "vk_wrappers/logical_device.hpp"
@@ -41,4 +41,4 @@ class ShaderModule {
 };
 }  // namespace gfx
 
-#endif  // DALI_GRAPHICS_SHADERS_SHADER_MODULE_HPP_
+#endif  // GRAPHICS_SHADERS_SHADER_MODULE_HPP_

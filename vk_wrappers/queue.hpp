@@ -2,8 +2,8 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#ifndef DALI_GRAPHICS_VK_WRAPPERS_QUEUE_HPP_
-#define DALI_GRAPHICS_VK_WRAPPERS_QUEUE_HPP_
+#ifndef GRAPHICS_VK_WRAPPERS_QUEUE_HPP_
+#define GRAPHICS_VK_WRAPPERS_QUEUE_HPP_
 
 #include <mutex>
 
@@ -35,4 +35,4 @@ class Queue {
 
 }  // namespace gfx
 
-#endif  // DALI_GRAPHICS_VK_WRAPPERS_QUEUE_HPP_
+#endif  // GRAPHICS_VK_WRAPPERS_QUEUE_HPP_

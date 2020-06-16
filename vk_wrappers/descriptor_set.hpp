@@ -2,8 +2,8 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#ifndef DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_SET_HPP_
-#define DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_SET_HPP_
+#ifndef GRAPHICS_VK_WRAPPERS_DESCRIPTOR_SET_HPP_
+#define GRAPHICS_VK_WRAPPERS_DESCRIPTOR_SET_HPP_
 
 #include "vk_wrappers/compute_buffer.hpp"
 #include "vk_wrappers/compute_texture.hpp"
@@ -35,4 +35,4 @@ class DescriptorSet {
 };
 }  // namespace gfx
 
-#endif  // DALI_GRAPHICS_VK_WRAPPERS_DESCRIPTOR_SET_HPP_
+#endif  // GRAPHICS_VK_WRAPPERS_DESCRIPTOR_SET_HPP_

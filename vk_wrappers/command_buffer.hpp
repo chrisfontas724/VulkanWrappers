@@ -2,8 +2,8 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#ifndef DALI_GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_HPP_
-#define DALI_GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_HPP_
+#ifndef GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_HPP_
+#define GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_HPP_
 
 #include "vk_wrappers/compute_pipeline.hpp"
 #include "vk_wrappers/frame_buffer.hpp"
@@ -26,6 +26,9 @@ class CommandBuffer {
 
     void beginRenderPass(const FrameBufferPtr& framebuffer,
                          const vk::ClearColorValue& clear_color) const;
+
+    void nextSubPass() const;
+
     void endRenderPass() const;
 
     void setViewPort(vk::Viewport viewport);
@@ -40,6 +43,8 @@ class CommandBuffer {
     void pushConstants(T& value, uint32_t index) {
         pushConstants(&value, index);
     }
+
+    void setDepth(bool test, bool write);
 
     void dispatch(uint32_t group_x, uint32_t group_y, uint32_t group_z);
 
@@ -89,4 +94,4 @@ class CommandBuffer {
 };
 }  // namespace gfx
 
-#endif  // DALI_GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_HPP_
+#endif  // GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_HPP_

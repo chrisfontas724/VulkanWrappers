@@ -2,8 +2,8 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#ifndef DALI_GRAPHICS_VK_WRAPPERS_COMPUTE_BUFFER_HPP_
-#define DALI_GRAPHICS_VK_WRAPPERS_COMPUTE_BUFFER_HPP_
+#ifndef GRAPHICS_VK_WRAPPERS_COMPUTE_BUFFER_HPP_
+#define GRAPHICS_VK_WRAPPERS_COMPUTE_BUFFER_HPP_
 
 #include "logging/logging.hpp"
 #include "vk_wrappers/logical_device.hpp"
@@ -167,4 +167,4 @@ class ComputeBuffer {
 };
 }  // namespace gfx
 
-#endif  // DALI_GRAPHICS_VK_WRAPPERS_COMPUTE_BUFFER_HPP_
+#endif  // GRAPHICS_VK_WRAPPERS_COMPUTE_BUFFER_HPP_

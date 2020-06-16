@@ -2,8 +2,8 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#ifndef DALI_GRAPHICS_VK_WRAPPERS_FORWARD_DECLARATIONS_HPP_
-#define DALI_GRAPHICS_VK_WRAPPERS_FORWARD_DECLARATIONS_HPP_
+#ifndef GRAPHICS_VK_WRAPPERS_FORWARD_DECLARATIONS_HPP_
+#define GRAPHICS_VK_WRAPPERS_FORWARD_DECLARATIONS_HPP_
 
 #include <memory>
 
@@ -59,4 +59,4 @@ typedef std::weak_ptr<RayTracingPipeline> RayTracingPipelineWeakPtr;
 
 }  // namespace gfx
 
-#endif  // DALI_GRAPHICS_VK_WRAPPERS_FORWARD_DECLARATIONS_HPP_
+#endif  // GRAPHICS_VK_WRAPPERS_FORWARD_DECLARATIONS_HPP_

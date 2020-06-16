@@ -2,8 +2,8 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#ifndef DALI_GRAPHICS_SHADERS_REFLECTION_REFLECTION_HPP_
-#define DALI_GRAPHICS_SHADERS_REFLECTION_REFLECTION_HPP_
+#ifndef GRAPHICS_SHADERS_REFLECTION_REFLECTION_HPP_
+#define GRAPHICS_SHADERS_REFLECTION_REFLECTION_HPP_
 
 #include "vk_wrappers/descriptor_allocator.hpp"
 #include <vector>
@@ -26,4 +26,4 @@ private:
 };
 } // gfx
 
-#endif // DALI_GRAPHICS_SHADERS_REFLECTION_REFLECTION_HPP_
+#endif // GRAPHICS_SHADERS_REFLECTION_REFLECTION_HPP_

@@ -2,8 +2,8 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#ifndef DALI_GRAPHICS_VK_WRAPPERS_PIPELINE_HPP_
-#define DALI_GRAPHICS_VK_WRAPPERS_PIPELINE_HPP_
+#ifndef GRAPHICS_VK_WRAPPERS_PIPELINE_HPP_
+#define GRAPHICS_VK_WRAPPERS_PIPELINE_HPP_
 
 #include "vk_wrappers/forward_declarations.hpp"
 #include "vk_wrappers/shader_module.hpp"
@@ -40,4 +40,4 @@ class Pipeline {
 
 }  // namespace gfx
 
-#endif  // DALI_GRAPHICS_VK_WRAPPERS_PIPELINE_HPP_
+#endif  // GRAPHICS_VK_WRAPPERS_PIPELINE_HPP_
