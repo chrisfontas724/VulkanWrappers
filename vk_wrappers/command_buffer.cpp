@@ -108,7 +108,6 @@ void CommandBuffer::beginRenderPass(const FrameBufferPtr& framebuffer,
     command_buffer_.beginRenderPass(info, vk::SubpassContents::eInline);
 }
 
-
 void CommandBuffer::nextSubPass() const {
     // TODO.
     command_buffer_.nextSubpass(vk::SubpassContents::eInline);

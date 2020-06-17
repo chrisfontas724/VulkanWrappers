@@ -20,12 +20,16 @@ bool checkDeviceExtensionSupport(const vk::PhysicalDevice& device,
     return required_extensions.empty();
 }
 
-vk::Format findSupportedFormat(const vk::PhysicalDevice& physical_device, const std::vector<vk::Format>& candidates, vk::ImageTiling tiling, vk::FormatFeatureFlags features) {
+vk::Format findSupportedFormat(const vk::PhysicalDevice& physical_device,
+                               const std::vector<vk::Format>& candidates, vk::ImageTiling tiling,
+                               vk::FormatFeatureFlags features) {
     for (vk::Format format : candidates) {
         vk::FormatProperties props = physical_device.getFormatProperties(format);
-        if (tiling ==  vk::ImageTiling::eLinear && (props.linearTilingFeatures & features) == features) {
+        if (tiling == vk::ImageTiling::eLinear &&
+            (props.linearTilingFeatures & features) == features) {
             return format;
-        } else if (tiling == vk::ImageTiling::eOptimal && (props.optimalTilingFeatures & features) == features) {
+        } else if (tiling == vk::ImageTiling::eOptimal &&
+                   (props.optimalTilingFeatures & features) == features) {
             return format;
         }
     }
@@ -171,12 +175,11 @@ uint32_t PhysicalDevice::findMemoryType(uint32_t type_filter,
     throw std::runtime_error("failed to find suitable memory type!");
 }
 
-
 vk::Format PhysicalDevice::findDepthFormat() const {
-    return findSupportedFormat(physical_device_,
+    return findSupportedFormat(
+        physical_device_,
         {vk::Format::eD32Sfloat, vk::Format::eD32SfloatS8Uint, vk::Format::eD24UnormS8Uint},
-        vk::ImageTiling::eOptimal,
-        vk::FormatFeatureFlagBits::eDepthStencilAttachment);
+        vk::ImageTiling::eOptimal, vk::FormatFeatureFlagBits::eDepthStencilAttachment);
 }
 
 PhysicalDevice::SwapChainSupportDetails PhysicalDevice::querySwapChainSupport(

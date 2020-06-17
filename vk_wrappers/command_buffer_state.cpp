@@ -16,4 +16,4 @@ void CommandBufferState::set_default_state(DefaultState state) {
     }
 }
 
-} // gfx
+}  // namespace gfx
