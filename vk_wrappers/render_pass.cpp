@@ -29,6 +29,23 @@ void RenderPassBuilder::addColorAttachment(ComputeTexturePtr texture, Attachment
     color_textures_.push_back(texture);
 }
 
+void RenderPassBuilder::addResolveAttachment(ComputeTexturePtr texture, AttachmentInfo info) {
+    CXL_CHECK(texture->layout() == vk::ImageLayout::ePresentSrcKHR);
+    vk::AttachmentDescription attachment(
+        /*flags*/ {},
+        /*format*/ texture->format(),
+        /*samples*/ info.samples,
+        /*loadOp*/ info.load_op,
+        /*storeOp*/ info.store_op,
+        /*stencilLoadOp*/ vk::AttachmentLoadOp::eDontCare,
+        /*stencilStoreOp*/ vk::AttachmentStoreOp::eDontCare,
+        /*initialLayout*/ vk::ImageLayout::eUndefined,
+        /*finalLayout*/ vk::ImageLayout::ePresentSrcKHR);
+
+    resolve_attachments_.push_back(attachment);
+    resolve_textures_.push_back(texture);
+}
+
 void RenderPassBuilder::addDepthAttachment(ComputeTexturePtr texture, AttachmentInfo info) {
     vk::AttachmentDescription attachment(
         /*flags*/ {},
@@ -47,7 +64,7 @@ void RenderPassBuilder::addDepthAttachment(ComputeTexturePtr texture, Attachment
 
 void RenderPassBuilder::addSubpass(SubpassInfo info) { subpasses_.push_back(info); }
 
-vk::RenderPass RenderPassBuilder::build() {
+RenderPassInfo RenderPassBuilder::build() {
     auto device = device_.lock();
     CXL_DCHECK(device);
 
@@ -111,7 +128,46 @@ vk::RenderPass RenderPassBuilder::build() {
         /*attachment_data*/ all_attachments.data(),
         /*subpass_count*/ subpasses.size(),
         /*subpass_data*/ subpasses.data());
-    return device->vk().createRenderPass(render_pass_info);
+    vk::RenderPass render_pass = device->vk().createRenderPass(render_pass_info);
+
+
+    uint32_t width = color_textures_[0]->width();
+    uint32_t height = color_textures_[0]->height();
+
+    std::vector<const ComputeTexture*> textures;
+    std::vector<vk::ImageView> image_views;
+    for (const auto& texture : color_textures_) {
+        image_views.push_back(texture->image_view());
+        textures.push_back(texture.get());
+    }
+    for (const auto& texture : depth_textures_) {
+        image_views.push_back(texture->image_view());
+        textures.push_back(texture.get());
+    }
+    for (const auto& texture : resolve_textures_) {
+        image_views.push_back(texture->image_view());
+        textures.push_back(texture.get());
+    }
+
+
+    vk::FramebufferCreateInfo frame_buffer_info(
+        /*flags*/{}, 
+        /*render_pass*/render_pass, 
+        /*image_count*/image_views.size(),
+        /*image_views*/image_views.data(),
+        /*width*/width, 
+        /*height*/height, 
+        /*depth*/1);
+    vk::UniqueFramebuffer frame_buffer = device->vk().createFramebufferUnique(frame_buffer_info);
+
+    return {
+        .render_pass = render_pass,
+        .frame_buffer = std::move(frame_buffer),
+        .num_subpasses = static_cast<uint32_t>(subpasses.size()),
+        .offset = vk::Offset2D(0,0),
+        .extent = vk::Extent2D(width, height),
+        .textures = textures
+    };
 }
 
 void RenderPassBuilder::reset() {

@@ -9,6 +9,19 @@
 
 namespace gfx {
 
+// Combined struct representing combined render pass and
+// frame buffer data needed to begin a render pass. Clients
+// should not construct this class directly and instead should
+// build one through the RenderPassBuilder class below.
+struct RenderPassInfo{
+    const vk::RenderPass render_pass;
+    const vk::UniqueFramebuffer frame_buffer;
+    const uint32_t num_subpasses;
+    const vk::Offset2D offset;
+    const vk::Extent2D extent;
+    const std::vector<const ComputeTexture*> textures;
+};
+
 class RenderPassBuilder {
     struct AttachmentInfo{
         vk::AttachmentLoadOp load_op;
@@ -28,11 +41,13 @@ class RenderPassBuilder {
 
     void addColorAttachment(ComputeTexturePtr texture, AttachmentInfo info = kDefaultColorAttachment);
 
+    void addResolveAttachment(ComputeTexturePtr texture, AttachmentInfo info);
+
     void addDepthAttachment(ComputeTexturePtr texture, AttachmentInfo info = kDefaultDepthAttachment);
 
     void addSubpass(SubpassInfo);
 
-    vk::RenderPass build();
+    RenderPassInfo build();
 
     void reset();
 
@@ -60,41 +75,6 @@ private:
     std::vector<ComputeTexturePtr> resolve_textures_;
 
     std::vector<SubpassInfo> subpasses_;
-};
-
-// Struct that contains all of the data needed to create a vulkan
-// render pass and frame buffer. This way those items do not need
-// to be managed by the client directly.
-struct RenderPass {
-   public:
-
-   
-
-    struct SubPass {
-
-    };
-
-    struct AttachmentInfo {
-
-    };
-
-    void addAttachment(ComputeTexturePtr texture, bool is_swapchain_image, bool clear_begin, bool clear_end) {
-
-    }
-
-    void addSubPass(std::vector<uint32_t> inputs, std::vector<uint32_t> outputs, uint32_t depth);
-
-private:
-
-    std::vector<SubPass> subpasses;
-
-
-    std::vector<ComputeTexturePtr> attachments;
-
-    // Checks to see if the current render pass is valid. It will
-    // fail if certain criteria are not met. For example, an
-    // attachment cannot have both |load| and |clear| operations.
-    bool validate() const;
 };
 
 }  // namespace gfx
