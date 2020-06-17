@@ -61,6 +61,12 @@ vk::RenderPass RenderPassBuilder::build() {
 
     std::vector<vk::SubpassDescription> subpasses;
     for (const auto& subpass_info : subpasses_) {
+        std::vector<vk::AttachmentReference> input_references;
+        for (uint32_t index : subpass_info.input_indices) {
+            const auto& attachment = color_attachments_[index];
+            input_references.push_back(vk::AttachmentReference(index, attachment.finalLayout));
+        }
+
         std::vector<vk::AttachmentReference> color_references;
         for (uint32_t index : subpass_info.color_indices) {
             const auto& attachment = color_attachments_[index];
@@ -86,8 +92,8 @@ vk::RenderPass RenderPassBuilder::build() {
         vk::SubpassDescription subpass(
             /*flags*/{},
             /*bindPoint*/subpass_info.bind_point,
-            /*num input*/0,
-            /*inputs*/nullptr,
+            /*num input*/input_references.size(),
+            /*inputs*/input_references.data(),
             /*num color*/color_references.size(),
             /*color refs*/color_references.data(),
             /*resolve ref*/ subpass_info.resolve_index.has_value() ? &resolve_reference : nullptr,
