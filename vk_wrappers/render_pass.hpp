@@ -5,6 +5,7 @@
 #include "vk_wrappers/forward_declarations.hpp"
 #include "vk_wrappers/compute_texture.hpp"
 #include <optional>
+#include <vector>
 
 namespace gfx {
 
@@ -21,9 +22,9 @@ class RenderPassBuilder {
         std::vector<uint32_t> color_indices;
         std::optional<uint32_t> resolve_index;
         std::optional<uint32_t> depth_index;
-    }
+    };
 
-    RenderPassBuild(LogicalDevicePtr device);
+    RenderPassBuilder(LogicalDevicePtr device);
 
     void addColorAttachment(ComputeTexturePtr texture, AttachmentInfo info = kDefaultColorAttachment);
 
@@ -35,13 +36,13 @@ class RenderPassBuilder {
 
     void reset();
 
-    static const AttachmentInfo kDefaultColorAttachment = {
+    static constexpr AttachmentInfo kDefaultColorAttachment = {
         .load_op = vk::AttachmentLoadOp::eClear,
         .store_op = vk::AttachmentStoreOp::eStore,
         .samples = vk::SampleCountFlagBits::e1,
     };
 
-    static const AttachmentInfo kDefaultDepthAttachment = {
+    static constexpr AttachmentInfo kDefaultDepthAttachment = {
         .load_op = vk::AttachmentLoadOp::eClear,
         .store_op = vk::AttachmentStoreOp::eDontCare,
         .samples = vk::SampleCountFlagBits::e1,

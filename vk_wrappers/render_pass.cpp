@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 #include "vk_wrappers/render_pass.hpp"
+#include "logging/logging.hpp"
 
 namespace gfx {
 
@@ -17,10 +18,10 @@ void RenderPassBuilder::addColorAttachment(ComputeTexturePtr texture, Attachment
         /*loadOp*/info.load_op,
         /*storeOp*/info.store_op,
         /*stencilLoadOp*/vk::AttachmentLoadOp::eDontCare,
-        /*stencilStoreOp*/vk::steniclStoreop::eDontCare,
+        /*stencilStoreOp*/vk::AttachmentStoreOp::eDontCare,
         /*initialLayout*/vk::ImageLayout::eUndefined,
-        /*finalLayout*/vk::ImageLayout::eColorAttachmentOptimal);
-    )
+        /*finalLayout*/vk::ImageLayout::eColorAttachmentOptimal
+    );
 
     color_attachments_.push_back(attachment);
     color_textures_.push_back(texture);
@@ -36,8 +37,7 @@ void RenderPassBuilder::addDepthAttachment(ComputeTexturePtr texture, Attachment
         /*stencilLoadOp*/vk::AttachmentLoadOp::eDontCare,
         /*stencilStoreOp*/vk::AttachmentStoreOp::eDontCare,
         /*initialLayout*/vk::ImageLayout::eUndefined,
-        /*finalLayout*/vk::ImageLayout::eDepthStencilOptimal);
-    );
+        /*finalLayout*/vk::ImageLayout::eDepthStencilAttachmentOptimal);
 
     depth_attachments_.push_back(attachment);
     depth_textures_.push_back(texture);
@@ -54,45 +54,46 @@ vk::RenderPass RenderPassBuilder::build() {
     const uint32_t kNumCol = color_attachments_.size();
     const uint32_t kNumDepth = depth_attachments_.size();
 
-    std::vector<vk::AttachmentmentDescription> all_attachments = color_attachment_;
+    std::vector<vk::AttachmentDescription> all_attachments = color_attachments_;
     all_attachments.insert(all_attachments.end(), depth_attachments_.begin(), depth_attachments_.end());
     all_attachments.insert(all_attachments.end(), resolve_attachments_.begin(), resolve_attachments_.end());
 
 
-    vk::SubpassDescription subpasses;
+    std::vector<vk::SubpassDescription> subpasses;
     for (const auto& subpass_info : subpasses_) {
         std::vector<vk::AttachmentReference> color_references;
-        vk::AttachmentReference depth_reference;
-        vk::AttachmentReference resolve_reference;
-        for (uint32_t index : info.color_indices) {
-            const auto& attachment = color_attachments_[index].second;
-            color_references.push_back(vk::AttachmentReference(index, attachment.finalLayout()));
+        for (uint32_t index : subpass_info.color_indices) {
+            const auto& attachment = color_attachments_[index];
+            color_references.push_back(vk::AttachmentReference(index, attachment.finalLayout));
         }
 
         // Depth textures are not required.
         vk::AttachmentReference depth_reference;
         if (subpass_info.depth_index.has_value()) {
-            const auto& depth_attachment = depth_attachments_[index].second;
-            depth_reference = vk::AttachmentReference(kNumCol + subpass_info.depth_index, depth_attachment.finalLayout());
+            uint32_t index = *subpass_info.depth_index;
+            const auto& depth_attachment = depth_attachments_[index];
+            depth_reference = vk::AttachmentReference(kNumCol + index, depth_attachment.finalLayout);
         }
 
         // Resolve textures are not required.
         vk::AttachmentReference resolve_reference;
         if (subpass_info.depth_index.has_value()) {
-            const auto& resolve_attachment = resolve_attachments_[index].second;
-            resolve_reference = vk::AttachmentReference(kNumCol + kNumDepth + subpass_info.resolve_index, resolve_attachment.finalLayout());
+            uint32_t index = *subpass_info.resolve_index;
+            const auto& resolve_attachment = resolve_attachments_[index];
+            resolve_reference = vk::AttachmentReference(kNumCol + kNumDepth + index, resolve_attachment.finalLayout);
         }
 
         vk::SubpassDescription subpass(
             /*flags*/{},
-            /*bindPoint*/info.bind_point,
+            /*bindPoint*/subpass_info.bind_point,
             /*num input*/0,
             /*inputs*/nullptr,
             /*num color*/color_references.size(),
-            /*color refs*/color_references.data()
+            /*color refs*/color_references.data(),
             /*resolve ref*/ subpass_info.resolve_index.has_value() ? &resolve_reference : nullptr,
-            /*depth ref*/   subpass_info.depth_index.has_value() ? &depth_reference : nullptr,
-        );
+            /*depth ref*/   subpass_info.depth_index.has_value() ? &depth_reference : nullptr);
+
+        subpasses.push_back(subpass);
     }
 
     vk::RenderPassCreateInfo render_pass_info(

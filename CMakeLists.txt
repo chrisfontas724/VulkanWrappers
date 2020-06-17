@@ -107,6 +107,7 @@ add_library (vulkan_wrappers
     vk_wrappers/frame_buffer.cpp
     vk_wrappers/instance.cpp
     vk_wrappers/logical_device.cpp
+    vk_wrappers/render_pass.cpp
     vk_wrappers/physical_device.cpp
     vk_wrappers/sampler.cpp
     vk_wrappers/shader_module.cpp
