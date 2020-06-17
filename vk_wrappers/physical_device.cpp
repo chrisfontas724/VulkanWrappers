@@ -97,10 +97,8 @@ uint32_t PhysicalDevice::performanceScore(const vk::SurfaceKHR& surface,
     // performing better, but online guides say discrete GPUs are better...so this
     // needs more research. For now, will give a higher weight to the discrete GPU.
     if (properties_.deviceType == vk::PhysicalDeviceType::eIntegratedGpu) {
-        CXL_VLOG(5) << "    Is an integrated gpu!";
         score += 1000;
     } else if (properties_.deviceType == vk::PhysicalDeviceType::eDiscreteGpu) {
-        CXL_VLOG(5) << "    Is a discrete gpu!";
         score += 1500;
     }
 
@@ -108,17 +106,13 @@ uint32_t PhysicalDevice::performanceScore(const vk::SurfaceKHR& surface,
     score += properties_.limits.maxImageDimension2D;
 
     QueueFamilyIndices indices = findQueueFamilies(surface);
-    CXL_VLOG(5) << "    Acquired queue families";
-
     bool extensions_supported = checkDeviceExtensionSupport(physical_device_, extensions);
-    CXL_VLOG(5) << "    Supports Extensions: " << extensions_supported;
 
     bool swap_chain_adequate = false;
     if (extensions_supported) {
         SwapChainSupportDetails swapChainSupport = querySwapChainSupport(surface);
         swap_chain_adequate =
             !swapChainSupport.formats.empty() && !swapChainSupport.present_modes.empty();
-        CXL_VLOG(5) << "    Swapchain adequate:  " << swap_chain_adequate;
     }
 
     uint32_t final_score = (indices.isComplete() && extensions_supported && swap_chain_adequate &&
