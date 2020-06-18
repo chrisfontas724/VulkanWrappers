@@ -57,6 +57,7 @@ vk::SurfaceFormatKHR SwapChain::chooseSwapSurfaceFormat(
     }
 
     return availableFormats[0];
+
 }
 
 SwapChain::SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, uint32_t width,
@@ -204,7 +205,7 @@ void SwapChain::present(const std::vector<vk::Semaphore>& semaphores) {
 
     // Present frame.
     vk::PresentInfoKHR present_info(/*waitSemaphoreCount_*/ semaphores.size(), semaphores.data(),
-                                    /*swapChainCount_*/ 1, &vk(),
+                                    /*swapChainCount_*/ 1, &swap_chain_.get(),
                                     /*pImageIndices*/ &image_index_);
     device->getQueue(gfx::Queue::Type::kPresent).present(present_info);
 

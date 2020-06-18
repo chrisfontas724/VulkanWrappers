@@ -21,11 +21,7 @@ class SwapChain {
 
     ~SwapChain();
 
-    const vk::SwapchainKHR& vk() const { return swap_chain_.get(); }
-
     void beginFrame(RenderFunction callback);
-
-    const vk::SurfaceFormatKHR format() const { return surface_format_; }
 
     const std::vector<ComputeTexturePtr>& textures() { return textures_; }
 
