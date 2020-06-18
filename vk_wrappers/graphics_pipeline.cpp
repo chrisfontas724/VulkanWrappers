@@ -140,7 +140,11 @@ void GraphicsPipeline::initialize() {
         nullptr,  // DepthStencil State
         &color_blending,
         &dynamic_state,  // Dynamic State
-        pipeline_layout_, render_pass_, 0, vk::Pipeline(), 0);
+        pipeline_layout_,
+        /*render_pass*/render_pass_, 
+        /*subpass*/0, 
+        /*base pipeline*/vk::Pipeline(), 
+        /*base pipeline index*/0);
 
     pipeline_ = device->vk().createGraphicsPipelines(vk::PipelineCache(), {pipeline_info})[0];
     CXL_VLOG(7) << "Finish creating graphics pipeline!\n\n";
