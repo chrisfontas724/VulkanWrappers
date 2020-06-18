@@ -24,16 +24,19 @@ class CommandBufferState {
 
    private:
     friend class CommandBuffer;
-    vk::PipelineRasterizationStateCreateInfo rasterization_state_;
     vk::RenderPass render_pass_;
     vk::Rect2D scissor_;
     vk::Viewport viewport_;
     vk::Extent2D extent_;
     vk::PrimitiveTopology topology_;
     std::vector<vk::VertexInputAttributeDescription> vertex_attributes_;
+    
+    vk::PipelineInputAssemblyStateCreateInfo input_assembly_state_;
+    vk::PipelineRasterizationStateCreateInfo rasterization_state_;
     vk::VertexInputBindingDescription vertex_bindings_;
     vk::PipelineMultisampleStateCreateInfo multisampling_;
     vk::PipelineDepthStencilStateCreateInfo depth_stencil_;
+    vk::PipelineColorBlendStateCreateInfo color_blend_state_;
     bool has_recording_ = false;
     bool in_render_pass_ = false;
     PipelineWeakPtr pipeline_;

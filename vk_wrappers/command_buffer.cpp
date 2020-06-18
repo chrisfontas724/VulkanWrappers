@@ -78,17 +78,26 @@ void CommandBuffer::beginRecording() const {
 
 void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info,
                                     const glm::vec4& clear_color) const {
-    state_.in_render_pass_ = true;
     std::array<float, 4> array = {clear_color.x, clear_color.y, clear_color.z, clear_color.w};
     vk::ClearColorValue values(array);
     vk::ClearValue clear_value(values);
+    auto offset = render_pass_info.offset;
+    auto extent = render_pass_info.extent;
+
     vk::RenderPassBeginInfo info(
         /*render_pass*/ render_pass_info.render_pass,
         /*frame_buffer*/ render_pass_info.frame_buffer.get(),
-        /*render area*/ vk::Rect2D(render_pass_info.offset, render_pass_info.extent),
+        /*render area*/ vk::Rect2D(offset, extent),
         /*clear_value_count*/ 1,
         /*clear_values*/ &clear_value);
 
+    // Update the state.
+    state_.in_render_pass_ = true;
+    state_.render_pass_ = render_pass_info.render_pass;
+    state_.viewport_ = vk::Viewport(offset.x, offset.y, extent.width, extent.height);
+    state_.scissor_ = vk::Rect2D(offset, extent);
+
+    // Actually begin the render pass.
     command_buffer_.beginRenderPass(info, vk::SubpassContents::eInline);
 }
 
