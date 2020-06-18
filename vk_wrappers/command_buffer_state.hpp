@@ -6,6 +6,7 @@
 #define GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_STATE_HPP_
 
 #include "vk_wrappers/vulkan.hpp"
+#include "vk_wrappers/forward_declarations.hpp"
 
 namespace gfx {
 
@@ -22,6 +23,7 @@ class CommandBufferState {
     void set_default_state(DefaultState state);
 
    private:
+    friend class CommandBuffer;
     vk::PipelineRasterizationStateCreateInfo rasterization_state_;
     vk::RenderPass render_pass_;
     vk::Rect2D scissor_;
@@ -32,6 +34,9 @@ class CommandBufferState {
     vk::VertexInputBindingDescription vertex_bindings_;
     vk::PipelineMultisampleStateCreateInfo multisampling_;
     vk::PipelineDepthStencilStateCreateInfo depth_stencil_;
+    bool has_recording_ = false;
+    bool in_render_pass_ = false;
+    PipelineWeakPtr pipeline_;
 };
 
 }  // namespace gfx

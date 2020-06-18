@@ -11,6 +11,7 @@
 #include "vk_wrappers/graphics_pipeline.hpp"
 #include "vk_wrappers/logical_device.hpp"
 #include "vk_wrappers/render_pass.hpp"
+#include "vk_wrappers/command_buffer_state.hpp"
 
 namespace gfx {
 class CommandBuffer {
@@ -88,6 +89,7 @@ class CommandBuffer {
 
    private:
     CommandBuffer() {}
+    mutable CommandBufferState state_;
     std::weak_ptr<LogicalDevice> device_;
     vk::CommandBuffer command_buffer_;
     uint32_t identifier_;

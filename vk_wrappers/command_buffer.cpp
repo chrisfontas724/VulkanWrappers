@@ -3,25 +3,7 @@
 #include "logging/logging.hpp"
 
 namespace gfx {
-
 uint32_t CommandBuffer::reference_ = 0;
-
-namespace {
-
-struct State {
-    PipelineWeakPtr pipeline;
-    bool has_recording;
-    bool in_render_pass;
-};
-
-static std::map<uint32_t, State> state_map;
-
-static const State kDefaultState{
-    .has_recording = false,
-    .in_render_pass = false,
-};
-
-}  // anonymous namespace
 
 std::shared_ptr<CommandBuffer> CommandBuffer::create(std::shared_ptr<LogicalDevice> device,
                                                      Queue::Type queue,
@@ -37,7 +19,6 @@ std::shared_ptr<CommandBuffer> CommandBuffer::create(std::shared_ptr<LogicalDevi
         result->command_buffer_ = buffers[0];
         result->device_ = device;
         result->identifier_ = reference_++;
-        state_map[result->identifier_] = kDefaultState;
     } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;
         return result;
@@ -64,7 +45,6 @@ std::vector<CommandBuffer> CommandBuffer::create(std::shared_ptr<LogicalDevice>&
             result[i].command_buffer_ = buffers[i];
             result[i].device_ = device;
             result[i].identifier_ = reference_++;
-            state_map[result[i].identifier_] = kDefaultState;
         }
     } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;
@@ -79,14 +59,14 @@ std::vector<CommandBuffer> CommandBuffer::create(std::shared_ptr<LogicalDevice>&
 
 void CommandBuffer::reset() const {
     command_buffer_.reset(vk::CommandBufferResetFlagBits::eReleaseResources);
-    state_map[identifier_].has_recording = false;
+    state_.has_recording_ = false;
 }
 
 void CommandBuffer::beginRecording() const {
     try {
         vk::CommandBufferBeginInfo info(vk::CommandBufferUsageFlagBits::eSimultaneousUse, nullptr);
         command_buffer_.begin(info);
-        state_map[identifier_].has_recording = true;
+        state_.has_recording_ = true;
     } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;
         exit(-1);
@@ -98,7 +78,7 @@ void CommandBuffer::beginRecording() const {
 
 void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info,
                                     const glm::vec4& clear_color) const {
-    state_map[identifier_].in_render_pass = true;
+    state_.in_render_pass_ = true;
     std::array<float, 4> array = {clear_color.x, clear_color.y, clear_color.z, clear_color.w};
     vk::ClearColorValue values(array);
     vk::ClearValue clear_value(values);
@@ -118,7 +98,7 @@ void CommandBuffer::nextSubPass() const {
 }
 
 void CommandBuffer::endRenderPass() const {
-    state_map[identifier_].in_render_pass = false;
+    state_.in_render_pass_ = false;
     command_buffer_.endRenderPass();
 }
 
@@ -128,11 +108,11 @@ void CommandBuffer::setViewPort(vk::Viewport viewport) {
 
 void CommandBuffer::bindPipeline(PipelinePtr pipeline) {
     command_buffer_.bindPipeline(pipeline->bind_point(), pipeline->vk());
-    state_map[identifier_].pipeline = pipeline;
+    state_.pipeline_ = pipeline;
 }
 
 void CommandBuffer::bindDescriptorSet(DescriptorSetPtr set, uint32_t first) {
-    auto pipeline = state_map[identifier_].pipeline.lock();
+    auto pipeline = state_.pipeline_.lock();
     CXL_DCHECK(pipeline) << "There is no pipeline bound...";
     auto point = pipeline->bind_point();
     auto layout = pipeline->pipeline_layout();
@@ -141,7 +121,7 @@ void CommandBuffer::bindDescriptorSet(DescriptorSetPtr set, uint32_t first) {
 }
 
 void CommandBuffer::pushConstants(const void* data, uint32_t index) {
-    auto pipeline = state_map[identifier_].pipeline.lock();
+    auto pipeline = state_.pipeline_.lock();
     CXL_DCHECK(pipeline) << "There is no pipeline bound...";
     auto layout = pipeline->pipeline_layout();
     auto range = pipeline->push_constant(index);
@@ -315,16 +295,16 @@ void CommandBuffer::transitionImageLayout(vk::Image& image, vk::Format, vk::Imag
 
 void CommandBuffer::draw(uint32_t num_vertices, uint32_t instance_count, uint32_t first_vertex,
                          uint32_t first_instance) {
-    auto pipeline = state_map[identifier_].pipeline.lock();
+    auto pipeline = state_.pipeline_.lock();
     CXL_DCHECK(pipeline && pipeline->bind_point() == vk::PipelineBindPoint::eGraphics);
-    CXL_DCHECK(state_map[identifier_].in_render_pass) << "Not in render pass!";
+    CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
     command_buffer_.draw(num_vertices, instance_count, first_vertex, first_instance);
 }
 
 void CommandBuffer::drawIndexed(uint32_t num_indices) {
-    auto pipeline = state_map[identifier_].pipeline.lock();
+    auto pipeline = state_.pipeline_.lock();
     CXL_DCHECK(pipeline && pipeline->bind_point() == vk::PipelineBindPoint::eGraphics);
-    CXL_DCHECK(state_map[identifier_].in_render_pass) << "Not in render pass!";
+    CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
     command_buffer_.drawIndexed(num_indices, 1, 0, 0, 0);
 }
 
@@ -342,6 +322,6 @@ void CommandBuffer::blit(ComputeTexturePtr src, ComputeTexturePtr dst, vk::Filte
                               &blit_info, filter);
 }
 
-bool CommandBuffer::has_recording() const { return state_map[identifier_].has_recording; }
+bool CommandBuffer::has_recording() const { return state_.has_recording_; }
 
 }  // namespace gfx
