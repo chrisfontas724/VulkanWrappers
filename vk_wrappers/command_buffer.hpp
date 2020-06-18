@@ -6,9 +6,10 @@
 #define GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_HPP_
 
 #include "vk_wrappers/compute_pipeline.hpp"
-#include "vk_wrappers/frame_buffer.hpp"
 #include "vk_wrappers/graphics_pipeline.hpp"
 #include "vk_wrappers/logical_device.hpp"
+#include "vk_wrappers/render_pass.hpp"
+#include <glm/glm.hpp>
 
 namespace gfx {
 class CommandBuffer {
@@ -24,8 +25,8 @@ class CommandBuffer {
     void reset() const;
     void beginRecording() const;
 
-    void beginRenderPass(const FrameBufferPtr& framebuffer,
-                         const vk::ClearColorValue& clear_color) const;
+    void beginRenderPass(const RenderPassInfo& render_pass_info,
+                         const glm::vec4& clear_color) const;
 
     void nextSubPass() const;
 

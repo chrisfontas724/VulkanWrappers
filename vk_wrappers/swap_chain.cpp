@@ -10,7 +10,6 @@
 #include "vk_wrappers/compute_texture.hpp"
 #include "vk_wrappers/physical_device.hpp"
 #include "vk_wrappers/utils/image_utils.hpp"
-#include "vk_wrappers/utils/render_pass_utils.hpp"
 
 namespace gfx {
 
@@ -120,9 +119,18 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, ui
         images_ = logical_device->vk().getSwapchainImagesKHR(swap_chain_.get());
         CXL_VLOG(5) << "    Created swap chain images!";
 
+        CXL_VLOG(3) << "SURFACE FORMAT: " << vk::to_string(surface_format_.format);
+
+        uint32_t index = 0;
         for (const auto& image : images_) {
             image_views_.push_back(
                 ImageUtils::createImageView(logical_device, image, surface_format_.format));
+            auto sampler = Sampler::create(logical_device);
+            auto texture = std::make_shared<ComputeTexture>(
+                image_views_[index], images_[index], vk::ImageLayout::ePresentSrcKHR,
+                surface_format_.format, std::move(sampler), extent_.width, extent_.height);
+            textures_.push_back(texture);
+            index++;
         }
         CXL_VLOG(5) << "    Created swap chain image views!";
 
@@ -133,11 +141,6 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, ui
         in_flight_fences_ =
             logical_device->createFences(MAX_FRAMES_IN_FLIGHT, vk::FenceCreateFlagBits::eSignaled);
         CXL_VLOG(5) << "    Created fences and semaphores!";
-
-        // Create frame buffers.
-        auto display_render_pass = gfx::RenderPassUtils::createPresentationRenderPass(
-            logical_device, surface_format_.format);
-        createFrameBuffers(display_render_pass);
 
     } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;
@@ -159,26 +162,6 @@ SwapChain::~SwapChain() {
         }
         for (const auto& image_view : image_views_) {
             device->destroy(image_view);
-        }
-    }
-}
-
-void SwapChain::createFrameBuffers(const vk::RenderPass& render_pass) {
-    if (auto device = logical_device_.lock()) {
-        for (size_t i = 0; i < image_views_.size(); i++) {
-            auto sampler = Sampler::create(device);
-            auto texture = std::make_shared<ComputeTexture>(
-                image_views_[i], images_[i], vk::ImageLayout::ePresentSrcKHR,
-                surface_format_.format, std::move(sampler), extent_.width, extent_.height);
-
-            std::map<FrameBuffer::AttachmentFlags, ComputeTexturePtr> attachments = {
-                {FrameBuffer::AttachmentFlags::kColor1, texture},
-            };
-
-            CXL_VLOG(3) << "Creating swapchain framebuffer with extent: " << extent_.width << " "
-                        << extent_.height;
-            frame_buffers_.push_back(std::make_shared<FrameBuffer>(device, attachments, render_pass,
-                                                                   extent_.width, extent_.height));
         }
     }
 }
@@ -206,7 +189,7 @@ void SwapChain::beginFrame(RenderFunction callback) {
 
         device->vk().resetFences(1, &in_flight_fences_[current_frame_]);
 
-        present(callback(frame_buffers_[image_index_], image_available_semaphores_[current_frame_],
+        present(callback(image_available_semaphores_[current_frame_],
                          in_flight_fences_[current_frame_], image_index_, current_frame_));
 
     } catch (vk::SystemError err) {

@@ -90,4 +90,4 @@ vk::RenderPass RenderPassUtils::createPresentationRenderPass(LogicalDevicePtr de
     return device->vk().createRenderPass(display_pass_info);
 }
 
-}  // namespace gfx
+}  // namespace gfxall_attachments.data(),

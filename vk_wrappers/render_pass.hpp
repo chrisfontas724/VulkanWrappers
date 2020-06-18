@@ -2,6 +2,9 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
+#ifndef GRAPHICS_VK_WRAPPERS_RENDER_PASS
+#define GRAPHICS_VK_WRAPPERS_RENDER_PASS
+
 #include "vk_wrappers/forward_declarations.hpp"
 #include "vk_wrappers/compute_texture.hpp"
 #include <optional>
@@ -14,15 +17,16 @@ namespace gfx {
 // should not construct this class directly and instead should
 // build one through the RenderPassBuilder class below.
 struct RenderPassInfo{
-    const vk::RenderPass render_pass;
-    const vk::UniqueFramebuffer frame_buffer;
-    const uint32_t num_subpasses;
-    const vk::Offset2D offset;
-    const vk::Extent2D extent;
-    const std::vector<const ComputeTexture*> textures;
+    vk::RenderPass render_pass;
+    vk::UniqueFramebuffer frame_buffer;
+    uint32_t num_subpasses;
+    vk::Offset2D offset;
+    vk::Extent2D extent;
+    std::vector<const ComputeTexture*> textures;
 };
 
 class RenderPassBuilder {
+public:
     struct AttachmentInfo{
         vk::AttachmentLoadOp load_op;
         vk::AttachmentStoreOp store_op;
@@ -47,9 +51,9 @@ class RenderPassBuilder {
 
     void addSubpass(SubpassInfo);
 
-    RenderPassInfo build();
-
     void reset();
+
+    RenderPassInfo build();
 
     static constexpr AttachmentInfo kDefaultColorAttachment = {
         .load_op = vk::AttachmentLoadOp::eClear,
@@ -78,3 +82,5 @@ private:
 };
 
 }  // namespace gfx
+
+#endif // GRAPHICS_VK_WRAPPERS_RENDER_PASS

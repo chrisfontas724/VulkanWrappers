@@ -104,7 +104,6 @@ add_library (vulkan_wrappers
     vk_wrappers/descriptor_allocator.cpp
     vk_wrappers/descriptor_set.cpp
     vk_wrappers/error_handler.cpp
-    vk_wrappers/frame_buffer.cpp
     vk_wrappers/instance.cpp
     vk_wrappers/logical_device.cpp
     vk_wrappers/render_pass.cpp

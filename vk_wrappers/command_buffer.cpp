@@ -96,14 +96,18 @@ void CommandBuffer::beginRecording() const {
     }
 }
 
-void CommandBuffer::beginRenderPass(const FrameBufferPtr& framebuffer,
-                                    const vk::ClearColorValue& clear_color) const {
+void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info,
+                                    const glm::vec4& clear_color) const {
     state_map[identifier_].in_render_pass = true;
-    vk::ClearValue clear_value(clear_color);
+    std::array<float, 4> array = {clear_color.x, clear_color.y, clear_color.z, clear_color.w};
+    vk::ClearColorValue values(array);
+    vk::ClearValue clear_value(values);
     vk::RenderPassBeginInfo info(
-        framebuffer->render_pass(), framebuffer->vk(),
-        vk::Rect2D(vk::Offset2D(0, 0), vk::Extent2D(framebuffer->width(), framebuffer->height())),
-        1, &clear_value);
+        /*render_pass*/render_pass_info.render_pass,
+        /*frame_buffer*/render_pass_info.frame_buffer.get(),
+        /*render area*/ vk::Rect2D(render_pass_info.offset, render_pass_info.extent),
+        /*clear_value_count*/1,
+        /*clear_values*/&clear_value);
 
     command_buffer_.beginRenderPass(info, vk::SubpassContents::eInline);
 }
