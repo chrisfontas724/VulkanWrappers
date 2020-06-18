@@ -14,10 +14,8 @@ namespace gfx {
 // Wrapper around vk::ShaderModule.
 class ShaderModule {
    public:
-    ShaderModule(const std::shared_ptr<LogicalDevice>& device,
-                 const ShaderCompiler& compiler,
-                 const cxl::FileSystem* fs,
-                 const std::string& file);
+    ShaderModule(const std::shared_ptr<LogicalDevice>& device, const ShaderCompiler& compiler,
+                 const cxl::FileSystem* fs, const std::string& file);
 
     ShaderModule(const std::shared_ptr<LogicalDevice>& device, vk::ShaderStageFlagBits stage,
                  std::vector<uint32_t> spir_v);

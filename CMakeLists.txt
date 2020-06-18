@@ -9,9 +9,6 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src
                     ${CMAKE_CURRENT_BINARY_DIR}/glslang-src
                     ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src)
 
-
-
-
 # Add filesystem classes
 configure_file(CMakeLists.txt.in filesystem-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -30,8 +27,6 @@ endif()
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src 
                  ${CMAKE_CURRENT_BINARY_DIR}/filesystem-build 
                  EXCLUDE_FROM_ALL)
-
-
 
 # Add core classes
 configure_file(CMakeLists.txt.in coreclasses-download/CMakeLists.txt)
@@ -52,8 +47,6 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src
                  ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-build 
                  EXCLUDE_FROM_ALL)
 
-
-
 # Add gslang directory
 configure_file(CMakeLists.txt.in glslang-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
@@ -72,7 +65,6 @@ endif()
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/glslang-src 
                  ${CMAKE_CURRENT_BINARY_DIR}/glslang-build 
                  EXCLUDE_FROM_ALL)
-
 
 # Add openexr classes
 configure_file(CMakeLists.txt.in openexr-download/CMakeLists.txt)
@@ -93,10 +85,9 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/openexr-src
                  ${CMAKE_CURRENT_BINARY_DIR}/openexr-build 
                  EXCLUDE_FROM_ALL)
 
-
-
 add_library (vulkan_wrappers
     vk_wrappers/command_buffer.cpp
+    vk_wrappers/command_buffer_state.cpp
     vk_wrappers/compute_buffer.cpp
     vk_wrappers/compute_pipeline.cpp
     vk_wrappers/graphics_pipeline.cpp
@@ -120,7 +111,6 @@ add_library (vulkan_wrappers
 )
 
 find_package(Vulkan REQUIRED)
-
 
 # This is so that a parent project that links this library knows
 # which headers to include.
@@ -148,9 +138,7 @@ include_directories(${GLM_INCLUDE_DIRS})
 link_directories(${GLM_LIBRARY_DIRS})
 add_definitions(${GLM_DEFINITIONS})
 
-
 include_directories(/usr/include/)
-
 
 # Link the dependencies.
 target_link_libraries(vulkan_wrappers Vulkan::Vulkan glslang SPIRV streaming core)

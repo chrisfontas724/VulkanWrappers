@@ -134,17 +134,17 @@ void GraphicsPipeline::initialize() {
     vk::PipelineDynamicStateCreateInfo dynamic_state({}, 1, &dynamic);
 
     // Pipeline create info.
-    vk::GraphicsPipelineCreateInfo pipeline_info(
-        {}, 2, shader_stages, &vertex_input_info, &state_create_info, nullptr, &viewport_state,
-        &rasterizer, &multisampling,
-        nullptr,  // DepthStencil State
-        &color_blending,
-        &dynamic_state,  // Dynamic State
-        pipeline_layout_,
-        /*render_pass*/render_pass_, 
-        /*subpass*/0, 
-        /*base pipeline*/vk::Pipeline(), 
-        /*base pipeline index*/0);
+    vk::GraphicsPipelineCreateInfo pipeline_info({}, 2, shader_stages, &vertex_input_info,
+                                                 &state_create_info, nullptr, &viewport_state,
+                                                 &rasterizer, &multisampling,
+                                                 nullptr,  // DepthStencil State
+                                                 &color_blending,
+                                                 &dynamic_state,  // Dynamic State
+                                                 pipeline_layout_,
+                                                 /*render_pass*/ render_pass_,
+                                                 /*subpass*/ 0,
+                                                 /*base pipeline*/ vk::Pipeline(),
+                                                 /*base pipeline index*/ 0);
 
     pipeline_ = device->vk().createGraphicsPipelines(vk::PipelineCache(), {pipeline_info})[0];
     CXL_VLOG(7) << "Finish creating graphics pipeline!\n\n";

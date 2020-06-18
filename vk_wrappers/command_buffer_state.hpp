@@ -5,25 +5,23 @@
 #ifndef GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_STATE_HPP_
 #define GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_STATE_HPP_
 
-#include <vulkan.hpp>
+#include "vk_wrappers/vulkan.hpp"
 
 namespace gfx {
 
 class CommandBufferState {
-public:
+   public:
+    enum class DefaultState {
+        kOpaque,
+        kWireFrame,
+        kTranslucent,
+        kNVRaytrace,
+        kCustomRaytrace,
+    };
 
- enum class DefaultState {
-     kOpaque,
-     kWireFrame,
-     kTranslucent,
-     kNVRaytrace,
-     kCustomRaytrace,
- };
+    void set_default_state(DefaultState state);
 
- void set_default_state(DefaultState state);
-
-private:
-
+   private:
     vk::PipelineRasterizationStateCreateInfo rasterization_state_;
     vk::RenderPass render_pass_;
     vk::Rect2D scissor_;
@@ -36,6 +34,6 @@ private:
     vk::PipelineDepthStencilStateCreateInfo depth_stencil_;
 };
 
-} // gfx
+}  // namespace gfx
 
-#endif // GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_STATE_HPP_
+#endif  // GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_STATE_HPP_

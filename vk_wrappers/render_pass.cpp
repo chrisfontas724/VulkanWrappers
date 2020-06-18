@@ -15,8 +15,7 @@ void RenderPassBuilder::addColorAttachment(ComputeTexturePtr texture, Attachment
     vk::ImageLayout final_layout = is_swapchain_image ? vk::ImageLayout::ePresentSrcKHR
                                                       : vk::ImageLayout::eColorAttachmentOptimal;
 
-
-    CXL_CHECK(!(is_swapchain_image && info.samples != vk::SampleCountFlagBits::e1));              
+    CXL_CHECK(!(is_swapchain_image && info.samples != vk::SampleCountFlagBits::e1));
 
     CXL_VLOG(3) << "Is swapchain image: " << is_swapchain_image;
     CXL_VLOG(3) << "FORMAT: " << vk::to_string(texture->format());
@@ -86,7 +85,7 @@ RenderPassInfo RenderPassBuilder::build() {
 
     std::vector<vk::SubpassDescription> subpasses;
 
-    struct SubpassData{
+    struct SubpassData {
         std::vector<vk::AttachmentReference> input_references;
         std::vector<vk::AttachmentReference> color_references;
         vk::AttachmentReference depth_reference;
@@ -111,7 +110,8 @@ RenderPassInfo RenderPassBuilder::build() {
         for (uint32_t index : subpass_info.color_indices) {
             CXL_CHECK(index < color_attachments_.size());
             const auto& attachment = color_attachments_[index];
-            color_references.push_back(vk::AttachmentReference(0, vk::ImageLayout::eSharedPresentKHR));
+            color_references.push_back(
+                vk::AttachmentReference(0, vk::ImageLayout::eSharedPresentKHR));
         }
 
         // Depth textures are not required.
@@ -171,23 +171,21 @@ RenderPassInfo RenderPassBuilder::build() {
     }
 
     vk::FramebufferCreateInfo frame_buffer_info(
-        /*flags*/{}, 
-        /*render_pass*/render_pass, 
-        /*image_count*/image_views.size(),
-        /*image_views*/image_views.data(),
-        /*width*/width, 
-        /*height*/height, 
-        /*depth*/1);
+        /*flags*/ {},
+        /*render_pass*/ render_pass,
+        /*image_count*/ image_views.size(),
+        /*image_views*/ image_views.data(),
+        /*width*/ width,
+        /*height*/ height,
+        /*depth*/ 1);
     vk::UniqueFramebuffer frame_buffer = device->vk().createFramebufferUnique(frame_buffer_info);
 
-    return {
-        .render_pass = render_pass,
-        .frame_buffer = std::move(frame_buffer),
-        .num_subpasses = static_cast<uint32_t>(subpasses.size()),
-        .offset = vk::Offset2D(0,0),
-        .extent = vk::Extent2D(width, height),
-        .textures = textures
-    };
+    return {.render_pass = render_pass,
+            .frame_buffer = std::move(frame_buffer),
+            .num_subpasses = static_cast<uint32_t>(subpasses.size()),
+            .offset = vk::Offset2D(0, 0),
+            .extent = vk::Extent2D(width, height),
+            .textures = textures};
 }
 
 void RenderPassBuilder::reset() {

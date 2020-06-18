@@ -57,7 +57,6 @@ vk::SurfaceFormatKHR SwapChain::chooseSwapSurfaceFormat(
     }
 
     return availableFormats[0];
-
 }
 
 SwapChain::SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, uint32_t width,
@@ -124,12 +123,12 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, ui
 
         uint32_t index = 0;
         for (const auto& image : images_) {
-            image_views_.push_back(
-                ImageUtils::createImageView(logical_device, image, surface_format_.format));
+            auto image_view =
+                ImageUtils::createImageView(logical_device, image, surface_format_.format);
             auto sampler = Sampler::create(logical_device);
             auto texture = std::make_shared<ComputeTexture>(
-                image_views_[index], images_[index], vk::ImageLayout::ePresentSrcKHR,
-                surface_format_.format, std::move(sampler), extent_.width, extent_.height);
+                image_view, images_[index], vk::ImageLayout::ePresentSrcKHR, surface_format_.format,
+                std::move(sampler), extent_.width, extent_.height);
             textures_.push_back(texture);
             index++;
         }
@@ -161,8 +160,8 @@ SwapChain::~SwapChain() {
         for (const auto& fence : in_flight_fences_) {
             device->destroy(fence);
         }
-        for (const auto& image_view : image_views_) {
-            device->destroy(image_view);
+        for (auto& texture : textures_) {
+            texture.reset();
         }
     }
 }

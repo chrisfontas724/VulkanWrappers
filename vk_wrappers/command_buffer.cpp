@@ -103,11 +103,11 @@ void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info,
     vk::ClearColorValue values(array);
     vk::ClearValue clear_value(values);
     vk::RenderPassBeginInfo info(
-        /*render_pass*/render_pass_info.render_pass,
-        /*frame_buffer*/render_pass_info.frame_buffer.get(),
+        /*render_pass*/ render_pass_info.render_pass,
+        /*frame_buffer*/ render_pass_info.frame_buffer.get(),
         /*render area*/ vk::Rect2D(render_pass_info.offset, render_pass_info.extent),
-        /*clear_value_count*/1,
-        /*clear_values*/&clear_value);
+        /*clear_value_count*/ 1,
+        /*clear_values*/ &clear_value);
 
     command_buffer_.beginRenderPass(info, vk::SubpassContents::eInline);
 }

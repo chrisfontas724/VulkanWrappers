@@ -13,7 +13,8 @@ void CommandBufferState::set_default_state(DefaultState state) {
         case DefaultState::kTranslucent:
         case DefaultState::kCustomRaytrace:
         case DefaultState::kNVRaytrace:
-    }
+            break;
+    };
 }
 
 }  // namespace gfx

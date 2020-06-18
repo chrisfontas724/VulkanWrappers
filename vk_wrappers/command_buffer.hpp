@@ -5,11 +5,12 @@
 #ifndef GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_HPP_
 #define GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_HPP_
 
+#include <glm/glm.hpp>
+
 #include "vk_wrappers/compute_pipeline.hpp"
 #include "vk_wrappers/graphics_pipeline.hpp"
 #include "vk_wrappers/logical_device.hpp"
 #include "vk_wrappers/render_pass.hpp"
-#include <glm/glm.hpp>
 
 namespace gfx {
 class CommandBuffer {

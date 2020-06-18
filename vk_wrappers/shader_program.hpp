@@ -7,16 +7,13 @@
 
 namespace gfx {
 
-// 
+//
 class ShaderProgram {
-
-
     static ShaderProgramPtr createGraphics();
 
     static ShaderProgramPtr createCompute();
 };
 
-} // gfx
+}  // namespace gfx
 
-#endif // GRAPHICS_VK_WRAPPERS_SHADER_PROGRAM_HPP_
-
+#endif  // GRAPHICS_VK_WRAPPERS_SHADER_PROGRAM_HPP_
