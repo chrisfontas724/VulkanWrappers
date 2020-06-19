@@ -2,9 +2,11 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
+#include "vk_wrappers/shader_program.hpp"
+
 namespace gfx {
 
-ShaderProgram::ShaderProgram(const LogigalDevicePtr& device const vk::PipelineBindPoint& bind_point,
+ShaderProgram::ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineBindPoint& bind_point,
                              const std::map<vk::ShaderStageFlagBits, SpirV>& spirv)
     : device_(device), bind_point_(bind_point) {
     std::vector<SpirV> spirv_vec;

@@ -7,7 +7,7 @@
 
 #include "vk_wrappers/forward_declarations.hpp"
 #include "vk_wrappers/shader_module.hpp"
-#include "vk_wrappers/utils/reflection.hpp"
+#include "vk_wrappers/utils/reflection/reflection.hpp"
 
 namespace gfx {
 
@@ -33,7 +33,7 @@ class ShaderProgram {
 
    private:
     ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineBindPoint& bind_point,
-                  const std::map<vk::ShaderStageFlagBits, SpirV>& spirv)
+                  const std::map<vk::ShaderStageFlagBits, SpirV>& spirv);
 
         LogicalDeviceWeakPtr device_;
     std::unique_ptr<Reflection> reflection_;
