@@ -12,8 +12,6 @@
 namespace gfx {
 class ShaderCompiler {
    public:
-    ShaderCompiler();
-
     bool compile(const cxl::FileSystem* fs, const std::string& file,
                  const std::vector<std::string>& include_paths,
                  const std::vector<std::string>& macros, std::vector<uint32_t>* output) const;

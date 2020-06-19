@@ -24,22 +24,26 @@ class CommandBufferState {
 
    private:
     friend class CommandBuffer;
+
+    vk::Pipeline generateGraphicsPipeline(LogicalDevicePtr device);
+
+    ShaderProgramPtr shader_program_;
     vk::RenderPass render_pass_;
     vk::Rect2D scissor_;
     vk::Viewport viewport_;
     vk::Extent2D extent_;
     vk::PrimitiveTopology topology_;
-    std::vector<vk::VertexInputAttributeDescription> vertex_attributes_;
 
-    vk::PipelineInputAssemblyStateCreateInfo input_assembly_state_;
+    std::vector<vk::VertexInputAttributeDescription> vertex_attributes_;
+    std::vector<vk::VertexInputBindingDescription> vertex_bindings_;
+
     vk::PipelineRasterizationStateCreateInfo rasterization_state_;
-    vk::VertexInputBindingDescription vertex_bindings_;
     vk::PipelineMultisampleStateCreateInfo multisampling_;
     vk::PipelineDepthStencilStateCreateInfo depth_stencil_;
     vk::PipelineColorBlendStateCreateInfo color_blend_state_;
     bool has_recording_ = false;
     bool in_render_pass_ = false;
-    PipelineWeakPtr pipeline_;
+    vk::Pipeline pipeline_;
 };
 
 }  // namespace gfx

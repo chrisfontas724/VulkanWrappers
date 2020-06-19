@@ -3,6 +3,9 @@
 // found in the LICENSE file.
 
 #include "vk_wrappers/command_buffer_state.hpp"
+#include "vk_wrappers/shader_program.hpp"
+#include "vk_wrappers/logical_device.hpp"
+#include "logging/logging.hpp"
 
 namespace gfx {
 
@@ -44,5 +47,62 @@ void CommandBufferState::set_default_state(DefaultState state) {
             break;
     };
 }
+
+vk::Pipeline CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
+    CXL_DCHECK(device);
+    CXL_DCHECK(shader_program_);
+
+    auto vertex_module = shader_program_->module(vk::ShaderStageFlagBits::eVertex);
+    auto fragment_module = shader_program_->module(vk::ShaderStageFlagBits::eFragment);
+
+    std::vector<vk::PipelineShaderStageCreateInfo> shader_stages = {
+        vertex_module->pipeline_create_info(),
+        fragment_module->pipeline_create_info()
+    };
+
+    // Vertex inputinfo
+    vk::PipelineVertexInputStateCreateInfo vertex_input_info(
+        /*flags*/{}, 
+        vertex_bindings_.size(), 
+        vertex_bindings_.data(), 
+        vertex_attributes_.size(),
+        vertex_attributes_.data());
+
+    // Input assembly.
+    vk::PipelineInputAssemblyStateCreateInfo input_assembly({}, topology_);
+
+    // Viewport state.
+    vk::PipelineViewportStateCreateInfo viewport_state({}, 1, &viewport_, 1, &scissor_);
+
+    // Dynamic State
+    auto dynamic = vk::DynamicState::eViewport;
+    vk::PipelineDynamicStateCreateInfo dynamic_state({}, 1, &dynamic);
+
+    vk::GraphicsPipelineCreateInfo pipeline_info(
+        /*flags*/{},
+        /*stageCount*/shader_stages.size(),
+        /*pStages*/ shader_stages.data(),
+        /*pVertexInputState*/&vertex_input_info,
+        /*pInputAssemblyState*/&input_assembly,
+        /*pTessellationState*/nullptr,
+        /*pViewportState*/&viewport_state,
+        /*pRasterizationState*/&rasterization_state_,
+        /*pMultisampleState*/&multisampling_,
+        /*pDepthStencilState*/&depth_stencil_,
+        /*pColorBlendingState*/&color_blend_state_,
+        /*pDynamicState*/&dynamic_state,
+        /*pPipelineLayout*/shader_program_->pipeline_layout(),
+        /*render_pass*/render_pass_,
+        /*subpass*/0,
+        /*pBasePipeline*/vk::Pipeline(),
+        /*basePipelineIndex*/0
+    );
+
+    pipeline_ = device->vk().createGraphicsPipelines(vk::PipelineCache(), {pipeline_info})[0];
+    CXL_VLOG(7) << "Finish creating graphics pipeline!\n\n";
+
+    return pipeline_;
+}
+
 
 }  // namespace gfx

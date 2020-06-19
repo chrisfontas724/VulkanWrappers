@@ -16,21 +16,17 @@ using SpirV = std::vector<uint32_t>;
 // Wrapper around vk::ShaderModule.
 class ShaderModule {
    public:
-    ShaderModule(const std::shared_ptr<LogicalDevice>& device, const ShaderCompiler& compiler,
-                 const cxl::FileSystem* fs, const std::string& file);
-
-    ShaderModule(const std::shared_ptr<LogicalDevice>& device, vk::ShaderStageFlagBits stage,
-                 std::vector<uint32_t> spir_v);
+    ShaderModule(const std::shared_ptr<LogicalDevice>& device, 
+                 const vk::ShaderStageFlagBits& stage,
+                 const SpirV& spir_v);
 
     ~ShaderModule();
 
-    const vk::ShaderModule& vk() const { return shader_module_.get(); }
-
-    const vk::PipelineShaderStageCreateInfo& create_info() const { return create_info_; }
-
-    const vk::ShaderStageFlagBits stage() const { return stage_; }
+    vk::PipelineShaderStageCreateInfo pipeline_create_info() const { return create_info_; }
 
     const std::vector<uint32_t>& spir_v() const { return spir_v_; }
+
+    vk::ShaderStageFlagBits stage() const { return stage_; }
 
    private:
     std::weak_ptr<LogicalDevice> device_;

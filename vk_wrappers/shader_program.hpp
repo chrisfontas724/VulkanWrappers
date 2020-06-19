@@ -31,6 +31,10 @@ class ShaderProgram {
 
     vk::PipelineBindPoint bind_point() const { return bind_point_; }
 
+    const ShaderModule* module(vk::ShaderStageFlagBits stage) const {
+        return shader_modules_.at(stage).get();
+    }
+
    private:
     ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineBindPoint& bind_point,
                   const std::map<vk::ShaderStageFlagBits, SpirV>& spirv);
@@ -41,7 +45,7 @@ class ShaderProgram {
     vk::PipelineLayout pipeline_layout_;
     std::vector<std::shared_ptr<DescriptorSetLayout>> layouts_;
     std::vector<vk::PushConstantRange> push_constants_;
-    std::map<vk::ShaderStageFlagBits, SpirV> shader_modules_;
+    std::map<vk::ShaderStageFlagBits, std::unique_ptr<ShaderModule>> shader_modules_;
 };
 
 }  // namespace gfx

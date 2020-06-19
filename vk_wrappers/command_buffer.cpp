@@ -1,4 +1,5 @@
 #include "vk_wrappers/command_buffer.hpp"
+#include "vk_wrappers/shader_program.hpp"
 
 #include "logging/logging.hpp"
 
@@ -94,10 +95,10 @@ void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info,
     // Update the state.
     state_.in_render_pass_ = true;
     state_.render_pass_ = render_pass_info.render_pass;
-    state_.viewport_ = vk::Viewport(offset.x, offset.y, extent.width, extent.height);
     state_.scissor_ = vk::Rect2D(offset, extent);
 
     // Actually begin the render pass.
+    setViewPort(vk::Viewport(offset.x, offset.y, extent.width, extent.height));
     command_buffer_.beginRenderPass(info, vk::SubpassContents::eInline);
 }
 
@@ -111,34 +112,36 @@ void CommandBuffer::endRenderPass() const {
     command_buffer_.endRenderPass();
 }
 
-void CommandBuffer::setViewPort(vk::Viewport viewport) {
+void CommandBuffer::setViewPort(vk::Viewport viewport) const {
+    state_.viewport_ = viewport;
     command_buffer_.setViewport(0, 1, &viewport);
 }
 
-void CommandBuffer::bindPipeline(PipelinePtr pipeline) {
-    command_buffer_.bindPipeline(pipeline->bind_point(), pipeline->vk());
-    state_.pipeline_ = pipeline;
+void CommandBuffer::setProgram(ShaderProgramPtr program) {
+    CXL_CHECK(state_.in_render_pass_ == (program->bind_point() == vk::PipelineBindPoint::eGraphics));
+    state_.shader_program_ = program;
 }
 
 void CommandBuffer::bindDescriptorSet(DescriptorSetPtr set, uint32_t first) {
-    auto pipeline = state_.pipeline_.lock();
-    CXL_DCHECK(pipeline) << "There is no pipeline bound...";
-    auto point = pipeline->bind_point();
-    auto layout = pipeline->pipeline_layout();
-    auto vk_set = set->vk();
-    command_buffer_.bindDescriptorSets(point, layout, first, 1, &vk_set, 0, nullptr);
+    // auto pipeline = state_.pipeline_.lock();
+    // CXL_DCHECK(pipeline) << "There is no pipeline bound...";
+    // auto point = pipeline->bind_point();
+    // auto layout = pipeline->pipeline_layout();
+    // auto vk_set = set->vk();
+    // command_buffer_.bindDescriptorSets(point, layout, first, 1, &vk_set, 0, nullptr);
 }
 
 void CommandBuffer::pushConstants(const void* data, uint32_t index) {
-    auto pipeline = state_.pipeline_.lock();
-    CXL_DCHECK(pipeline) << "There is no pipeline bound...";
-    auto layout = pipeline->pipeline_layout();
-    auto range = pipeline->push_constant(index);
-    command_buffer_.pushConstants(layout, range.stageFlags, range.offset, range.size, data);
+    // auto pipeline = state_.pipeline_.lock();
+    // CXL_DCHECK(pipeline) << "There is no pipeline bound...";
+    // auto layout = pipeline->pipeline_layout();
+    // auto range = pipeline->push_constant(index);
+    // command_buffer_.pushConstants(layout, range.stageFlags, range.offset, range.size, data);
 }
 
 void CommandBuffer::setDepth(bool test, bool write) {
-    // TODO.
+    state_.depth_stencil_.depthTestEnable = test;
+    state_.depth_stencil_.depthWriteEnable = write;
 }
 
 void CommandBuffer::dispatch(uint32_t group_x, uint32_t group_y, uint32_t group_z) {
@@ -304,16 +307,21 @@ void CommandBuffer::transitionImageLayout(vk::Image& image, vk::Format, vk::Imag
 
 void CommandBuffer::draw(uint32_t num_vertices, uint32_t instance_count, uint32_t first_vertex,
                          uint32_t first_instance) {
-    auto pipeline = state_.pipeline_.lock();
-    CXL_DCHECK(pipeline && pipeline->bind_point() == vk::PipelineBindPoint::eGraphics);
+    CXL_DCHECK(state_.shader_program_ &&
+               state_.shader_program_->bind_point() == vk::PipelineBindPoint::eGraphics);
     CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
+
+    auto pipeline = state_.generateGraphicsPipeline(device_.lock()); 
+    command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, pipeline);   
     command_buffer_.draw(num_vertices, instance_count, first_vertex, first_instance);
 }
 
 void CommandBuffer::drawIndexed(uint32_t num_indices) {
-    auto pipeline = state_.pipeline_.lock();
-    CXL_DCHECK(pipeline && pipeline->bind_point() == vk::PipelineBindPoint::eGraphics);
+    CXL_DCHECK(state_.shader_program_ &&
+               state_.shader_program_->bind_point() == vk::PipelineBindPoint::eGraphics);
     CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
+    auto pipeline = state_.generateGraphicsPipeline(device_.lock()); 
+    command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, pipeline);   
     command_buffer_.drawIndexed(num_indices, 1, 0, 0, 0);
 }
 

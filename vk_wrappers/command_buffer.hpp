@@ -34,9 +34,9 @@ class CommandBuffer {
 
     void endRenderPass() const;
 
-    void setViewPort(vk::Viewport viewport);
+    void setViewPort(vk::Viewport viewport) const;
 
-    void bindPipeline(PipelinePtr pipeline);
+    void setProgram(ShaderProgramPtr program);
 
     void bindDescriptorSet(DescriptorSetPtr set, uint32_t index);
 

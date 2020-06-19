@@ -89,8 +89,6 @@ add_library (vulkan_wrappers
     vk_wrappers/command_buffer.cpp
     vk_wrappers/command_buffer_state.cpp
     vk_wrappers/compute_buffer.cpp
-    vk_wrappers/compute_pipeline.cpp
-    vk_wrappers/graphics_pipeline.cpp
     vk_wrappers/compute_texture.cpp
     vk_wrappers/descriptor_allocator.cpp
     vk_wrappers/descriptor_set.cpp

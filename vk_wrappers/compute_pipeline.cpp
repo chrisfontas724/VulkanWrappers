@@ -44,14 +44,14 @@ ComputePipeline::ComputePipeline(std::shared_ptr<LogicalDevice> device, const cx
                                  const std::string& file)
     : Pipeline(device) {
     CXL_DCHECK(fs);
-    try {
-        CXL_VLOG(7) << "Creating compute pipeline " << file << std::endl;
-        ShaderCompiler compiler;
-        shader_ = std::make_unique<ShaderModule>(device, compiler, fs, file);
-        __initialize(shader_->spir_v());
-        CXL_VLOG(7) << "\n\n" << file << std::endl;
-    } catch (...) {
-    }
+    // try {
+    //     CXL_VLOG(7) << "Creating compute pipeline " << file << std::endl;
+    //     ShaderCompiler compiler;
+    //     shader_ = std::make_unique<ShaderModule>(device, compiler, fs, file);
+    //     __initialize(shader_->spir_v());
+    //     CXL_VLOG(7) << "\n\n" << file << std::endl;
+    // } catch (...) {
+    // }
 }
 
 ComputePipeline::ComputePipeline(std::shared_ptr<LogicalDevice> device,
@@ -62,35 +62,35 @@ ComputePipeline::ComputePipeline(std::shared_ptr<LogicalDevice> device,
 }
 
 void ComputePipeline::__initialize(const std::vector<uint32_t>& spir_v) {
-    auto device = device_.lock();
-    CXL_DCHECK(device);
+    // auto device = device_.lock();
+    // CXL_DCHECK(device);
 
-    // Create reflection module.
-    std::vector<std::vector<uint32_t>> spirv_code = {spir_v};
-    reflection_ = std::make_unique<Reflection>(device, spirv_code);
-    CXL_DCHECK(reflection_) << "Could not generate reflection module.";
+    // // Create reflection module.
+    // std::vector<std::vector<uint32_t>> spirv_code = {spir_v};
+    // reflection_ = std::make_unique<Reflection>(device, spirv_code);
+    // CXL_DCHECK(reflection_) << "Could not generate reflection module.";
 
-    // Generate descriptor set layouts.
-    layouts_ = reflection_->createLayouts();
-    CXL_DCHECK(layouts_.size() > 0);
+    // // Generate descriptor set layouts.
+    // layouts_ = reflection_->createLayouts();
+    // CXL_DCHECK(layouts_.size() > 0);
 
-    push_constants_ = reflection_->createPushConstants();
+    // push_constants_ = reflection_->createPushConstants();
 
-    // Get raw vulkan layouts
-    std::vector<vk::DescriptorSetLayout> vk_layouts;
-    for (auto& layout : layouts_) {
-        vk_layouts.push_back(layout->vk());
-    }
+    // // Get raw vulkan layouts
+    // std::vector<vk::DescriptorSetLayout> vk_layouts;
+    // for (auto& layout : layouts_) {
+    //     vk_layouts.push_back(layout->vk());
+    // }
 
-    // The pipeline layout allows the pipeline to access descriptor sets.
-    vk::PipelineLayoutCreateInfo layout_info({}, vk_layouts.size(), vk_layouts.data(),
-                                             push_constants_.size(), push_constants_.data());
-    pipeline_layout_ = device->vk().createPipelineLayout(layout_info);
+    // // The pipeline layout allows the pipeline to access descriptor sets.
+    // vk::PipelineLayoutCreateInfo layout_info({}, vk_layouts.size(), vk_layouts.data(),
+    //                                          push_constants_.size(), push_constants_.data());
+    // pipeline_layout_ = device->vk().createPipelineLayout(layout_info);
 
-    // Now create the actual pipeline.
-    // TODO: Actually make use of pipeline cache.
-    vk::ComputePipelineCreateInfo pipeline_info({}, shader_->create_info(), pipeline_layout_);
-    pipeline_ = device->vk().createComputePipelines(vk::PipelineCache(), {pipeline_info})[0];
+    // // Now create the actual pipeline.
+    // // TODO: Actually make use of pipeline cache.
+    // vk::ComputePipelineCreateInfo pipeline_info({}, shader_->create_info(), pipeline_layout_);
+    // pipeline_ = device->vk().createComputePipelines(vk::PipelineCache(), {pipeline_info})[0];
 }
 
 ComputePipeline::~ComputePipeline() {

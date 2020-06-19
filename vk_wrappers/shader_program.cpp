@@ -6,6 +6,18 @@
 
 namespace gfx {
 
+ShaderProgramPtr ShaderProgram::createGraphics(const LogicalDevicePtr& device, const SpirV& vertex,
+                                               const SpirV& fragment) {
+    // Need at least a vertex shader.
+    if (vertex.size() == 0) {
+        return nullptr;
+    }
+
+    return std::shared_ptr<ShaderProgram>(new ShaderProgram(device,
+     vk::PipelineBindPoint::eGraphics, 
+    {{vk::ShaderStageFlagBits::eVertex, vertex}, {vk::ShaderStageFlagBits::eFragment, fragment}}));
+}
+
 ShaderProgram::ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineBindPoint& bind_point,
                              const std::map<vk::ShaderStageFlagBits, SpirV>& spirv)
     : device_(device), bind_point_(bind_point) {
@@ -13,6 +25,7 @@ ShaderProgram::ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineB
     for (auto iter : spirv) {
         auto module = std::make_unique<ShaderModule>(device, iter.first, iter.second);
         spirv_vec.push_back(iter.second);
+        shader_modules_[iter.first] = std::move(module);
     }
 
     reflection_ = std::make_unique<Reflection>(device_.lock(), spirv_vec);
@@ -27,7 +40,7 @@ ShaderProgram::ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineB
     }
 
     // Pipeline layout.
-    // TODO: Deal with push constants.
+    // TODO: Deal with push constants  more effectively.
     vk::PipelineLayoutCreateInfo pipeline_layout_info(
         {}, vk_layouts.size(), vk_layouts.data(), push_constants_.size(), push_constants_.data());
 
