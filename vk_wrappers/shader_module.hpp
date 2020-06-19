@@ -11,6 +11,8 @@
 
 namespace gfx {
 
+using SpirV = std::vector<uint32_t>;
+
 // Wrapper around vk::ShaderModule.
 class ShaderModule {
    public:

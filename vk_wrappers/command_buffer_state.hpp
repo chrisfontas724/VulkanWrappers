@@ -5,8 +5,8 @@
 #ifndef GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_STATE_HPP_
 #define GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_STATE_HPP_
 
-#include "vk_wrappers/vulkan.hpp"
 #include "vk_wrappers/forward_declarations.hpp"
+#include "vk_wrappers/vulkan.hpp"
 
 namespace gfx {
 
@@ -30,7 +30,7 @@ class CommandBufferState {
     vk::Extent2D extent_;
     vk::PrimitiveTopology topology_;
     std::vector<vk::VertexInputAttributeDescription> vertex_attributes_;
-    
+
     vk::PipelineInputAssemblyStateCreateInfo input_assembly_state_;
     vk::PipelineRasterizationStateCreateInfo rasterization_state_;
     vk::VertexInputBindingDescription vertex_bindings_;

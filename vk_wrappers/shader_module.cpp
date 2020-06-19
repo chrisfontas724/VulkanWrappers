@@ -63,7 +63,7 @@ ShaderModule::ShaderModule(const std::shared_ptr<LogicalDevice>& device,
                                                spir_v_.data());
         shader_module_ = device->vk().createShaderModuleUnique(create_info);
 
-        create_info_ = vk::PipelineShaderStageCreateInfo({}, stage_, vk(), "main");
+        create_info_ = vk::PipelineShaderStageCreateInfo({}, stage_, shader_module_.get(), "main");
 
     } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;

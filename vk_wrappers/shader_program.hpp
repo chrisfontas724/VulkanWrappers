@@ -5,24 +5,43 @@
 #ifndef GRAPHICS_VK_WRAPPERS_SHADER_PROGRAM_HPP_
 #define GRAPHICS_VK_WRAPPERS_SHADER_PROGRAM_HPP_
 
+#include "vk_wrappers/forward_declarations.hpp"
+#include "vk_wrappers/shader_module.hpp"
 #include "vk_wrappers/utils/reflection.hpp"
-#include "forward_declarations.hpp"
 
 namespace gfx {
 
-//
 class ShaderProgram {
-public:
-    static ShaderProgramPtr createGraphics();
+   public:
+    static ShaderProgramPtr createGraphics(const LogicalDevicePtr& device, const SpirV& vertex,
+                                           const SpirV& fragment);
 
-    static ShaderProgramPtr createCompute();
+    static ShaderProgramPtr createCompute(const LogicalDevicePtr& device, const SpirV& kernel);
 
-private:
-    LogicalDeviceWeakPtr device_;
+    vk::PipelineLayout pipeline_layout() const { return pipeline_layout_; }
+
+    std::shared_ptr<DescriptorSetLayout> layout(uint32_t index) const {
+        return (index < layouts_.size()) ? layouts_[index] : nullptr;
+    }
+
+    vk::PushConstantRange push_constant(uint32_t index) const {
+        CXL_DCHECK(index < push_constants_.size());
+        return push_constants_[index];
+    }
+
+    vk::PipelineBindPoint bind_point() const { return bind_point_; }
+
+   private:
+    ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineBindPoint& bind_point,
+                  const std::map<vk::ShaderStageFlagBits, SpirV>& spirv)
+
+        LogicalDeviceWeakPtr device_;
     std::unique_ptr<Reflection> reflection_;
+    vk::PipelineBindPoint bind_point_;
     vk::PipelineLayout pipeline_layout_;
     std::vector<std::shared_ptr<DescriptorSetLayout>> layouts_;
     std::vector<vk::PushConstantRange> push_constants_;
+    std::map<vk::ShaderStageFlagBits, SpirV> shader_modules_;
 };
 
 }  // namespace gfx

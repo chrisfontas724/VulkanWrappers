@@ -7,11 +7,11 @@
 
 #include <glm/glm.hpp>
 
+#include "vk_wrappers/command_buffer_state.hpp"
 #include "vk_wrappers/compute_pipeline.hpp"
 #include "vk_wrappers/graphics_pipeline.hpp"
 #include "vk_wrappers/logical_device.hpp"
 #include "vk_wrappers/render_pass.hpp"
-#include "vk_wrappers/command_buffer_state.hpp"
 
 namespace gfx {
 class CommandBuffer {
