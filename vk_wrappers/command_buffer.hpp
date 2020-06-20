@@ -95,11 +95,22 @@ class CommandBuffer {
    private:
     CommandBuffer() {}
 
+    using Flags = uint32_t;
     enum FlagBits {
         kPipelineBit = 1 << 0,
     };
 
-    uint32_t changed_flags_;
+    void setChanged(uint32_t mask) {
+        changed_flags_ |= mask;
+    }
+
+    uint32_t getAndClear(uint32_t mask) {
+        auto result = changed_flags_ & mask;
+        changed_flags_ &= ~mask;
+        return result;
+    }
+
+    Flags changed_flags_ = ~0u;
 
     mutable CommandBufferState state_;
     std::weak_ptr<LogicalDevice> device_;
