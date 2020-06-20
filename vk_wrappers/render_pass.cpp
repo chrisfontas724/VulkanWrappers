@@ -95,6 +95,14 @@ RenderPassInfo RenderPassBuilder::build() {
     std::vector<SubpassData> subpass_data;
     subpass_data.resize(subpasses_.size());
 
+    vk::SubpassDependency dependency{};
+    dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
+    dependency.dstSubpass = 0;
+    dependency.srcStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput; 
+    dependency.srcAccessMask = {};
+    dependency.dstStageMask =  vk::PipelineStageFlagBits::eColorAttachmentOutput;
+    dependency.dstAccessMask = vk::AccessFlagBits::eColorAttachmentWrite;
+
     uint32_t subpass_index = 0;
     for (const auto& subpass_info : subpasses_) {
         auto& input_references = subpass_data[subpass_index].input_references;
@@ -111,7 +119,7 @@ RenderPassInfo RenderPassBuilder::build() {
             CXL_CHECK(index < color_attachments_.size());
             const auto& attachment = color_attachments_[index];
             color_references.push_back(
-                vk::AttachmentReference(0, vk::ImageLayout::eSharedPresentKHR));
+                vk::AttachmentReference(0, vk::ImageLayout::eColorAttachmentOptimal));
         }
 
         // Depth textures are not required.
@@ -151,6 +159,9 @@ RenderPassInfo RenderPassBuilder::build() {
         /*subpass_count*/ subpasses.size(),
         /*subpass_data*/ subpasses.data());
 
+    render_pass_info.dependencyCount = 1;
+    render_pass_info.pDependencies = &dependency;
+
     vk::RenderPass render_pass = device->vk().createRenderPass(render_pass_info);
     uint32_t width = color_textures_[0]->width();
     uint32_t height = color_textures_[0]->height();
@@ -178,8 +189,14 @@ RenderPassInfo RenderPassBuilder::build() {
         /*width*/ width,
         /*height*/ height,
         /*depth*/ 1);
-    vk::UniqueFramebuffer frame_buffer = device->vk().createFramebufferUnique(frame_buffer_info);
 
+    vk::UniqueFramebuffer frame_buffer;
+    try {
+        frame_buffer = device->vk().createFramebufferUnique(frame_buffer_info);
+    } catch(vk::SystemError err) {
+        std::cout << "vk::SystemError: " << err.what() << std::endl;
+        exit(-1);
+    }
     return {.render_pass = render_pass,
             .frame_buffer = std::move(frame_buffer),
             .num_subpasses = static_cast<uint32_t>(subpasses.size()),

@@ -34,6 +34,10 @@ class CommandBuffer {
 
     void endRenderPass() const;
 
+    void setDefaultState(CommandBufferState::DefaultState state) {
+        state_.set_default_state(state);
+    }
+
     void setViewPort(vk::Viewport viewport) const;
 
     void setProgram(ShaderProgramPtr program);
@@ -95,6 +99,7 @@ class CommandBuffer {
     uint32_t identifier_;
 
     static uint32_t reference_;
+    bool boop = false;
 };
 }  // namespace gfx
 

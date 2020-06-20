@@ -9,21 +9,6 @@
 
 namespace gfx {
 
-namespace {
-vk::ShaderStageFlagBits getStage(const std::string& extension) {
-    if (extension == "vert") {
-        return vk::ShaderStageFlagBits::eVertex;
-    } else if (extension == "frag") {
-        return vk::ShaderStageFlagBits::eFragment;
-    } else if (extension == "comp") {
-        return vk::ShaderStageFlagBits::eCompute;
-    } else {
-        CXL_DCHECK(false) << "Invalid shader extension type" << extension;
-        return vk::ShaderStageFlagBits::eAll;
-    }
-}
-}  // namespace
-
 ShaderModule::~ShaderModule() { shader_module_.reset(); }
 
 ShaderModule::ShaderModule(const std::shared_ptr<LogicalDevice>& device,

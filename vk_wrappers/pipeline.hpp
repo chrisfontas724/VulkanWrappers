@@ -13,7 +13,7 @@ namespace gfx {
 
 class Pipeline {
    public:
-    Pipeline(LogicalDevicePtr device) : device_(device) {}
+    Pipeline(LogicalDevicePtr device_) : device(device_) {}
 
     vk::Pipeline vk() const { return pipeline_; }
 
@@ -31,7 +31,7 @@ class Pipeline {
     virtual vk::PipelineBindPoint bind_point() = 0;
 
    protected:
-    LogicalDeviceWeakPtr device_;
+    LogicalDevicePtr device;
     vk::Pipeline pipeline_;
     vk::PipelineLayout pipeline_layout_;
     std::vector<std::shared_ptr<DescriptorSetLayout>> layouts_;

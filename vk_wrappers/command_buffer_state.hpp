@@ -25,13 +25,12 @@ class CommandBufferState {
    private:
     friend class CommandBuffer;
 
-    vk::Pipeline generateGraphicsPipeline(LogicalDevicePtr device);
+    void generateGraphicsPipeline(LogicalDevicePtr device);
 
     ShaderProgramPtr shader_program_;
     vk::RenderPass render_pass_;
     vk::Rect2D scissor_;
     vk::Viewport viewport_;
-    vk::Extent2D extent_;
     vk::PrimitiveTopology topology_;
 
     std::vector<vk::VertexInputAttributeDescription> vertex_attributes_;
@@ -43,6 +42,7 @@ class CommandBufferState {
     vk::PipelineColorBlendStateCreateInfo color_blend_state_;
     bool has_recording_ = false;
     bool in_render_pass_ = false;
+    GraphicsPipelinePtr graphics_pipeline_;
     vk::Pipeline pipeline_;
 };
 

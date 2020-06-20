@@ -10,6 +10,7 @@ ShaderProgramPtr ShaderProgram::createGraphics(const LogicalDevicePtr& device, c
                                                const SpirV& fragment) {
     // Need at least a vertex shader.
     if (vertex.size() == 0) {
+        CXL_DCHECK(false);
         return nullptr;
     }
 
@@ -23,9 +24,9 @@ ShaderProgram::ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineB
     : device_(device), bind_point_(bind_point) {
     std::vector<SpirV> spirv_vec;
     for (auto iter : spirv) {
-        auto module = std::make_unique<ShaderModule>(device, iter.first, iter.second);
         spirv_vec.push_back(iter.second);
-        shader_modules_[iter.first] = std::move(module);
+        CXL_LOG(INFO) << "Making module: " << vk::to_string(iter.first);
+        shader_modules_[iter.first] = std::make_unique<ShaderModule>(device, iter.first, iter.second);
     }
 
     reflection_ = std::make_unique<Reflection>(device_.lock(), spirv_vec);
@@ -34,17 +35,22 @@ ShaderProgram::ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineB
     layouts_ = reflection_->createLayouts();
     push_constants_ = reflection_->createPushConstants();
 
-    std::vector<vk::DescriptorSetLayout> vk_layouts;
+    std::vector<vk::DescriptorSetLayout> vk_layouts_;
     for (auto& layout : layouts_) {
-        vk_layouts.push_back(layout->vk());
+        vk_layouts_.push_back(layout->vk());
     }
 
     // Pipeline layout.
     // TODO: Deal with push constants  more effectively.
     vk::PipelineLayoutCreateInfo pipeline_layout_info(
-        {}, vk_layouts.size(), vk_layouts.data(), push_constants_.size(), push_constants_.data());
+        {}, vk_layouts_.size(), vk_layouts_.data(), push_constants_.size(), push_constants_.data());
 
-    pipeline_layout_ = device->vk().createPipelineLayout(pipeline_layout_info);
+    try {
+        pipeline_layout_ = device->vk().createPipelineLayout(pipeline_layout_info);
+    } catch (vk::SystemError err) {
+        std::cout << "vk::SystemError: " << err.what() << std::endl;
+        exit(-1);
+    }
 }
 
 }  // namespace gfx

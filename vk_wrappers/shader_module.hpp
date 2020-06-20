@@ -24,7 +24,7 @@ class ShaderModule {
 
     vk::PipelineShaderStageCreateInfo pipeline_create_info() const { return create_info_; }
 
-    const std::vector<uint32_t>& spir_v() const { return spir_v_; }
+    std::vector<uint32_t> spir_v() const { return spir_v_; }
 
     vk::ShaderStageFlagBits stage() const { return stage_; }
 
@@ -34,6 +34,7 @@ class ShaderModule {
     vk::PipelineShaderStageCreateInfo create_info_;
     vk::ShaderStageFlagBits stage_;
     std::vector<uint32_t> spir_v_;
+    std::vector<vk::DescriptorSetLayout> vk_layouts_;
 };
 }  // namespace gfx
 

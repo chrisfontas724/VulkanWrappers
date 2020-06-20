@@ -117,7 +117,7 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, ui
         CXL_VLOG(5) << "    Created swap chain!";
 
         images_ = logical_device->vk().getSwapchainImagesKHR(swap_chain_.get());
-        CXL_VLOG(5) << "    Created swap chain images!";
+        CXL_VLOG(5) << "    Created swap chain images: " << images_.size();
 
         CXL_VLOG(3) << "SURFACE FORMAT: " << vk::to_string(surface_format_.format);
 
