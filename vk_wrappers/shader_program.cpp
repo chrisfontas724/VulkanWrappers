@@ -14,19 +14,22 @@ ShaderProgramPtr ShaderProgram::createGraphics(const LogicalDevicePtr& device, c
         return nullptr;
     }
 
-    return std::shared_ptr<ShaderProgram>(new ShaderProgram(device,
-     vk::PipelineBindPoint::eGraphics, 
-    {{vk::ShaderStageFlagBits::eVertex, vertex}, {vk::ShaderStageFlagBits::eFragment, fragment}}));
+    return std::shared_ptr<ShaderProgram>(
+        new ShaderProgram(device, vk::PipelineBindPoint::eGraphics,
+                          {{vk::ShaderStageFlagBits::eVertex, vertex},
+                           {vk::ShaderStageFlagBits::eFragment, fragment}}));
 }
 
-ShaderProgram::ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineBindPoint& bind_point,
+ShaderProgram::ShaderProgram(const LogicalDevicePtr& device,
+                             const vk::PipelineBindPoint& bind_point,
                              const std::map<vk::ShaderStageFlagBits, SpirV>& spirv)
     : device_(device), bind_point_(bind_point) {
     std::vector<SpirV> spirv_vec;
     for (auto iter : spirv) {
         spirv_vec.push_back(iter.second);
         CXL_LOG(INFO) << "Making module: " << vk::to_string(iter.first);
-        shader_modules_[iter.first] = std::make_unique<ShaderModule>(device, iter.first, iter.second);
+        shader_modules_[iter.first] =
+            std::make_unique<ShaderModule>(device, iter.first, iter.second);
     }
 
     reflection_ = std::make_unique<Reflection>(device_.lock(), spirv_vec);

@@ -1,7 +1,7 @@
 #include "vk_wrappers/command_buffer.hpp"
-#include "vk_wrappers/shader_program.hpp"
 
 #include "logging/logging.hpp"
+#include "vk_wrappers/shader_program.hpp"
 
 namespace gfx {
 uint32_t CommandBuffer::reference_ = 0;
@@ -119,7 +119,8 @@ void CommandBuffer::setViewPort(vk::Viewport viewport) const {
 
 void CommandBuffer::setProgram(ShaderProgramPtr program) {
     CXL_CHECK(program);
-    CXL_CHECK(state_.in_render_pass_ == (program->bind_point() == vk::PipelineBindPoint::eGraphics));
+    CXL_CHECK(state_.in_render_pass_ ==
+              (program->bind_point() == vk::PipelineBindPoint::eGraphics));
     state_.shader_program_ = program;
 }
 
@@ -308,29 +309,26 @@ void CommandBuffer::transitionImageLayout(vk::Image& image, vk::Format, vk::Imag
 
 void CommandBuffer::draw(uint32_t num_vertices, uint32_t instance_count, uint32_t first_vertex,
                          uint32_t first_instance) {
-    CXL_LOG(INFO) << "Draw!!!";
     CXL_DCHECK(state_.shader_program_ &&
                state_.shader_program_->bind_point() == vk::PipelineBindPoint::eGraphics);
     CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
 
     if (!boop) {
-        state_.generateGraphicsPipeline(device_.lock()); 
-        CXL_LOG(INFO) << "HERE????";
+        state_.generateGraphicsPipeline(device_.lock());
         boop = true;
     }
 
-    CXL_LOG(INFO) << "Do I get here???";
-    command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_); 
+    command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_);
     command_buffer_.draw(num_vertices, instance_count, first_vertex, first_instance);
 }
 
 void CommandBuffer::drawIndexed(uint32_t num_indices) {
-    // CXL_DCHECK(state_.shader_program_ &&
-    //            state_.shader_program_->bind_point() == vk::PipelineBindPoint::eGraphics);
-    // CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
-    // auto pipeline = state_.generateGraphicsPipeline(device_.lock()); 
-    // command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, pipeline);   
-    // command_buffer_.drawIndexed(num_indices, 1, 0, 0, 0);
+    CXL_DCHECK(state_.shader_program_ &&
+               state_.shader_program_->bind_point() == vk::PipelineBindPoint::eGraphics);
+    CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
+    state_.generateGraphicsPipeline(device_.lock());
+    command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_);
+    command_buffer_.drawIndexed(num_indices, 1, 0, 0, 0);
 }
 
 void CommandBuffer::blit(ComputeTexturePtr src, ComputeTexturePtr dst, vk::Filter filter) {

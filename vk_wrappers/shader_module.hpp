@@ -16,8 +16,7 @@ using SpirV = std::vector<uint32_t>;
 // Wrapper around vk::ShaderModule.
 class ShaderModule {
    public:
-    ShaderModule(const std::shared_ptr<LogicalDevice>& device, 
-                 const vk::ShaderStageFlagBits& stage,
+    ShaderModule(const std::shared_ptr<LogicalDevice>& device, const vk::ShaderStageFlagBits& stage,
                  const SpirV& spir_v);
 
     ~ShaderModule();

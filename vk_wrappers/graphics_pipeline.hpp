@@ -10,11 +10,8 @@
 namespace gfx {
 class GraphicsPipeline : public Pipeline {
    public:
-
-    GraphicsPipeline(std::shared_ptr<LogicalDevice> device,
-                     const ShaderModule* vertex_shader,
-                     const ShaderModule* fragment_shader,
-                     vk::PipelineLayout layout,
+    GraphicsPipeline(std::shared_ptr<LogicalDevice> device, const ShaderModule* vertex_shader,
+                     const ShaderModule* fragment_shader, vk::PipelineLayout layout,
                      vk::PipelineRasterizationStateCreateInfo rasterizer,
                      vk::PipelineMultisampleStateCreateInfo multisampling,
                      vk::PipelineColorBlendStateCreateInfo color_blend_state,

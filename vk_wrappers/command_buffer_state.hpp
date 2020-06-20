@@ -39,11 +39,12 @@ class CommandBufferState {
     vk::PipelineRasterizationStateCreateInfo rasterization_state_;
     vk::PipelineMultisampleStateCreateInfo multisampling_;
     vk::PipelineDepthStencilStateCreateInfo depth_stencil_;
-    vk::PipelineColorBlendStateCreateInfo color_blend_state_;
+    vk::PipelineColorBlendAttachmentState color_blend_attachment_;
     bool has_recording_ = false;
     bool in_render_pass_ = false;
     GraphicsPipelinePtr graphics_pipeline_;
     vk::Pipeline pipeline_;
+    vk::PipelineCache pipeline_cache_;
 };
 
 }  // namespace gfx

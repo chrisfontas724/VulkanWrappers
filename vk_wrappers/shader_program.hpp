@@ -39,7 +39,7 @@ class ShaderProgram {
     ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineBindPoint& bind_point,
                   const std::map<vk::ShaderStageFlagBits, SpirV>& spirv);
 
-        LogicalDeviceWeakPtr device_;
+    LogicalDeviceWeakPtr device_;
     std::unique_ptr<Reflection> reflection_;
     vk::PipelineBindPoint bind_point_;
     vk::PipelineLayout pipeline_layout_;

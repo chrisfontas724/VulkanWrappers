@@ -98,9 +98,9 @@ RenderPassInfo RenderPassBuilder::build() {
     vk::SubpassDependency dependency{};
     dependency.srcSubpass = VK_SUBPASS_EXTERNAL;
     dependency.dstSubpass = 0;
-    dependency.srcStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput; 
+    dependency.srcStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput;
     dependency.srcAccessMask = {};
-    dependency.dstStageMask =  vk::PipelineStageFlagBits::eColorAttachmentOutput;
+    dependency.dstStageMask = vk::PipelineStageFlagBits::eColorAttachmentOutput;
     dependency.dstAccessMask = vk::AccessFlagBits::eColorAttachmentWrite;
 
     uint32_t subpass_index = 0;
@@ -193,7 +193,7 @@ RenderPassInfo RenderPassBuilder::build() {
     vk::UniqueFramebuffer frame_buffer;
     try {
         frame_buffer = device->vk().createFramebufferUnique(frame_buffer_info);
-    } catch(vk::SystemError err) {
+    } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;
         exit(-1);
     }
