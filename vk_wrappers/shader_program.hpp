@@ -35,6 +35,8 @@ class ShaderProgram {
         return shader_modules_.at(stage).get();
     }
 
+    void bindTexture(uint32_t set, uint32_t index, const ComputeTexturePtr& texture);
+
    private:
     ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineBindPoint& bind_point,
                   const std::map<vk::ShaderStageFlagBits, SpirV>& spirv);
@@ -46,6 +48,7 @@ class ShaderProgram {
     std::vector<std::shared_ptr<DescriptorSetLayout>> layouts_;
     std::vector<vk::PushConstantRange> push_constants_;
     std::map<vk::ShaderStageFlagBits, std::unique_ptr<ShaderModule>> shader_modules_;
+    std::vector<DescriptorSetPtr> descriptor_sets_;
 };
 
 }  // namespace gfx

@@ -54,6 +54,14 @@ ShaderProgram::ShaderProgram(const LogicalDevicePtr& device,
         std::cout << "vk::SystemError: " << err.what() << std::endl;
         exit(-1);
     }
+
+    for (auto& layout : layouts_) {
+        descriptor_sets_.push_back(layout->createDescriptorSet());
+    }
+}
+
+void ShaderProgram::bindTexture(uint32_t set, uint32_t index, const ComputeTexturePtr& texture) {
+    descriptor_sets_[set]->set_texture(index, texture);
 }
 
 }  // namespace gfx

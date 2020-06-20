@@ -20,7 +20,7 @@ class DescriptorSet {
 
     void set_buffer(uint32_t index, std::shared_ptr<ComputeBuffer> buffer) const;
 
-    void set_texture(uint32_t index, std::shared_ptr<ComputeTexture> texture) const;
+    void set_texture(uint32_t index, const ComputeTexturePtr& texture) const;
 
    private:
     friend class DescriptorSetLayout;

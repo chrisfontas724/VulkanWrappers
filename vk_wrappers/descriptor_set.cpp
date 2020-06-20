@@ -20,7 +20,7 @@ void DescriptorSet::set_buffer(uint32_t index, std::shared_ptr<ComputeBuffer> bu
     device->vk().updateDescriptorSets(1, &write_info, 0, nullptr);
 }
 
-void DescriptorSet::set_texture(uint32_t index, std::shared_ptr<ComputeTexture> texture) const {
+void DescriptorSet::set_texture(uint32_t index, const ComputeTexturePtr& texture) const {
     const auto& device = device_.lock();
     CXL_DCHECK(device);
     CXL_DCHECK(index < create_info_.bindingCount);

@@ -20,6 +20,10 @@ void CommandBufferState::set_default_state(DefaultState state) {
     multisampling_.alphaToCoverageEnable = VK_FALSE;  // Optional
     multisampling_.alphaToOneEnable = VK_FALSE;       // Optional
 
+    // Color blending.
+    auto color_blend_state = vk::PipelineColorBlendStateCreateInfo({}, VK_FALSE, vk::LogicOp::eCopy,
+                                                                   1, &color_blend_attachment_);
+
     switch (state) {
         case DefaultState::kOpaque: {
             topology_ = vk::PrimitiveTopology::eTriangleList;
@@ -41,8 +45,26 @@ void CommandBufferState::set_default_state(DefaultState state) {
                 vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA);
             break;
         }
+        case DefaultState::kWireFrame: {
+            topology_ = vk::PrimitiveTopology::eTriangleList;
+            rasterization_state_ = vk::PipelineRasterizationStateCreateInfo(
+                {}, VK_FALSE, VK_FALSE, vk::PolygonMode::eLine, /*cull mode*/ {},
+                vk::FrontFace::eClockwise,
+                VK_FALSE,  // Depth bias enable
+                0,         // Depth bias constant factor
+                0,         // Depth bias clamp
+                0,         // Depth bias slope factor
+                1          // Line width
+            );
 
-        case DefaultState::kWireFrame:
+            // Color blend attachment. This is set to add so when multiple
+            // passes are done for each ray bounce, the values accumulate.
+            color_blend_attachment_.setBlendEnable(VK_FALSE);
+            color_blend_attachment_.setColorWriteMask(
+                vk::ColorComponentFlagBits::eR | vk::ColorComponentFlagBits::eG |
+                vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA);
+            break;
+        }
         case DefaultState::kTranslucent:
         case DefaultState::kCustomRaytrace: {
             topology_ = vk::PrimitiveTopology::ePointList;
