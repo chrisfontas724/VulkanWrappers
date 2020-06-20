@@ -36,6 +36,7 @@ class CommandBuffer {
 
     void setDefaultState(CommandBufferState::DefaultState state) {
         state_.set_default_state(state);
+        changed_flags_ |= kPipelineBit;
     }
 
     void setViewPort(vk::Viewport viewport) const;
@@ -93,6 +94,13 @@ class CommandBuffer {
 
    private:
     CommandBuffer() {}
+
+    enum FlagBits {
+        kPipelineBit = 1 << 0,
+    };
+
+    uint32_t changed_flags_;
+
     mutable CommandBufferState state_;
     std::weak_ptr<LogicalDevice> device_;
     vk::CommandBuffer command_buffer_;

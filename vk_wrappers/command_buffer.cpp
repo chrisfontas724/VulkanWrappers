@@ -122,6 +122,8 @@ void CommandBuffer::setProgram(ShaderProgramPtr program) {
     CXL_CHECK(state_.in_render_pass_ ==
               (program->bind_point() == vk::PipelineBindPoint::eGraphics));
     state_.shader_program_ = program;
+    state_.pipeline_ = vk::Pipeline();
+    changed_flags_ |= kPipelineBit;
 }
 
 void CommandBuffer::bindDescriptorSet(DescriptorSetPtr set, uint32_t first) {
@@ -313,12 +315,11 @@ void CommandBuffer::draw(uint32_t num_vertices, uint32_t instance_count, uint32_
                state_.shader_program_->bind_point() == vk::PipelineBindPoint::eGraphics);
     CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
 
-    if (!boop) {
+    if ((changed_flags_ & kPipelineBit) != 0) {
         state_.generateGraphicsPipeline(device_.lock());
-        boop = true;
+        command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_);
+        changed_flags_ = changed_flags_ & ~kPipelineBit;
     }
-
-    command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_);
     command_buffer_.draw(num_vertices, instance_count, first_vertex, first_instance);
 }
 
