@@ -19,15 +19,15 @@ vk::RenderPass RenderPassUtils::createStandardRenderPass(LogicalDevicePtr device
                                                          bool should_clear) {
     CXL_DCHECK(device);
     vk::AttachmentDescription colorAttachment(
-        /*flags*/{},
-        /*format*/vk::Format::eB8G8R8A8Unorm, 
-        /*samples*/vk::SampleCountFlagBits::e1,
-        /*loadOp*/should_clear ? vk::AttachmentLoadOp::eClear : vk::AttachmentLoadOp::eLoad,
-        /*storeOp*/vk::AttachmentStoreOp::eStore, 
-        /*stencilLoadOp*/vk::AttachmentLoadOp::eDontCare,
-        /*stencilStoreOp*/vk::AttachmentStoreOp::eDontCare,
-        /*initialLayout*/vk::ImageLayout::eUndefined,
-        /*finalLayout*/vk::ImageLayout::eColorAttachmentOptimal);
+        /*flags*/ {},
+        /*format*/ vk::Format::eB8G8R8A8Unorm,
+        /*samples*/ vk::SampleCountFlagBits::e1,
+        /*loadOp*/ should_clear ? vk::AttachmentLoadOp::eClear : vk::AttachmentLoadOp::eLoad,
+        /*storeOp*/ vk::AttachmentStoreOp::eStore,
+        /*stencilLoadOp*/ vk::AttachmentLoadOp::eDontCare,
+        /*stencilStoreOp*/ vk::AttachmentStoreOp::eDontCare,
+        /*initialLayout*/ vk::ImageLayout::eUndefined,
+        /*finalLayout*/ vk::ImageLayout::eColorAttachmentOptimal);
 
     vk::AttachmentReference colorAttachmentRef(0, vk::ImageLayout::eColorAttachmentOptimal);
     vk::SubpassDescription subpass({}, vk::PipelineBindPoint::eGraphics, 0, nullptr, 1,
@@ -46,23 +46,22 @@ vk::RenderPass RenderPassUtils::createStandardRenderPass(LogicalDevicePtr device
 vk::RenderPass RenderPassUtils::createAccumulationRenderPass(LogicalDevicePtr device) {
     CXL_DCHECK(device);
     vk::AttachmentDescription colorAttachment(
-        /*flags*/{},
-        /*format*/vk::Format::eR32G32B32A32Sfloat,
-        /*samples*/vk::SampleCountFlagBits::e1,
-        /*loadOp*/vk::AttachmentLoadOp::eLoad,
-        /*storeOp*/vk::AttachmentStoreOp::eStore,
-        /*stencilLoadOp*/vk::AttachmentLoadOp::eDontCare,
-        /*stencilStoreOp*/vk::AttachmentStoreOp::eDontCare,
-        /*initialLayout*/vk::ImageLayout::eUndefined,
-        /*finalLayout*/vk::ImageLayout::eColorAttachmentOptimal);
-    
+        /*flags*/ {},
+        /*format*/ vk::Format::eR32G32B32A32Sfloat,
+        /*samples*/ vk::SampleCountFlagBits::e1,
+        /*loadOp*/ vk::AttachmentLoadOp::eLoad,
+        /*storeOp*/ vk::AttachmentStoreOp::eStore,
+        /*stencilLoadOp*/ vk::AttachmentLoadOp::eDontCare,
+        /*stencilStoreOp*/ vk::AttachmentStoreOp::eDontCare,
+        /*initialLayout*/ vk::ImageLayout::eUndefined,
+        /*finalLayout*/ vk::ImageLayout::eColorAttachmentOptimal);
+
     vk::AttachmentReference colorAttachmentRef(0, vk::ImageLayout::eColorAttachmentOptimal);
     vk::SubpassDescription subpass({}, vk::PipelineBindPoint::eGraphics, 0, nullptr, 1,
                                    &colorAttachmentRef);
     vk::RenderPassCreateInfo pass_info({}, 1, &colorAttachment, 1, &subpass);
     return device->vk().createRenderPass(pass_info);
 }
-
 
 // The optimal format for presentation must be passed in from the user, as it is
 // a value that gets queried by the swapchain.
@@ -73,15 +72,15 @@ vk::RenderPass RenderPassUtils::createPresentationRenderPass(LogicalDevicePtr de
                                                              vk::Format format) {
     CXL_DCHECK(device);
     vk::AttachmentDescription presentAttachment(
-        /*flags*/{},
-        /*format*/format,
-        /*samples*/vk::SampleCountFlagBits::e1,
-        /*loadOp*/vk::AttachmentLoadOp::eClear,
-        /*storeOp*/vk::AttachmentStoreOp::eStore,
-        /*stencilLoadOp*/vk::AttachmentLoadOp::eDontCare,
-        /*stencilStoreOp*/vk::AttachmentStoreOp::eDontCare,
-        /*initialLayout*/vk::ImageLayout::eUndefined,
-        /*finalLayout*/vk::ImageLayout::ePresentSrcKHR);
+        /*flags*/ {},
+        /*format*/ format,
+        /*samples*/ vk::SampleCountFlagBits::e1,
+        /*loadOp*/ vk::AttachmentLoadOp::eClear,
+        /*storeOp*/ vk::AttachmentStoreOp::eStore,
+        /*stencilLoadOp*/ vk::AttachmentLoadOp::eDontCare,
+        /*stencilStoreOp*/ vk::AttachmentStoreOp::eDontCare,
+        /*initialLayout*/ vk::ImageLayout::eUndefined,
+        /*finalLayout*/ vk::ImageLayout::ePresentSrcKHR);
 
     vk::AttachmentReference colorAttachmentRef(0, vk::ImageLayout::eSharedPresentKHR);
     vk::SubpassDescription subpass({}, vk::PipelineBindPoint::eGraphics, 0, nullptr, 1,
@@ -90,4 +89,4 @@ vk::RenderPass RenderPassUtils::createPresentationRenderPass(LogicalDevicePtr de
     return device->vk().createRenderPass(display_pass_info);
 }
 
-}  // namespace gfxall_attachments.data(),
+}  // namespace gfx

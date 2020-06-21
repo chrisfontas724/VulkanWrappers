@@ -18,23 +18,29 @@ class ImageUtils {
         vk::Format format;
         vk::Extent2D extent;
         vk::ImageLayout layout;
+        vk::ImageAspectFlagBits aspect;
     };
 
-    static ComputeTexturePtr createDepthTexture(LogicalDevicePtr device, uint32_t width, uint32_t height);
-    
+    static ComputeTexturePtr createDepthTexture(LogicalDevicePtr device, uint32_t width,
+                                                uint32_t height);
+
+    static ComputeTexturePtr create8BitUnormImage(std::shared_ptr<LogicalDevice> device,
+                                                  uint32_t width, uint32_t height,
+                                                  uint32_t channels, const uint8_t* pixels);
+
+    static ComputeTexturePtr createHDRImage(std::shared_ptr<LogicalDevice> device, uint32_t width,
+                                            uint32_t height, const half* pixels);
+
+    static ComputeTexturePtr createColorAttachment(std::shared_ptr<LogicalDevice> device,
+                                                   uint32_t width, uint32_t height);
+
+    static ComputeTexturePtr createAccumulationAttachment(std::shared_ptr<LogicalDevice> device,
+                                                          uint32_t width, uint32_t height);
+
     static vk::ImageView createImageView(std::shared_ptr<LogicalDevice> device, const Data& data);
     static vk::ImageView createImageView(std::shared_ptr<LogicalDevice> device,
-                                         const vk::Image& image, const vk::Format& format);
-
-    static Data create8BitUnormImage(std::shared_ptr<LogicalDevice> device, uint32_t width,
-                                     uint32_t height, uint32_t channels, const uint8_t* pixels);
-
-    static Data createHDRImage(std::shared_ptr<LogicalDevice> device, uint32_t width,
-                               uint32_t height, const half* pixels);
-    static Data createColorAttachment(std::shared_ptr<LogicalDevice> device, uint32_t width,
-                                      uint32_t height);
-    static Data createAccumulationAttachment(std::shared_ptr<LogicalDevice> device, uint32_t width,
-                                             uint32_t height);
+                                         const vk::Image& image, const vk::Format& format,
+                                         const vk::ImageAspectFlagBits& aspect);
 };
 }  // namespace gfx
 
