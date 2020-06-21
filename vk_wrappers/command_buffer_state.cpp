@@ -139,7 +139,7 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
     pipeline_info.pDynamicState = &dynamic_state;
     pipeline_info.layout = shader_program_->pipeline_layout();
     pipeline_info.renderPass = render_pass_;
-    pipeline_info.subpass = 0;
+    pipeline_info.subpass = current_subpass_;
     pipeline_info.basePipelineHandle = vk::Pipeline();
     pipeline_info.basePipelineIndex = 0;
 

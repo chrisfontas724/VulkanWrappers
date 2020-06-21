@@ -39,8 +39,6 @@ class CommandBuffer {
         changed_flags_ |= kPipelineBit;
     }
 
-    void setViewPort(vk::Viewport viewport) const;
-
     void setProgram(ShaderProgramPtr program);
 
     void bindDescriptorSet(DescriptorSetPtr set, uint32_t index);
@@ -93,7 +91,9 @@ class CommandBuffer {
     bool has_recording() const;
 
    private:
-    CommandBuffer() {}
+
+    void setViewPort(vk::Viewport viewport) const;
+    void preparePipelineData();
 
     using Flags = uint32_t;
     enum FlagBits {

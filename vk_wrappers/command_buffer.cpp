@@ -96,6 +96,8 @@ void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info,
     state_.in_render_pass_ = true;
     state_.render_pass_ = render_pass_info.render_pass;
     state_.scissor_ = vk::Rect2D(offset, extent);
+    state_.current_subpass_ = 0;
+    state_.num_subpasses_ = render_pass_info.num_subpasses;
 
     // Actually begin the render pass.
     setViewPort(vk::Viewport(offset.x, offset.y, extent.width, extent.height, 0.f, 1.f));
@@ -104,11 +106,15 @@ void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info,
 
 void CommandBuffer::nextSubPass() const {
     // TODO.
+    CXL_DCHECK(state_.current_subpass_ < state_.num_subpasses_ - 1);
+    state_.current_subpass_++;
     command_buffer_.nextSubpass(vk::SubpassContents::eInline);
 }
 
 void CommandBuffer::endRenderPass() const {
     state_.in_render_pass_ = false;
+    state_.current_subpass_ = 0;
+    state_.num_subpasses_ = 0;
     command_buffer_.endRenderPass();
 }
 
@@ -315,11 +321,7 @@ void CommandBuffer::draw(uint32_t num_vertices, uint32_t instance_count, uint32_
                state_.shader_program_->bind_point() == vk::PipelineBindPoint::eGraphics);
     CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
 
-    if (getAndClear(kPipelineBit)) {
-        state_.generateGraphicsPipeline(device_.lock());
-        command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_);
-        changed_flags_ = changed_flags_ & ~kPipelineBit;
-    }
+    preparePipelineData();
     command_buffer_.draw(num_vertices, instance_count, first_vertex, first_instance);
 }
 
@@ -327,9 +329,16 @@ void CommandBuffer::drawIndexed(uint32_t num_indices) {
     CXL_DCHECK(state_.shader_program_ &&
                state_.shader_program_->bind_point() == vk::PipelineBindPoint::eGraphics);
     CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
-    state_.generateGraphicsPipeline(device_.lock());
-    command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_);
+
+    preparePipelineData();
     command_buffer_.drawIndexed(num_indices, 1, 0, 0, 0);
+}
+
+void CommandBuffer::preparePipelineData( ){
+    if (getAndClear(kPipelineBit)) {
+        state_.generateGraphicsPipeline(device_.lock());
+        command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_);
+    }
 }
 
 void CommandBuffer::blit(ComputeTexturePtr src, ComputeTexturePtr dst, vk::Filter filter) {

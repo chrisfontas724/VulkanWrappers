@@ -42,6 +42,8 @@ class CommandBufferState {
     vk::PipelineColorBlendAttachmentState color_blend_attachment_;
     bool has_recording_ = false;
     bool in_render_pass_ = false;
+    uint32_t num_subpasses_;
+    uint32_t current_subpass_;
     GraphicsPipelinePtr graphics_pipeline_;
     vk::Pipeline pipeline_;
     vk::PipelineCache pipeline_cache_;
