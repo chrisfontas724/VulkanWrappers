@@ -98,24 +98,15 @@ void CommandBuffer::beginRecording() const {
     }
 }
 
-void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info,
-                                    const glm::vec4& clear_color) const {
-    std::array<float, 4> array = {clear_color.x, clear_color.y, clear_color.z, clear_color.w};
-    vk::ClearColorValue values(array);
-    vk::ClearValue clear_value(values);
+void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info) const {
     auto offset = render_pass_info.offset;
     auto extent = render_pass_info.extent;
-
-    std::array<vk::ClearValue, 2> clear_values{};
-    clear_values[0].color = values;
-    clear_values[1].depthStencil = vk::ClearDepthStencilValue(1.0, 0);
-
     vk::RenderPassBeginInfo info(
         /*render_pass*/ render_pass_info.render_pass,
         /*frame_buffer*/ render_pass_info.frame_buffer.get(),
         /*render area*/ vk::Rect2D(offset, extent),
-        /*clear_value_count*/ 2,
-        /*clear_values*/ clear_values.data());
+        /*clear_value_count*/ render_pass_info.clear_values.size(),
+        /*clear_values*/ render_pass_info.clear_values.data());
 
     // Update the state.
     state_.in_render_pass_ = true;

@@ -10,7 +10,8 @@ namespace gfx {
 
 RenderPassBuilder::RenderPassBuilder(LogicalDevicePtr device) : device_(device) {}
 
-void RenderPassBuilder::addColorAttachment(ComputeTexturePtr texture, AttachmentInfo info) {
+void RenderPassBuilder::addColorAttachment(ComputeTexturePtr texture, AttachmentInfo info,
+                                           glm::vec4 clear_value) {
     bool is_swapchain_image = texture->layout() == vk::ImageLayout::ePresentSrcKHR;
     vk::ImageLayout final_layout = is_swapchain_image ? vk::ImageLayout::ePresentSrcKHR
                                                       : vk::ImageLayout::eColorAttachmentOptimal;
@@ -32,6 +33,7 @@ void RenderPassBuilder::addColorAttachment(ComputeTexturePtr texture, Attachment
 
     color_attachments_.push_back(attachment);
     color_textures_.push_back(texture);
+    color_clear_values_.push_back(clear_value);
 }
 
 void RenderPassBuilder::addResolveAttachment(ComputeTexturePtr texture, AttachmentInfo info) {
@@ -51,7 +53,8 @@ void RenderPassBuilder::addResolveAttachment(ComputeTexturePtr texture, Attachme
     resolve_textures_.push_back(texture);
 }
 
-void RenderPassBuilder::addDepthAttachment(ComputeTexturePtr texture, AttachmentInfo info) {
+void RenderPassBuilder::addDepthAttachment(ComputeTexturePtr texture, AttachmentInfo info,
+                                           glm::vec2 clear_value) {
     vk::AttachmentDescription attachment(
         /*flags*/ {},
         /*format*/ texture->format(),
@@ -65,6 +68,7 @@ void RenderPassBuilder::addDepthAttachment(ComputeTexturePtr texture, Attachment
 
     depth_attachments_.push_back(attachment);
     depth_textures_.push_back(texture);
+    depth_clear_values_.push_back(clear_value);
 }
 
 void RenderPassBuilder::addSubpass(SubpassInfo info) { subpasses_.push_back(info); }
@@ -182,6 +186,17 @@ RenderPassInfo RenderPassBuilder::build() {
         textures.push_back(texture.get());
     }
 
+    std::vector<vk::ClearValue> clear_values;
+    for (auto val : color_clear_values_) {
+        vk::ClearColorValue clear_val(std::array<float, 4>{val.x, val.y, val.z, val.w});
+        clear_values.push_back(clear_val);
+    }
+
+    for (auto val : depth_clear_values_) {
+        vk::ClearDepthStencilValue clear_val(val.x, val.y);
+        clear_values.push_back(clear_val);
+    }
+
     CXL_LOG(INFO) << "Num frame buffer image views: " << image_views.size();
     vk::FramebufferCreateInfo frame_buffer_info(
         /*flags*/ {},
@@ -204,7 +219,8 @@ RenderPassInfo RenderPassBuilder::build() {
             .num_subpasses = static_cast<uint32_t>(subpasses.size()),
             .offset = vk::Offset2D(0, 0),
             .extent = vk::Extent2D(width, height),
-            .textures = textures};
+            .textures = textures,
+            .clear_values = clear_values};
 }
 
 void RenderPassBuilder::reset() {
@@ -215,6 +231,8 @@ void RenderPassBuilder::reset() {
     color_textures_.clear();
     depth_textures_.clear();
     resolve_textures_.clear();
+    color_clear_values_.clear();
+    depth_clear_values_.clear();
 }
 
 }  // namespace gfx

@@ -27,8 +27,7 @@ class CommandBuffer {
     void reset() const;
     void beginRecording() const;
 
-    void beginRenderPass(const RenderPassInfo& render_pass_info,
-                         const glm::vec4& clear_color) const;
+    void beginRenderPass(const RenderPassInfo& render_pass_info) const;
 
     void nextSubPass() const;
 

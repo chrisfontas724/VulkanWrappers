@@ -5,6 +5,7 @@
 #ifndef GRAPHICS_VK_WRAPPERS_RENDER_PASS
 #define GRAPHICS_VK_WRAPPERS_RENDER_PASS
 
+#include <glm/glm.hpp>
 #include <optional>
 #include <vector>
 
@@ -24,6 +25,7 @@ struct RenderPassInfo {
     vk::Offset2D offset;
     vk::Extent2D extent;
     std::vector<const ComputeTexture*> textures;
+    std::vector<vk::ClearValue> clear_values;
 };
 
 class RenderPassBuilder {
@@ -45,12 +47,14 @@ class RenderPassBuilder {
     RenderPassBuilder(LogicalDevicePtr device);
 
     void addColorAttachment(ComputeTexturePtr texture,
-                            AttachmentInfo info = kDefaultColorAttachment);
+                            AttachmentInfo info = kDefaultColorAttachment,
+                            glm::vec4 clear_values = glm::vec4(0));
 
     void addResolveAttachment(ComputeTexturePtr texture, AttachmentInfo info);
 
     void addDepthAttachment(ComputeTexturePtr texture,
-                            AttachmentInfo info = kDefaultDepthAttachment);
+                            AttachmentInfo info = kDefaultDepthAttachment,
+                            glm::vec2 clear_values = glm::vec2(1, 0));
 
     void addSubpass(SubpassInfo);
 
@@ -80,6 +84,9 @@ class RenderPassBuilder {
     std::vector<ComputeTexturePtr> color_textures_;
     std::vector<ComputeTexturePtr> depth_textures_;
     std::vector<ComputeTexturePtr> resolve_textures_;
+
+    std::vector<glm::vec4> color_clear_values_;
+    std::vector<glm::vec2> depth_clear_values_;
 
     std::vector<SubpassInfo> subpasses_;
 };

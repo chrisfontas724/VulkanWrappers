@@ -41,7 +41,7 @@ class CommandBufferState {
 
     void generateGraphicsPipeline(LogicalDevicePtr device);
     void generateComputePipeline(LogicalDevicePtr device);
-    
+
     std::pair<std::vector<vk::VertexInputBindingDescription>,
               std::vector<vk::VertexInputAttributeDescription>>
     createVertexBindingsAndAttributes();
