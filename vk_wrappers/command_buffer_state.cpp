@@ -9,6 +9,14 @@
 #include "vk_wrappers/logical_device.hpp"
 #include "vk_wrappers/shader_program.hpp"
 
+namespace {
+
+std::map<vk::Format, uint32_t> format_to_size_map = {
+    {vk::Format::eR32G32B32A32Sfloat, 16U},
+};
+
+}  // namespace
+
 namespace gfx {
 
 void CommandBufferState::set_default_state(DefaultState state) {
@@ -127,26 +135,14 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
             input_attribute.offset = offset;
             vertex_attributes_.push_back(input_attribute);
 
-            stride += offset;
+            stride += format_to_size_map[format];
         }
         if (stride == 0) {
             continue;
         }
-        input_binding.stride = stride * 2;
+        input_binding.stride = stride;
         vertex_bindings_.push_back(input_binding);
         break;
-    }
-
-    CXL_LOG(INFO) << "NUM BINDINGS: " << vertex_bindings_.size();
-    CXL_LOG(INFO) << "      binding " << vertex_bindings_[0].binding;
-    CXL_LOG(INFO) << "      stride: " << vertex_bindings_[0].stride;
-    CXL_LOG(INFO) << "NUM ATTRIBUTES: " << vertex_attributes_.size();
-    for (auto& attribute : vertex_attributes_) {
-        CXL_LOG(INFO) << "    " << attribute.binding;
-        CXL_LOG(INFO) << "    " << attribute.location;
-        CXL_LOG(INFO) << "    " << attribute.offset;
-        CXL_LOG(INFO) << "    " << vk::to_string(attribute.format);
-        CXL_LOG(INFO) << "-------------------------------";
     }
 
     // Vertex inputinfo

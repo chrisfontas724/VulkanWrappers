@@ -68,6 +68,16 @@ void CommandBuffer::bindVertexBuffer(const ComputeBuffer* buffer) {
     state_.bind_call_.buffer = buffer;
 }
 
+void CommandBuffer::bindIndexBuffer(const ComputeBuffer* buffer) {
+    CXL_CHECK(buffer);
+    CXL_CHECK(buffer->size() > 0);
+    CXL_CHECK((buffer->usage() & vk::BufferUsageFlagBits::eIndexBuffer) ==
+              vk::BufferUsageFlagBits::eIndexBuffer);
+    CXL_CHECK(state_.in_render_pass_);
+    CXL_CHECK(state_.shader_program_);
+    state_.bind_call_.index_buffer = buffer;
+}
+
 void CommandBuffer::reset() const {
     command_buffer_.reset(vk::CommandBufferResetFlagBits::eReleaseResources);
     state_.has_recording_ = false;
@@ -332,23 +342,6 @@ void CommandBuffer::draw(uint32_t num_vertices, uint32_t instance_count, uint32_
     CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
 
     preparePipelineData();
-    // try {
-    CXL_LOG(INFO) << "Do I get here?";
-    CXL_CHECK(state_.bind_call_.buffer != nullptr);
-
-    vk::Buffer vertex_buffers[] = {state_.bind_call_.buffer->vk()};
-    vk::DeviceSize offsets[] = {0};
-
-    command_buffer_.bindVertexBuffers(/*first_binding*/ 0, /*binding_count*/ 1, {vertex_buffers},
-                                      offsets);
-    CXL_LOG(INFO) << "Or here?";
-    // } catch (vk::SystemError err) {
-    //     CXL_LOG(INFO) << "vk::SystemError: " << err.what();
-    //     exit(1);
-    // }
-
-    state_.bind_call_.buffer = nullptr;
-
     command_buffer_.draw(num_vertices, instance_count, first_vertex, first_instance);
 }
 
@@ -365,6 +358,21 @@ void CommandBuffer::preparePipelineData() {
     if (getAndClear(kPipelineBit)) {
         state_.generateGraphicsPipeline(device_.lock());
         command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_);
+    }
+
+    if (state_.bind_call_.index_buffer != nullptr) {
+        vk::Buffer vk_buffer = state_.bind_call_.index_buffer->vk();
+        command_buffer_.bindIndexBuffer(vk_buffer, 0, vk::IndexType::eUint32);
+        state_.bind_call_.index_buffer = nullptr;
+    }
+
+    if (state_.bind_call_.buffer != nullptr) {
+        vk::Buffer vertex_buffers[] = {state_.bind_call_.buffer->vk()};
+        vk::DeviceSize offsets[] = {0};
+
+        command_buffer_.bindVertexBuffers(/*first_binding*/ 0, /*binding_count*/ 1,
+                                          {vertex_buffers}, offsets);
+        state_.bind_call_.buffer = nullptr;
     }
 }
 

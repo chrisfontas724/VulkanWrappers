@@ -47,6 +47,8 @@ class CommandBuffer {
 
     void bindVertexBuffer(const ComputeBuffer* buffer);
 
+    void bindIndexBuffer(const ComputeBuffer* buffer);
+
     void setProgram(ShaderProgramPtr program);
 
     void bindDescriptorSet(DescriptorSetPtr set, uint32_t index);

@@ -36,6 +36,7 @@ class CommandBufferState {
 
     struct BindCall {
         const ComputeBuffer* buffer;
+        const ComputeBuffer* index_buffer;
     };
 
     void generateGraphicsPipeline(LogicalDevicePtr device);
