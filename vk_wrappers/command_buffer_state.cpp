@@ -105,6 +105,50 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
     vk::PipelineShaderStageCreateInfo shader_stages[] = {vertex_module->pipeline_create_info(),
                                                          fragment_module->pipeline_create_info()};
 
+    vertex_bindings_.clear();
+    vertex_attributes_.clear();
+    for (uint32_t i = 0; i < 8; i++) {
+        auto binding = vertex_description_.bindings[i];
+        vk::VertexInputBindingDescription input_binding;
+        input_binding.binding = i;
+        input_binding.inputRate = vk::VertexInputRate::eVertex;
+        uint32_t stride = 0;
+        for (uint32_t j = 0; j < 8; j++) {
+            auto format = binding.formats[j];
+            auto offset = binding.offsets[j];
+            if (format == vk::Format()) {
+                break;
+            }
+
+            vk::VertexInputAttributeDescription input_attribute;
+            input_attribute.binding = i;
+            input_attribute.location = j;
+            input_attribute.format = format;
+            input_attribute.offset = offset;
+            vertex_attributes_.push_back(input_attribute);
+
+            stride += offset;
+        }
+        if (stride == 0) {
+            continue;
+        }
+        input_binding.stride = stride * 2;
+        vertex_bindings_.push_back(input_binding);
+        break;
+    }
+
+    CXL_LOG(INFO) << "NUM BINDINGS: " << vertex_bindings_.size();
+    CXL_LOG(INFO) << "      binding " << vertex_bindings_[0].binding;
+    CXL_LOG(INFO) << "      stride: " << vertex_bindings_[0].stride;
+    CXL_LOG(INFO) << "NUM ATTRIBUTES: " << vertex_attributes_.size();
+    for (auto& attribute : vertex_attributes_) {
+        CXL_LOG(INFO) << "    " << attribute.binding;
+        CXL_LOG(INFO) << "    " << attribute.location;
+        CXL_LOG(INFO) << "    " << attribute.offset;
+        CXL_LOG(INFO) << "    " << vk::to_string(attribute.format);
+        CXL_LOG(INFO) << "-------------------------------";
+    }
+
     // Vertex inputinfo
     vk::PipelineVertexInputStateCreateInfo vertex_input_info(
         /*flags*/ {}, vertex_bindings_.size(), vertex_bindings_.data(), vertex_attributes_.size(),

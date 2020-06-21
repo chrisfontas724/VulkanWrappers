@@ -39,6 +39,14 @@ class CommandBuffer {
         changed_flags_ |= kPipelineBit;
     }
 
+    void setVertexAttribute(uint32_t binding, uint32_t location, uint32_t offset,
+                            vk::Format format) {
+        state_.vertex_description_.bindings[binding].formats[location] = format;
+        state_.vertex_description_.bindings[binding].offsets[location] = offset;
+    }
+
+    void bindVertexBuffer(const ComputeBuffer* buffer);
+
     void setProgram(ShaderProgramPtr program);
 
     void bindDescriptorSet(DescriptorSetPtr set, uint32_t index);
@@ -91,7 +99,6 @@ class CommandBuffer {
     bool has_recording() const;
 
    private:
-
     void setViewPort(vk::Viewport viewport) const;
     void preparePipelineData();
 
@@ -100,9 +107,7 @@ class CommandBuffer {
         kPipelineBit = 1 << 0,
     };
 
-    void setChanged(uint32_t mask) {
-        changed_flags_ |= mask;
-    }
+    void setChanged(uint32_t mask) { changed_flags_ |= mask; }
 
     uint32_t getAndClear(uint32_t mask) {
         auto result = changed_flags_ & mask;

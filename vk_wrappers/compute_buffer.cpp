@@ -4,6 +4,7 @@
 
 #include "vk_wrappers/compute_buffer.hpp"
 
+#include "vk_wrappers/command_buffer.hpp"
 #include "vk_wrappers/physical_device.hpp"
 
 namespace gfx {
@@ -43,6 +44,26 @@ ComputeBuffer::ComputeBuffer(std::shared_ptr<LogicalDevice> device, vk::DeviceSi
         is_valid_ = true;
     } catch (...) {
     }
+}
+
+void ComputeBuffer::copyBuffer(std::shared_ptr<ComputeBuffer> source, vk::DeviceSize size) {
+    auto device = device_.lock();
+    auto command_buffer = gfx::CommandBuffer::create(device, gfx::Queue::Type::kTransfer,
+                                                     vk::CommandBufferLevel::ePrimary);
+    const auto& queue = device->getQueue(Queue::Type::kTransfer);
+
+    vk::BufferCopy copy_region;
+    copy_region.srcOffset = 0;  // Optional
+    copy_region.dstOffset = 0;  // Optional
+    copy_region.size = size;
+
+    command_buffer->reset();
+    command_buffer->beginRecording();
+    command_buffer->vk().copyBuffer(source->vk(), vk(), 1, &copy_region);
+    command_buffer->endRecording();
+    queue.submit(command_buffer);
+    queue.waitIdle();
+    command_buffer.reset();
 }
 
 ComputeBuffer::~ComputeBuffer() {

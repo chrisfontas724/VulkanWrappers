@@ -92,7 +92,7 @@ class ComputeBuffer {
 
     ~ComputeBuffer();
 
-    void copyBuffer(std::shared_ptr<ComputeBuffer> source, vk::DeviceSize size) {}
+    void copyBuffer(std::shared_ptr<ComputeBuffer> source, vk::DeviceSize size);
 
     vk::Buffer vk() const { return buffer_; }
     vk::DeviceSize size() const { return size_; }

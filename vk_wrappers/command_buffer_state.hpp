@@ -25,6 +25,19 @@ class CommandBufferState {
    private:
     friend class CommandBuffer;
 
+    struct VertexBinding {
+        vk::Format formats[8];
+        uint32_t offsets[8];
+    };
+
+    struct VertexDescription {
+        VertexBinding bindings[8];
+    };
+
+    struct BindCall {
+        const ComputeBuffer* buffer;
+    };
+
     void generateGraphicsPipeline(LogicalDevicePtr device);
 
     ShaderProgramPtr shader_program_;
@@ -47,6 +60,9 @@ class CommandBufferState {
     GraphicsPipelinePtr graphics_pipeline_;
     vk::Pipeline pipeline_;
     vk::PipelineCache pipeline_cache_;
+    VertexDescription vertex_description_;
+    // std::vector<BindCall> bind_calls_;
+    BindCall bind_call_;
 };
 
 }  // namespace gfx
