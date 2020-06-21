@@ -201,4 +201,26 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
     }
 }
 
+void CommandBufferState::generateComputePipeline(LogicalDevicePtr device) {
+    CXL_DCHECK(device);
+    CXL_DCHECK(shader_program_);
+
+    auto compute_module = shader_program_->module(vk::ShaderStageFlagBits::eCompute);
+    CXL_DCHECK(compute_module);
+    auto module_info = compute_module->pipeline_create_info();
+
+    vk::ComputePipelineCreateInfo pipeline_info;
+    pipeline_info.flags = {};
+    pipeline_info.stage = module_info;
+    pipeline_info.layout = shader_program_->pipeline_layout();
+    pipeline_info.basePipelineHandle = vk::Pipeline();
+    pipeline_info.basePipelineIndex = 0;
+    try {
+        pipeline_ = device->vk().createComputePipelines(pipeline_cache_, {pipeline_info})[0];
+    } catch (vk::SystemError err) {
+        std::cout << "vk::SystemError: " << err.what() << std::endl;
+        exit(-1);
+    }
+}
+
 }  // namespace gfx

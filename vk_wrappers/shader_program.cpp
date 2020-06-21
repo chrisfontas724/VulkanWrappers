@@ -20,6 +20,16 @@ ShaderProgramPtr ShaderProgram::createGraphics(const LogicalDevicePtr& device, c
                            {vk::ShaderStageFlagBits::eFragment, fragment}}));
 }
 
+ShaderProgramPtr ShaderProgram::createCompute(const LogicalDevicePtr& device, const SpirV& kernel) {
+    if (kernel.size() == 0) {
+        CXL_DCHECK(false);
+        return nullptr;
+    }
+
+    return std::shared_ptr<ShaderProgram>(new ShaderProgram(
+        device, vk::PipelineBindPoint::eCompute, {{vk::ShaderStageFlagBits::eCompute, kernel}}));
+}
+
 ShaderProgram::ShaderProgram(const LogicalDevicePtr& device,
                              const vk::PipelineBindPoint& bind_point,
                              const std::map<vk::ShaderStageFlagBits, SpirV>& spirv)

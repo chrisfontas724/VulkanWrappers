@@ -100,7 +100,8 @@ class CommandBuffer {
 
    private:
     void setViewPort(vk::Viewport viewport) const;
-    void preparePipelineData();
+    void prepareGraphicsPipelineData();
+    void prepareComputePipelineData();
 
     using Flags = uint32_t;
     enum FlagBits {

@@ -176,6 +176,7 @@ void CommandBuffer::setDepth(bool test, bool write) {
 }
 
 void CommandBuffer::dispatch(uint32_t group_x, uint32_t group_y, uint32_t group_z) {
+    prepareComputePipelineData();
     command_buffer_.dispatch(group_x, group_y, group_z);
 }
 
@@ -183,6 +184,7 @@ void CommandBuffer::dispatchBase(uint32_t base_x, uint32_t base_y, uint32_t base
                                  uint32_t group_x, uint32_t group_y, uint32_t group_z) {
     CXL_DCHECK(group_x > 0 && group_y > 0 && group_z > 0)
         << group_x << " " << group_y << " " << group_z;
+    prepareComputePipelineData();
     command_buffer_.dispatchBase(base_x, base_y, base_z, group_x, group_y, group_z);
 }
 
@@ -342,7 +344,7 @@ void CommandBuffer::draw(uint32_t num_vertices, uint32_t instance_count, uint32_
                state_.shader_program_->bind_point() == vk::PipelineBindPoint::eGraphics);
     CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
 
-    preparePipelineData();
+    prepareGraphicsPipelineData();
     command_buffer_.draw(num_vertices, instance_count, first_vertex, first_instance);
 }
 
@@ -351,11 +353,11 @@ void CommandBuffer::drawIndexed(uint32_t num_indices) {
                state_.shader_program_->bind_point() == vk::PipelineBindPoint::eGraphics);
     CXL_DCHECK(state_.in_render_pass_) << "Not in render pass!";
 
-    preparePipelineData();
+    prepareGraphicsPipelineData();
     command_buffer_.drawIndexed(num_indices, 1, 0, 0, 0);
 }
 
-void CommandBuffer::preparePipelineData() {
+void CommandBuffer::prepareGraphicsPipelineData() {
     if (getAndClear(kPipelineBit)) {
         state_.generateGraphicsPipeline(device_.lock());
         command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_);
@@ -374,6 +376,13 @@ void CommandBuffer::preparePipelineData() {
                                           offsets);
         state_.bind_call_.buffers.clear();
         state_.bind_call_.offsets.clear();
+    }
+}
+
+void CommandBuffer::prepareComputePipelineData() {
+    if (getAndClear(kPipelineBit)) {
+        state_.generateComputePipeline(device_.lock());
+        command_buffer_.bindPipeline(vk::PipelineBindPoint::eCompute, state_.pipeline_);
     }
 }
 
