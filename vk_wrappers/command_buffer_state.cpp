@@ -13,6 +13,9 @@ namespace {
 
 std::map<vk::Format, uint32_t> format_to_size_map = {
     {vk::Format::eR32G32B32A32Sfloat, 16U},
+    {vk::Format::eR32G32B32Sfloat, 12U},
+    {vk::Format::eR32G32Sfloat, 8U},
+    {vk::Format::eR32Sfloat, 4U},
 };
 }  // namespace
 

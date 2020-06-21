@@ -58,7 +58,7 @@ std::vector<CommandBuffer> CommandBuffer::create(std::shared_ptr<LogicalDevice>&
     return result;
 }
 
-void CommandBuffer::bindVertexBuffer(const ComputeBuffer* buffer) {
+void CommandBuffer::bindVertexBuffer(const ComputeBufferPtr& buffer) {
     CXL_CHECK(buffer);
     CXL_CHECK(buffer->size() > 0);
     CXL_CHECK((buffer->usage() & vk::BufferUsageFlagBits::eVertexBuffer) ==
@@ -69,7 +69,7 @@ void CommandBuffer::bindVertexBuffer(const ComputeBuffer* buffer) {
     state_.bind_call_.offsets.push_back(0);
 }
 
-void CommandBuffer::bindIndexBuffer(const ComputeBuffer* buffer) {
+void CommandBuffer::bindIndexBuffer(const ComputeBufferPtr& buffer) {
     CXL_CHECK(buffer);
     CXL_CHECK(buffer->size() > 0);
     CXL_CHECK((buffer->usage() & vk::BufferUsageFlagBits::eIndexBuffer) ==
