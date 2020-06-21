@@ -5,6 +5,7 @@
 #include "vk_wrappers/command_buffer_state.hpp"
 
 #include "logging/logging.hpp"
+#include "utils/hasher.hpp"
 #include "vk_wrappers/graphics_pipeline.hpp"
 #include "vk_wrappers/logical_device.hpp"
 #include "vk_wrappers/shader_program.hpp"
@@ -75,7 +76,9 @@ void CommandBufferState::set_default_state(DefaultState state) {
                 vk::ColorComponentFlagBits::eB | vk::ColorComponentFlagBits::eA);
             break;
         }
-        case DefaultState::kTranslucent:
+        case DefaultState::kTranslucent: {
+            break;
+        }
         case DefaultState::kCustomRaytrace: {
             topology_ = vk::PrimitiveTopology::ePointList;
             rasterization_state_ = vk::PipelineRasterizationStateCreateInfo(
@@ -196,12 +199,31 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
     pipeline_info.basePipelineHandle = vk::Pipeline();
     pipeline_info.basePipelineIndex = 0;
 
-    try {
-        pipeline_ = device->vk().createGraphicsPipelines(pipeline_cache_, {pipeline_info})[0];
-        CXL_VLOG(7) << "Finish creating graphics pipeline!\n\n";
-    } catch (vk::SystemError err) {
-        std::cout << "vk::SystemError: " << err.what() << std::endl;
-        exit(-1);
+    cxl::Hasher hasher(0);
+    hasher.hash(shader_stages);
+    hasher.hashArray(reinterpret_cast<uint32_t*>(vertex_bindings.data()), vertex_bindings.size());
+    hasher.hash(input_assembly);
+    hasher.hash(rasterization_state_);
+    hasher.hash(color_blend_attachment_);
+    hasher.hash(multisampling_);
+    hasher.hash(depth_stencil_);
+    hasher.hash(render_pass_);
+
+    uint32_t hash = hasher.get_hash();
+
+    if (pipeline_hash_.count(hash)) {
+        pipeline_ = pipeline_hash_[hash];
+    } else {
+        CXL_LOG(INFO) << "HASH: " << hash;
+
+        try {
+            pipeline_ = device->vk().createGraphicsPipelines(pipeline_cache_, {pipeline_info})[0];
+            pipeline_hash_[hash] = pipeline_;
+            CXL_VLOG(7) << "Finish creating graphics pipeline!\n\n";
+        } catch (vk::SystemError err) {
+            std::cout << "vk::SystemError: " << err.what() << std::endl;
+            exit(-1);
+        }
     }
 }
 

@@ -18,34 +18,6 @@ ComputeTexture::ComputeTexture(std::shared_ptr<LogicalDevice> device,
     sampler_ = Sampler::create(device, true, false);
 }
 
-ComputeTexture::ComputeTexture(std::shared_ptr<LogicalDevice> device, uint32_t width,
-                               uint32_t height, uint32_t channels, const uint8_t* pixels, bool lerp,
-                               bool unorm)
-    : device_(device), width_(width), height_(height), channels_(channels), channel_size_(4) {
-    ImageUtils::Data image_data =
-        ImageUtils::create8BitUnormImage(device, width, height, channels, pixels);
-
-    image_ = image_data.image;
-    memory_ = image_data.memory;
-    format_ = image_data.format;
-    layout_ = image_data.layout;
-    image_view_ = ImageUtils::createImageView(device, image_data);
-    sampler_ = Sampler::create(device, lerp && !unorm, unorm);
-}
-
-ComputeTexture::ComputeTexture(std::shared_ptr<LogicalDevice> device, uint32_t width,
-                               uint32_t height, const half* pixels, bool lerp, bool unorm)
-    : device_(device), width_(width), height_(height), channel_size_(2) {
-    CXL_VLOG(3) << "ComputeTexture: Creating HDR Image!";
-    ImageUtils::Data image_data = ImageUtils::createHDRImage(device, width, height, pixels);
-    image_ = image_data.image;
-    memory_ = image_data.memory;
-    format_ = image_data.format;
-    layout_ = image_data.layout;
-    image_view_ = ImageUtils::createImageView(device, image_data);
-    sampler_ = Sampler::create(device, lerp && !unorm, unorm);
-}
-
 ComputeTexture::ComputeTexture(vk::ImageView view, vk::Image image, vk::ImageLayout layout,
                                vk::Format format, SamplerPtr sampler, uint32_t width,
                                uint32_t height)

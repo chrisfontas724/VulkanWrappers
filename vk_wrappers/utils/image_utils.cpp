@@ -99,7 +99,7 @@ ImageUtils::Data createImageAbstract(std::shared_ptr<LogicalDevice> device, uint
 
 }  // anonymous namespace
 
-ImageUtils::Data ImageUtils::create8BitUnormImage(std::shared_ptr<LogicalDevice> device,
+ComputeTexturePtr ImageUtils::create8BitUnormImage(std::shared_ptr<LogicalDevice> device,
                                                   uint32_t width, uint32_t height,
                                                   uint32_t channels, const uint8_t* pixels) {
     auto src_layout = vk::ImageLayout::eTransferDstOptimal;
@@ -123,9 +123,10 @@ ImageUtils::Data ImageUtils::create8BitUnormImage(std::shared_ptr<LogicalDevice>
             break;
     };
 
-    return createImageAbstract<uint8_t>(device, width, height, 4, sizeof(uint8_t), format, usage,
+    auto data = createImageAbstract<uint8_t>(device, width, height, 4, sizeof(uint8_t), format, usage,
                                         vk::ImageAspectFlagBits::eColor, src_layout, dst_layout,
                                         pixels);
+    return std::make_shared<ComputeTexture>(device, data);                         
 }
 
 ComputeTexturePtr ImageUtils::createDepthTexture(LogicalDevicePtr device, uint32_t width,

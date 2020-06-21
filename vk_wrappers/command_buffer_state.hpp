@@ -7,6 +7,7 @@
 
 #include "vk_wrappers/forward_declarations.hpp"
 #include "vk_wrappers/vulkan.hpp"
+#include <map>
 
 namespace gfx {
 
@@ -65,6 +66,7 @@ class CommandBufferState {
     vk::PipelineCache pipeline_cache_;
     VertexDescription vertex_description_;
     BindCall bind_call_;
+    std::map<uint32_t, vk::Pipeline> pipeline_hash_;
 };
 
 }  // namespace gfx
