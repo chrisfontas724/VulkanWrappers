@@ -34,8 +34,9 @@ class CommandBufferState {
     };
 
     struct BindCall {
-        const ComputeBuffer* buffer;
-        const ComputeBuffer* index_buffer;
+        std::vector<vk::Buffer> buffers;
+        std::vector<vk::DeviceSize> offsets;
+        vk::Buffer index_buffer;
     };
 
     void generateGraphicsPipeline(LogicalDevicePtr device);
@@ -62,7 +63,6 @@ class CommandBufferState {
     vk::Pipeline pipeline_;
     vk::PipelineCache pipeline_cache_;
     VertexDescription vertex_description_;
-    // std::vector<BindCall> bind_calls_;
     BindCall bind_call_;
 };
 

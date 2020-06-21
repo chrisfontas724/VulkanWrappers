@@ -65,7 +65,8 @@ void CommandBuffer::bindVertexBuffer(const ComputeBuffer* buffer) {
               vk::BufferUsageFlagBits::eVertexBuffer);
     CXL_CHECK(state_.in_render_pass_);
     CXL_CHECK(state_.shader_program_);
-    state_.bind_call_.buffer = buffer;
+    state_.bind_call_.buffers.push_back(buffer->vk());
+    state_.bind_call_.offsets.push_back(0);
 }
 
 void CommandBuffer::bindIndexBuffer(const ComputeBuffer* buffer) {
@@ -75,7 +76,7 @@ void CommandBuffer::bindIndexBuffer(const ComputeBuffer* buffer) {
               vk::BufferUsageFlagBits::eIndexBuffer);
     CXL_CHECK(state_.in_render_pass_);
     CXL_CHECK(state_.shader_program_);
-    state_.bind_call_.index_buffer = buffer;
+    state_.bind_call_.index_buffer = buffer->vk();
 }
 
 void CommandBuffer::reset() const {
@@ -360,19 +361,19 @@ void CommandBuffer::preparePipelineData() {
         command_buffer_.bindPipeline(vk::PipelineBindPoint::eGraphics, state_.pipeline_);
     }
 
-    if (state_.bind_call_.index_buffer != nullptr) {
-        vk::Buffer vk_buffer = state_.bind_call_.index_buffer->vk();
-        command_buffer_.bindIndexBuffer(vk_buffer, 0, vk::IndexType::eUint32);
-        state_.bind_call_.index_buffer = nullptr;
+    if (state_.bind_call_.index_buffer != vk::Buffer()) {
+        command_buffer_.bindIndexBuffer(state_.bind_call_.index_buffer, 0, vk::IndexType::eUint32);
+        state_.bind_call_.index_buffer = vk::Buffer();
     }
 
-    if (state_.bind_call_.buffer != nullptr) {
-        vk::Buffer vertex_buffers[] = {state_.bind_call_.buffer->vk()};
-        vk::DeviceSize offsets[] = {0};
-
-        command_buffer_.bindVertexBuffers(/*first_binding*/ 0, /*binding_count*/ 1,
-                                          {vertex_buffers}, offsets);
-        state_.bind_call_.buffer = nullptr;
+    if (state_.bind_call_.buffers.size() > 0) {
+        auto buffers = state_.bind_call_.buffers.data();
+        auto num = state_.bind_call_.buffers.size();
+        auto offsets = state_.bind_call_.offsets.data();
+        command_buffer_.bindVertexBuffers(/*first_binding*/ 0, /*binding_count*/ num, buffers,
+                                          offsets);
+        state_.bind_call_.buffers.clear();
+        state_.bind_call_.offsets.clear();
     }
 }
 
