@@ -39,10 +39,8 @@ class CommandBuffer {
         changed_flags_ |= kPipelineBit;
     }
 
-    void setVertexAttribute(uint32_t binding, uint32_t location, uint32_t offset,
-                            vk::Format format) {
+    void setVertexAttribute(uint32_t binding, uint32_t location, vk::Format format) {
         state_.vertex_description_.bindings[binding].formats[location] = format;
-        state_.vertex_description_.bindings[binding].offsets[location] = offset;
     }
 
     void bindVertexBuffer(const ComputeBuffer* buffer);

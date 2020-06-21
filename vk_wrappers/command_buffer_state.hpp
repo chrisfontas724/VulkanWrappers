@@ -27,7 +27,6 @@ class CommandBufferState {
 
     struct VertexBinding {
         vk::Format formats[8];
-        uint32_t offsets[8];
     };
 
     struct VertexDescription {
@@ -40,15 +39,16 @@ class CommandBufferState {
     };
 
     void generateGraphicsPipeline(LogicalDevicePtr device);
+    
+    std::pair<std::vector<vk::VertexInputBindingDescription>,
+              std::vector<vk::VertexInputAttributeDescription>>
+    createVertexBindingsAndAttributes();
 
     ShaderProgramPtr shader_program_;
     vk::RenderPass render_pass_;
     vk::Rect2D scissor_;
     vk::Viewport viewport_;
     vk::PrimitiveTopology topology_;
-
-    std::vector<vk::VertexInputAttributeDescription> vertex_attributes_;
-    std::vector<vk::VertexInputBindingDescription> vertex_bindings_;
 
     vk::PipelineRasterizationStateCreateInfo rasterization_state_;
     vk::PipelineMultisampleStateCreateInfo multisampling_;

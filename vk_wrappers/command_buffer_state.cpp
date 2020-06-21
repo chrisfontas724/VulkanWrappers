@@ -14,7 +14,6 @@ namespace {
 std::map<vk::Format, uint32_t> format_to_size_map = {
     {vk::Format::eR32G32B32A32Sfloat, 16U},
 };
-
 }  // namespace
 
 namespace gfx {
@@ -104,6 +103,43 @@ void CommandBufferState::set_default_state(DefaultState state) {
     };
 }
 
+std::pair<std::vector<vk::VertexInputBindingDescription>,
+          std::vector<vk::VertexInputAttributeDescription>>
+CommandBufferState::createVertexBindingsAndAttributes() {
+    std::vector<vk::VertexInputBindingDescription> vertex_bindings;
+    std::vector<vk::VertexInputAttributeDescription> vertex_attributes;
+    for (uint32_t i = 0; i < 8; i++) {
+        auto binding = vertex_description_.bindings[i];
+        vk::VertexInputBindingDescription input_binding;
+        input_binding.binding = i;
+        input_binding.inputRate = vk::VertexInputRate::eVertex;
+        uint32_t stride = 0;
+        for (uint32_t j = 0; j < 8; j++) {
+            auto format = binding.formats[j];
+            if (format == vk::Format()) {
+                break;
+            }
+
+            vk::VertexInputAttributeDescription input_attribute;
+            input_attribute.binding = i;
+            input_attribute.location = j;
+            input_attribute.format = format;
+            input_attribute.offset = stride;
+            vertex_attributes.push_back(input_attribute);
+
+            stride += format_to_size_map[format];
+        }
+        if (stride == 0) {
+            continue;
+        }
+        input_binding.stride = stride;
+        vertex_bindings.push_back(input_binding);
+        break;
+    }
+
+    return std::make_pair(vertex_bindings, vertex_attributes);
+}
+
 void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
     CXL_DCHECK(device);
     CXL_DCHECK(shader_program_);
@@ -113,42 +149,12 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
     vk::PipelineShaderStageCreateInfo shader_stages[] = {vertex_module->pipeline_create_info(),
                                                          fragment_module->pipeline_create_info()};
 
-    vertex_bindings_.clear();
-    vertex_attributes_.clear();
-    for (uint32_t i = 0; i < 8; i++) {
-        auto binding = vertex_description_.bindings[i];
-        vk::VertexInputBindingDescription input_binding;
-        input_binding.binding = i;
-        input_binding.inputRate = vk::VertexInputRate::eVertex;
-        uint32_t stride = 0;
-        for (uint32_t j = 0; j < 8; j++) {
-            auto format = binding.formats[j];
-            auto offset = binding.offsets[j];
-            if (format == vk::Format()) {
-                break;
-            }
-
-            vk::VertexInputAttributeDescription input_attribute;
-            input_attribute.binding = i;
-            input_attribute.location = j;
-            input_attribute.format = format;
-            input_attribute.offset = offset;
-            vertex_attributes_.push_back(input_attribute);
-
-            stride += format_to_size_map[format];
-        }
-        if (stride == 0) {
-            continue;
-        }
-        input_binding.stride = stride;
-        vertex_bindings_.push_back(input_binding);
-        break;
-    }
+    auto [vertex_bindings, vertex_attributes] = createVertexBindingsAndAttributes();
 
     // Vertex inputinfo
     vk::PipelineVertexInputStateCreateInfo vertex_input_info(
-        /*flags*/ {}, vertex_bindings_.size(), vertex_bindings_.data(), vertex_attributes_.size(),
-        vertex_attributes_.data());
+        /*flags*/ {}, vertex_bindings.size(), vertex_bindings.data(), vertex_attributes.size(),
+        vertex_attributes.data());
 
     // Input assembly.
     vk::PipelineInputAssemblyStateCreateInfo input_assembly({}, topology_, VK_FALSE);
