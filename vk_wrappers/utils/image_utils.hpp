@@ -20,6 +20,8 @@ class ImageUtils {
         vk::ImageLayout layout;
     };
 
+    static ComputeTexturePtr createDepthTexture(LogicalDevicePtr device, uint32_t width, uint32_t height);
+    
     static vk::ImageView createImageView(std::shared_ptr<LogicalDevice> device, const Data& data);
     static vk::ImageView createImageView(std::shared_ptr<LogicalDevice> device,
                                          const vk::Image& image, const vk::Format& format);

@@ -50,9 +50,9 @@ ImageUtils::Data createImageAbstract(std::shared_ptr<LogicalDevice> device, uint
 
     CXL_VLOG(3) << "Create staging buffer!";
     // First create staging buffer, and copy the pixels to it.
-    uint64_t size = width * height * data_size * channels;
     std::shared_ptr<ComputeBuffer> staging_buffer = nullptr;
     if (pixels) {
+        uint64_t size = width * height * data_size * channels;
         staging_buffer = ComputeBuffer::createSourceBuffer(device, size);
         staging_buffer->write<T>(pixels, width * height * channels);
     }
@@ -126,6 +126,19 @@ ImageUtils::Data ImageUtils::create8BitUnormImage(std::shared_ptr<LogicalDevice>
                                         src_layout, dst_layout, pixels);
 }
 
+ComputeTexturePtr ImageUtils::createDepthTexture(LogicalDevicePtr device, uint32_t width, uint32_t height) {
+    CXL_LOG(INFO) << "Create depth texture!";
+    auto src_layout = vk::ImageLayout::eUndefined;
+    auto dst_layout = vk::ImageLayout::eUndefined;
+    auto usage = vk::ImageUsageFlagBits::eDepthStencilAttachment;
+    auto format = device->physical_device()->findDepthFormat();
+    CXL_LOG(INFO) << "DEPTH FORMAT: " << vk::to_string(format);
+    auto data = createImageAbstract<float>(device, width, height, 1, 0, format, usage, src_layout, dst_layout, nullptr);
+    CXL_LOG(INFO) << "About to return depth texture!";
+    return std::make_shared<ComputeTexture>(device, data);
+}
+
+
 ImageUtils::Data ImageUtils::createHDRImage(std::shared_ptr<LogicalDevice> device, uint32_t width,
                                             uint32_t height, const half* pixels) {
     auto src_layout = vk::ImageLayout::eTransferDstOptimal;
@@ -161,7 +174,7 @@ vk::ImageView ImageUtils::createImageView(std::shared_ptr<LogicalDevice> device,
 
 vk::ImageView ImageUtils::createImageView(std::shared_ptr<LogicalDevice> device,
                                           const vk::Image& image, const vk::Format& format) {
-    vk::ImageSubresourceRange range(vk::ImageAspectFlagBits::eColor, 0, 1, 0, 1);
+    vk::ImageSubresourceRange range(vk::ImageAspectFlagBits::eDepth, 0, 1, 0, 1);
     vk::ImageViewCreateInfo info({}, image, vk::ImageViewType::e2D, format, vk::ComponentMapping(),
                                  range);
     return device->vk().createImageView(info);

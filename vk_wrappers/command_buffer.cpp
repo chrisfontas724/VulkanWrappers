@@ -106,12 +106,16 @@ void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info,
     auto offset = render_pass_info.offset;
     auto extent = render_pass_info.extent;
 
+    std::array<vk::ClearValue, 2> clear_values{};
+    clear_values[0].color = values;
+    clear_values[1].depthStencil = vk::ClearDepthStencilValue(1.0, 0);
+
     vk::RenderPassBeginInfo info(
         /*render_pass*/ render_pass_info.render_pass,
         /*frame_buffer*/ render_pass_info.frame_buffer.get(),
         /*render area*/ vk::Rect2D(offset, extent),
-        /*clear_value_count*/ 1,
-        /*clear_values*/ &clear_value);
+        /*clear_value_count*/ 2,
+        /*clear_values*/ clear_values.data());
 
     // Update the state.
     state_.in_render_pass_ = true;
@@ -296,8 +300,9 @@ void CommandBuffer::transitionImageLayout(vk::Image& image, vk::Format, vk::Imag
             break;
         }
         default:
-            throw std::invalid_argument("Unsupported source layout transition!" +
-                                        vk::to_string(old_layout));
+            break;
+            // throw std::invalid_argument("Unsupported source layout transition!" +
+            //                             vk::to_string(old_layout));
     }
 
     switch (new_layout) {
@@ -331,8 +336,9 @@ void CommandBuffer::transitionImageLayout(vk::Image& image, vk::Format, vk::Imag
             break;
         }
         default:
-            throw std::invalid_argument("Unsupported destination layout transition!" +
-                                        vk::to_string(new_layout));
+            break;
+            // throw std::invalid_argument("Unsupported destination layout transition!" +
+            //                             vk::to_string(new_layout));
     }
     command_buffer_.pipelineBarrier(source_stage, destination_stage, vk::DependencyFlags(), 0,
                                     nullptr, 0, nullptr, 1, &barrier);

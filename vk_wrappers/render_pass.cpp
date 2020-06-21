@@ -125,13 +125,14 @@ RenderPassInfo RenderPassBuilder::build() {
         // Depth textures are not required.
         if (subpass_info.depth_index.has_value()) {
             uint32_t index = *subpass_info.depth_index;
+            CXL_CHECK(index < depth_attachments_.size());
             const auto& depth_attachment = depth_attachments_[index];
             depth_reference =
                 vk::AttachmentReference(kNumCol + index, depth_attachment.finalLayout);
         }
 
         // Resolve textures are not required.
-        if (subpass_info.depth_index.has_value()) {
+        if (subpass_info.resolve_index.has_value()) {
             uint32_t index = *subpass_info.resolve_index;
             const auto& resolve_attachment = resolve_attachments_[index];
             resolve_reference = vk::AttachmentReference(kNumCol + kNumDepth + index,
@@ -181,6 +182,7 @@ RenderPassInfo RenderPassBuilder::build() {
         textures.push_back(texture.get());
     }
 
+    CXL_LOG(INFO) << "Num frame buffer image views: " << image_views.size();
     vk::FramebufferCreateInfo frame_buffer_info(
         /*flags*/ {},
         /*render_pass*/ render_pass,
@@ -188,7 +190,7 @@ RenderPassInfo RenderPassBuilder::build() {
         /*image_views*/ image_views.data(),
         /*width*/ width,
         /*height*/ height,
-        /*depth*/ 1);
+        /*layers*/ 1);
 
     vk::UniqueFramebuffer frame_buffer;
     try {

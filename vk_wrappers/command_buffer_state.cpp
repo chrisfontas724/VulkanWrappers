@@ -173,6 +173,10 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
     auto color_blend_state = vk::PipelineColorBlendStateCreateInfo({}, VK_FALSE, vk::LogicOp::eCopy,
                                                                    1, &color_blend_attachment_);
 
+    depth_stencil_.depthCompareOp = vk::CompareOp::eLess;
+    depth_stencil_.stencilTestEnable = VK_FALSE;
+    depth_stencil_.depthBoundsTestEnable = VK_FALSE;
+
     vk::GraphicsPipelineCreateInfo pipeline_info;
     pipeline_info.flags = {};
     pipeline_info.stageCount = 2;
