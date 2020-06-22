@@ -208,6 +208,7 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
     hasher.hash(multisampling_);
     hasher.hash(depth_stencil_);
     hasher.hash(render_pass_);
+    hasher.hash(current_subpass_);
 
     uint32_t hash = hasher.get_hash();
 
@@ -241,11 +242,23 @@ void CommandBufferState::generateComputePipeline(LogicalDevicePtr device) {
     pipeline_info.layout = shader_program_->pipeline_layout();
     pipeline_info.basePipelineHandle = vk::Pipeline();
     pipeline_info.basePipelineIndex = 0;
-    try {
-        pipeline_ = device->vk().createComputePipelines(pipeline_cache_, {pipeline_info})[0];
-    } catch (vk::SystemError err) {
-        std::cout << "vk::SystemError: " << err.what() << std::endl;
-        exit(-1);
+
+    cxl::Hasher hasher(0);
+    hasher.hash(module_info);
+    hasher.hash(shader_program_->pipeline_layout());
+
+    uint32_t hash = hasher.get_hash();
+
+    if (pipeline_hash_.count(hash)) {
+        pipeline_ = pipeline_hash_[hash];
+    } else {
+        try {
+            pipeline_ = device->vk().createComputePipelines(pipeline_cache_, {pipeline_info})[0];
+            pipeline_hash_[hash] = pipeline_;
+        } catch (vk::SystemError err) {
+            std::cout << "vk::SystemError: " << err.what() << std::endl;
+            exit(-1);
+        }
     }
 }
 
