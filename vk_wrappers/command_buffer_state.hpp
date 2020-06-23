@@ -40,6 +40,21 @@ class CommandBufferState {
         vk::Buffer index_buffer;
     };
 
+    struct DescriptorBinding {
+        union {
+            vk::DescriptorBufferInfo image_info;
+            vk::DescriptorImageInfo buffer_info;
+        };
+    };
+
+    struct DescriptorSet {
+        DescriptorBinding bindings[8];
+    };
+
+    struct PipelineDescriptors {
+        DescriptorSet descriptors[32];
+    };
+
     void generateGraphicsPipeline(LogicalDevicePtr device);
     void generateComputePipeline(LogicalDevicePtr device);
 

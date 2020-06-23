@@ -77,10 +77,7 @@ class ComputeBuffer {
         auto dst_memory = vk::MemoryPropertyFlagBits::eDeviceLocal;
         auto dst_buffer = std::shared_ptr<ComputeBuffer>(
             new ComputeBuffer(device, buffer_size, dst_flags, dst_type, dst_memory));
-
-        // TODO: Copy over from staging buffer
         dst_buffer->copyBuffer(staging_buffer, buffer_size);
-
         staging_buffer.reset();
         return dst_buffer;
     }

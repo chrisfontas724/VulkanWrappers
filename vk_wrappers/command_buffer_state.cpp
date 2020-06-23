@@ -246,7 +246,6 @@ void CommandBufferState::generateComputePipeline(LogicalDevicePtr device) {
     cxl::Hasher hasher(0);
     hasher.hash(module_info);
     hasher.hash(shader_program_->pipeline_layout());
-
     uint32_t hash = hasher.get_hash();
 
     if (pipeline_hash_.count(hash)) {

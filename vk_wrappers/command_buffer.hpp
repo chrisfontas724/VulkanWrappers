@@ -42,11 +42,15 @@ class CommandBuffer {
         state_.vertex_description_.bindings[binding].formats[location] = format;
     }
 
+    void setProgram(ShaderProgramPtr program);
+
     void bindVertexBuffer(const ComputeBufferPtr& buffer);
 
     void bindIndexBuffer(const ComputeBufferPtr& buffer);
 
-    void setProgram(ShaderProgramPtr program);
+
+    void bindTexture(const ComputeTexturePtr& texture);
+    void bindUniformBuffer(const ComputeBufferPtr& buffer);
 
     void bindDescriptorSet(DescriptorSetPtr set, uint32_t index);
 
