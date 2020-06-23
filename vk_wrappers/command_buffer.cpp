@@ -79,6 +79,14 @@ void CommandBuffer::bindIndexBuffer(const ComputeBufferPtr& buffer) {
     state_.bind_call_.index_buffer = buffer->vk();
 }
 
+void CommandBuffer::bindTexture(uint32_t set, uint32_t binding, const ComputeTexturePtr& texture) {
+    state_.pipeline_resources_.descriptors[set].bindings[binding].image_info =
+        texture->image_info();
+}
+
+void CommandBuffer::bindUniformBuffer(uint32_t set, uint32_t binding,
+                                      const ComputeBufferPtr& buffer) {}
+
 void CommandBuffer::reset() const {
     command_buffer_.reset(vk::CommandBufferResetFlagBits::eReleaseResources);
     state_.has_recording_ = false;

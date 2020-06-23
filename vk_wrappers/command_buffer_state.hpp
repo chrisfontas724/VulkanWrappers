@@ -5,9 +5,10 @@
 #ifndef GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_STATE_HPP_
 #define GRAPHICS_VK_WRAPPERS_COMMAND_BUFFER_STATE_HPP_
 
+#include <map>
+
 #include "vk_wrappers/forward_declarations.hpp"
 #include "vk_wrappers/vulkan.hpp"
-#include <map>
 
 namespace gfx {
 
@@ -41,18 +42,21 @@ class CommandBufferState {
     };
 
     struct DescriptorBinding {
+        DescriptorBinding() {}
         union {
-            vk::DescriptorBufferInfo image_info;
-            vk::DescriptorImageInfo buffer_info;
+            vk::DescriptorBufferInfo buffer_info;
+            vk::DescriptorImageInfo image_info;
         };
+        uint64_t identifier;
     };
 
     struct DescriptorSet {
         DescriptorBinding bindings[8];
     };
 
-    struct PipelineDescriptors {
+    struct PipelineResources {
         DescriptorSet descriptors[32];
+        uint8_t push_constants[256];
     };
 
     void generateGraphicsPipeline(LogicalDevicePtr device);
@@ -82,6 +86,7 @@ class CommandBufferState {
     VertexDescription vertex_description_;
     BindCall bind_call_;
     std::map<uint32_t, vk::Pipeline> pipeline_hash_;
+    PipelineResources pipeline_resources_;
 };
 
 }  // namespace gfx

@@ -48,9 +48,8 @@ class CommandBuffer {
 
     void bindIndexBuffer(const ComputeBufferPtr& buffer);
 
-
-    void bindTexture(const ComputeTexturePtr& texture);
-    void bindUniformBuffer(const ComputeBufferPtr& buffer);
+    void bindTexture(uint32_t set, uint32_t binding, const ComputeTexturePtr& texture);
+    void bindUniformBuffer(uint32_t set, uint32_t binding, const ComputeBufferPtr& buffer);
 
     void bindDescriptorSet(DescriptorSetPtr set, uint32_t index);
 
@@ -102,6 +101,7 @@ class CommandBuffer {
     bool has_recording() const;
 
    private:
+    CommandBuffer() {}
     void setViewPort(vk::Viewport viewport) const;
     void prepareGraphicsPipelineData();
     void prepareComputePipelineData();
