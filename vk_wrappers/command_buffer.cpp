@@ -82,10 +82,14 @@ void CommandBuffer::bindIndexBuffer(const ComputeBufferPtr& buffer) {
 void CommandBuffer::bindTexture(uint32_t set, uint32_t binding, const ComputeTexturePtr& texture) {
     state_.pipeline_resources_.descriptors[set].bindings[binding].image_info =
         texture->image_info();
+    descriptor_flags_ |= 1 << set;
 }
 
 void CommandBuffer::bindUniformBuffer(uint32_t set, uint32_t binding,
-                                      const ComputeBufferPtr& buffer) {}
+                                      const ComputeBufferPtr& buffer) {
+    state_.pipeline_resources_.descriptors[set].bindings[binding].buffer_info = buffer->info();
+    descriptor_flags_ |= 1 << set;
+}
 
 void CommandBuffer::reset() const {
     command_buffer_.reset(vk::CommandBufferResetFlagBits::eReleaseResources);
@@ -154,23 +158,6 @@ void CommandBuffer::setProgram(ShaderProgramPtr program) {
     state_.shader_program_ = program;
     state_.pipeline_ = vk::Pipeline();
     setChanged(kPipelineBit);
-}
-
-void CommandBuffer::bindDescriptorSet(DescriptorSetPtr set, uint32_t first) {
-    // auto pipeline = state_.pipeline_.lock();
-    // CXL_DCHECK(pipeline) << "There is no pipeline bound...";
-    // auto point = pipeline->bind_point();
-    // auto layout = pipeline->pipeline_layout();
-    // auto vk_set = set->vk();
-    // command_buffer_.bindDescriptorSets(point, layout, first, 1, &vk_set, 0, nullptr);
-}
-
-void CommandBuffer::pushConstants(const void* data, uint32_t index) {
-    // auto pipeline = state_.pipeline_.lock();
-    // CXL_DCHECK(pipeline) << "There is no pipeline bound...";
-    // auto layout = pipeline->pipeline_layout();
-    // auto range = pipeline->push_constant(index);
-    // command_buffer_.pushConstants(layout, range.stageFlags, range.offset, range.size, data);
 }
 
 void CommandBuffer::setDepth(bool test, bool write) {
@@ -382,6 +369,8 @@ void CommandBuffer::prepareGraphicsPipelineData() {
         state_.bind_call_.buffers.clear();
         state_.bind_call_.offsets.clear();
     }
+
+    prepareDescriptorSets();
 }
 
 void CommandBuffer::prepareComputePipelineData() {
@@ -389,7 +378,11 @@ void CommandBuffer::prepareComputePipelineData() {
         state_.generateComputePipeline(device_.lock());
         command_buffer_.bindPipeline(vk::PipelineBindPoint::eCompute, state_.pipeline_);
     }
+
+    prepareDescriptorSets();
 }
+
+void CommandBuffer::prepareDescriptorSets() { CXL_DCHECK(state_.shader_program_); }
 
 void CommandBuffer::blit(ComputeTexturePtr src, ComputeTexturePtr dst, vk::Filter filter) {
     vk::ImageSubresourceLayers layers(vk::ImageAspectFlagBits::eColor, 0, 0, 1);

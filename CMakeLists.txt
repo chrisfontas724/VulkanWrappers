@@ -104,7 +104,6 @@ add_library (vulkan_wrappers
     vk_wrappers/swap_chain.cpp
     vk_wrappers/queue.cpp
     vk_wrappers/utils/image_utils.cpp
-    vk_wrappers/utils/render_pass_utils.cpp
     vk_wrappers/utils/shader_compiler.cpp
     vk_wrappers/utils/reflection/reflection.cpp
     vk_wrappers/utils/reflection/spirv_reflect.c

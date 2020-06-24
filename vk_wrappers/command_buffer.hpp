@@ -51,15 +51,6 @@ class CommandBuffer {
     void bindTexture(uint32_t set, uint32_t binding, const ComputeTexturePtr& texture);
     void bindUniformBuffer(uint32_t set, uint32_t binding, const ComputeBufferPtr& buffer);
 
-    void bindDescriptorSet(DescriptorSetPtr set, uint32_t index);
-
-    void pushConstants(const void* data, uint32_t index);
-
-    template <typename T>
-    void pushConstants(T& value, uint32_t index) {
-        pushConstants(&value, index);
-    }
-
     void setDepth(bool test, bool write);
 
     void dispatch(uint32_t group_x, uint32_t group_y, uint32_t group_z);
@@ -105,6 +96,7 @@ class CommandBuffer {
     void setViewPort(vk::Viewport viewport) const;
     void prepareGraphicsPipelineData();
     void prepareComputePipelineData();
+    void prepareDescriptorSets();
 
     using Flags = uint32_t;
     enum FlagBits {
@@ -120,6 +112,7 @@ class CommandBuffer {
     }
 
     Flags changed_flags_ = ~0u;
+    Flags descriptor_flags_ = ~0u;
 
     mutable CommandBufferState state_;
     std::weak_ptr<LogicalDevice> device_;

@@ -96,6 +96,7 @@ class ComputeBuffer {
     vk::DescriptorType type() const { return type_; }
     vk::BufferUsageFlags usage() const { return usage_; }
     vk::MemoryPropertyFlags properties() const { return properties_; }
+    vk::DescriptorBufferInfo info() const { return vk::DescriptorBufferInfo(vk(), 0, size()); }
 
     // Read or write to the command buffer via a mapped host pointer,
     // which can be templatized to any given type.
