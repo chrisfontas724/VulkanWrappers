@@ -8,16 +8,38 @@
 #include "vk_wrappers/forward_declarations.hpp"
 #include "vk_wrappers/shader_module.hpp"
 #include "vk_wrappers/utils/reflection/reflection.hpp"
+#include "vk_wrappers/descriptor_allocator.hpp"
 
 namespace gfx {
 
 class ShaderPipeline {
-   public:
-    uint32_t descriptor_set_mask() const { return descriptor_set_mask_; }
 
-   private:
-    vk::DescriptorSetLayoutCreateInfo descriptor_layouts[32];
-    uint32_t descriptor_set_mask_ = 0u;
+public:
+
+ShaderPipeline(const LogicalDevicePtr& device,
+               const std::vector<DescriptorSetLayoutPtr>& descriptor_layouts,
+               const std::vector<vk::PushConstantRange>& push_ranges);
+
+uint32_t descriptor_set_mask() const { return descriptor_set_mask_;}
+
+vk::DescriptorSetLayoutCreateInfo descriptor_info(uint32_t index) const {
+    CXL_DCHECK(index < 32);
+    return descriptor_layouts_[index];
+}
+
+vk::PipelineLayout vk() const { return layout_; }
+
+
+private:
+
+vk::DescriptorSetLayoutCreateInfo descriptor_layouts_[32];
+vk::PipelineLayout layout_;
+uint32_t descriptor_set_mask_ = 0u;
+
+
 };
 
-}  // namespace gfx
+} // gfx
+
+
+#endif // GRAPHICS_VK_WRAPPERS_SHADER_PIPELINE_HPP_

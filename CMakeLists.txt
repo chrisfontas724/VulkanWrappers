@@ -100,6 +100,7 @@ add_library (vulkan_wrappers
     vk_wrappers/physical_device.cpp
     vk_wrappers/sampler.cpp
     vk_wrappers/shader_module.cpp
+    vk_wrappers/shader_pipeline.cpp
     vk_wrappers/shader_program.cpp
     vk_wrappers/swap_chain.cpp
     vk_wrappers/queue.cpp
