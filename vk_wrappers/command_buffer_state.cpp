@@ -193,7 +193,7 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
     pipeline_info.pDepthStencilState = &depth_stencil_,
     pipeline_info.pColorBlendState = &color_blend_state;
     pipeline_info.pDynamicState = &dynamic_state;
-    pipeline_info.layout = shader_program_->pipeline_layout();
+    pipeline_info.layout = shader_program_->pipeline().vk();
     pipeline_info.renderPass = render_pass_;
     pipeline_info.subpass = current_subpass_;
     pipeline_info.basePipelineHandle = vk::Pipeline();
@@ -239,13 +239,13 @@ void CommandBufferState::generateComputePipeline(LogicalDevicePtr device) {
     vk::ComputePipelineCreateInfo pipeline_info;
     pipeline_info.flags = {};
     pipeline_info.stage = module_info;
-    pipeline_info.layout = shader_program_->pipeline_layout();
+    pipeline_info.layout = shader_program_->pipeline().vk();
     pipeline_info.basePipelineHandle = vk::Pipeline();
     pipeline_info.basePipelineIndex = 0;
 
     cxl::Hasher hasher(0);
     hasher.hash(module_info);
-    hasher.hash(shader_program_->pipeline_layout());
+    hasher.hash(shader_program_->pipeline().vk());
     uint32_t hash = hasher.get_hash();
 
     if (pipeline_hash_.count(hash)) {

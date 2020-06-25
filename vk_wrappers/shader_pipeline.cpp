@@ -12,6 +12,7 @@ ShaderPipeline::ShaderPipeline(const LogicalDevicePtr& device,
     uint32_t index = 0;
     std::vector<vk::DescriptorSetLayout> vk_layouts;
     for (auto& layout : descriptor_layouts) {
+        descriptor_layouts_[index] = layout;
         vk_layouts.push_back(layout->vk());
         descriptor_set_mask_ |= 1 << index;
         index++;
@@ -19,11 +20,11 @@ ShaderPipeline::ShaderPipeline(const LogicalDevicePtr& device,
 
     // Pipeline layout.
     // TODO: Deal with push constants  more effectively.
-    vk::PipelineLayoutCreateInfo pipeline_layout_info({}, vk_layouts.size(), vk_layouts.data(),
+    layout_info_ = vk::PipelineLayoutCreateInfo({}, vk_layouts.size(), vk_layouts.data(),
                                                       push_ranges.size(), push_ranges.data());
 
     try {
-        layout_ = device->vk().createPipelineLayout(pipeline_layout_info);
+        layout_ = device->vk().createPipelineLayout(layout_info_);
     } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;
         exit(-1);

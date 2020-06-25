@@ -382,7 +382,12 @@ void CommandBuffer::prepareComputePipelineData() {
     prepareDescriptorSets();
 }
 
-void CommandBuffer::prepareDescriptorSets() { CXL_DCHECK(state_.shader_program_); }
+void CommandBuffer::prepareDescriptorSets() { 
+    CXL_DCHECK(state_.shader_program_);
+
+    auto shader_pipeline = state_.shader_program_->pipeline();
+    uint32_t descriptors_to_update = descriptor_flags_ & shader_pipeline.descriptor_set_mask();
+}
 
 void CommandBuffer::blit(ComputeTexturePtr src, ComputeTexturePtr dst, vk::Filter filter) {
     vk::ImageSubresourceLayers layers(vk::ImageAspectFlagBits::eColor, 0, 0, 1);

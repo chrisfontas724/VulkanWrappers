@@ -22,9 +22,9 @@ ShaderPipeline(const LogicalDevicePtr& device,
 
 uint32_t descriptor_set_mask() const { return descriptor_set_mask_;}
 
-vk::DescriptorSetLayoutCreateInfo descriptor_info(uint32_t index) const {
+DescriptorSetLayout* descriptor_info(uint32_t index) const {
     CXL_DCHECK(index < 32);
-    return descriptor_layouts_[index];
+    return descriptor_layouts_[index].get();
 }
 
 vk::PipelineLayout vk() const { return layout_; }
@@ -32,10 +32,11 @@ vk::PipelineLayout vk() const { return layout_; }
 
 private:
 
-vk::DescriptorSetLayoutCreateInfo descriptor_layouts_[32];
+DescriptorSetLayoutPtr descriptor_layouts_[32];
+vk::PipelineLayoutCreateInfo layout_info_;
 vk::PipelineLayout layout_;
 uint32_t descriptor_set_mask_ = 0u;
-
+std::vector<vk::PushConstantRange> push_ranges_;
 
 };
 

@@ -8,6 +8,7 @@
 #include "vk_wrappers/forward_declarations.hpp"
 #include "vk_wrappers/shader_module.hpp"
 #include "vk_wrappers/utils/reflection/reflection.hpp"
+#include "vk_wrappers/shader_pipeline.hpp"
 
 namespace gfx {
 
@@ -18,24 +19,13 @@ class ShaderProgram {
 
     static ShaderProgramPtr createCompute(const LogicalDevicePtr& device, const SpirV& kernel);
 
-    vk::PipelineLayout pipeline_layout() const { return pipeline_layout_; }
-
-    std::shared_ptr<DescriptorSetLayout> layout(uint32_t index) const {
-        return (index < layouts_.size()) ? layouts_[index] : nullptr;
-    }
-
-    vk::PushConstantRange push_constant(uint32_t index) const {
-        CXL_DCHECK(index < push_constants_.size());
-        return push_constants_[index];
-    }
+    const ShaderPipeline& pipeline() const { return *pipeline_.get(); }
 
     vk::PipelineBindPoint bind_point() const { return bind_point_; }
 
     const ShaderModule* module(vk::ShaderStageFlagBits stage) const {
         return shader_modules_.at(stage).get();
     }
-
-    void bindTexture(uint32_t set, uint32_t index, const ComputeTexturePtr& texture);
 
    private:
     ShaderProgram(const LogicalDevicePtr& device, const vk::PipelineBindPoint& bind_point,
@@ -44,11 +34,8 @@ class ShaderProgram {
     LogicalDeviceWeakPtr device_;
     std::unique_ptr<Reflection> reflection_;
     vk::PipelineBindPoint bind_point_;
-    vk::PipelineLayout pipeline_layout_;
-    std::vector<std::shared_ptr<DescriptorSetLayout>> layouts_;
-    std::vector<vk::PushConstantRange> push_constants_;
+    ShaderPipelinePtr pipeline_;
     std::map<vk::ShaderStageFlagBits, std::unique_ptr<ShaderModule>> shader_modules_;
-    std::vector<DescriptorSetPtr> descriptor_sets_;
 };
 
 }  // namespace gfx

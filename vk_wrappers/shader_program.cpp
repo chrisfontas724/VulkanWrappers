@@ -45,33 +45,9 @@ ShaderProgram::ShaderProgram(const LogicalDevicePtr& device,
     reflection_ = std::make_unique<Reflection>(device_.lock(), spirv_vec);
 
     CXL_DCHECK(reflection_);
-    layouts_ = reflection_->createLayouts();
-    push_constants_ = reflection_->createPushConstants();
-
-    std::vector<vk::DescriptorSetLayout> vk_layouts_;
-    for (auto& layout : layouts_) {
-        vk_layouts_.push_back(layout->vk());
-    }
-
-    // Pipeline layout.
-    // TODO: Deal with push constants  more effectively.
-    vk::PipelineLayoutCreateInfo pipeline_layout_info(
-        {}, vk_layouts_.size(), vk_layouts_.data(), push_constants_.size(), push_constants_.data());
-
-    try {
-        pipeline_layout_ = device->vk().createPipelineLayout(pipeline_layout_info);
-    } catch (vk::SystemError err) {
-        std::cout << "vk::SystemError: " << err.what() << std::endl;
-        exit(-1);
-    }
-
-    for (auto& layout : layouts_) {
-        descriptor_sets_.push_back(layout->createDescriptorSet());
-    }
-}
-
-void ShaderProgram::bindTexture(uint32_t set, uint32_t index, const ComputeTexturePtr& texture) {
-    descriptor_sets_[set]->set_texture(index, texture);
+    auto layouts = reflection_->createLayouts();
+    auto push_constants = reflection_->createPushConstants();
+    pipeline_ = std::make_shared<ShaderPipeline>(device, layouts, push_constants);
 }
 
 }  // namespace gfx

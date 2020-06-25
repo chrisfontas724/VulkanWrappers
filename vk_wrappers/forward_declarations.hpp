@@ -28,6 +28,7 @@ class PhysicalDevice;
 class ProgrammableShader;
 class RayTracingPipeline;
 class Sampler;
+class ShaderPipeline;
 class ShaderProgram;
 class Surface;
 class Queue;
@@ -49,6 +50,7 @@ typedef std::shared_ptr<PhysicalDevice> PhysicalDevicePtr;
 typedef std::shared_ptr<ProgrammableShader> ProgrammableShaderPtr;
 typedef std::shared_ptr<RayTracingPipeline> RayTracingPipelinePtr;
 typedef std::shared_ptr<Sampler> SamplerPtr;
+typedef std::shared_ptr<ShaderPipeline> ShaderPipelinePtr;
 typedef std::shared_ptr<ShaderProgram> ShaderProgramPtr;
 typedef std::shared_ptr<Surface> SurfacePtr;
 
