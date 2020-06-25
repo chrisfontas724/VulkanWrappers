@@ -97,6 +97,7 @@ class CommandBuffer {
     void prepareGraphicsPipelineData();
     void prepareComputePipelineData();
     void prepareDescriptorSets();
+    void prepareDescriptorSet(uint32_t index) ;
 
     using Flags = uint32_t;
     enum FlagBits {

@@ -387,6 +387,21 @@ void CommandBuffer::prepareDescriptorSets() {
 
     auto shader_pipeline = state_.shader_program_->pipeline();
     uint32_t descriptors_to_update = descriptor_flags_ & shader_pipeline.descriptor_set_mask();
+
+    for (uint32_t i = 0; i < 32; i++) {
+        if (descriptors_to_update & 1 << i) {
+            prepareDescriptorSet(i);
+        }
+    }
+    descriptor_flags_ &= ~descriptors_to_update;
+}
+
+void CommandBuffer::prepareDescriptorSet(uint32_t index) {
+    CXL_DCHECK(state_.shader_program_);
+
+    auto shader_pipeline = state_.shader_program_->pipeline();
+    auto descriptor_layout = shader_pipeline.descriptor_layout(index);
+    auto descriptor_info = descriptor_layout->info();
 }
 
 void CommandBuffer::blit(ComputeTexturePtr src, ComputeTexturePtr dst, vk::Filter filter) {

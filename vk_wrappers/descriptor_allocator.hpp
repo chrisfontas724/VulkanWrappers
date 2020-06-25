@@ -17,6 +17,7 @@ class DescriptorSetLayout {
     ~DescriptorSetLayout();
 
     vk::DescriptorSetLayout vk() const { return layout_; }
+    vk::DescriptorSetLayoutCreateInfo info() const { return create_info_; }
 
     std::vector<DescriptorSet> createDescriptorSets(uint32_t num = 1);
     std::shared_ptr<DescriptorSet> createDescriptorSet();

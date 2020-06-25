@@ -22,7 +22,7 @@ ShaderPipeline(const LogicalDevicePtr& device,
 
 uint32_t descriptor_set_mask() const { return descriptor_set_mask_;}
 
-DescriptorSetLayout* descriptor_info(uint32_t index) const {
+DescriptorSetLayout* descriptor_layout(uint32_t index) const {
     CXL_DCHECK(index < 32);
     return descriptor_layouts_[index].get();
 }
