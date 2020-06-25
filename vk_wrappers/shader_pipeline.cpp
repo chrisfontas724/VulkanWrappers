@@ -21,7 +21,7 @@ ShaderPipeline::ShaderPipeline(const LogicalDevicePtr& device,
     // Pipeline layout.
     // TODO: Deal with push constants  more effectively.
     layout_info_ = vk::PipelineLayoutCreateInfo({}, vk_layouts.size(), vk_layouts.data(),
-                                                      push_ranges.size(), push_ranges.data());
+                                                push_ranges.size(), push_ranges.data());
 
     try {
         layout_ = device->vk().createPipelineLayout(layout_info_);

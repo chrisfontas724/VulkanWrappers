@@ -382,7 +382,7 @@ void CommandBuffer::prepareComputePipelineData() {
     prepareDescriptorSets();
 }
 
-void CommandBuffer::prepareDescriptorSets() { 
+void CommandBuffer::prepareDescriptorSets() {
     CXL_DCHECK(state_.shader_program_);
 
     auto shader_pipeline = state_.shader_program_->pipeline();
