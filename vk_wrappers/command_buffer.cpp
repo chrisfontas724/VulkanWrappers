@@ -1,6 +1,7 @@
 #include "vk_wrappers/command_buffer.hpp"
 
 #include "logging/logging.hpp"
+#include "utils/hasher.hpp"
 #include "vk_wrappers/shader_program.hpp"
 
 namespace gfx {
@@ -405,6 +406,8 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
     auto descriptor_info = descriptor_layout->info();
     auto bind_point = state_.shader_program_->bind_point();
 
+    cxl::Hasher hasher(0);
+
     uint32_t binding_count = descriptor_info.bindingCount;
     for (uint32_t i = 0; i < binding_count; i++) {
         vk::DescriptorSetLayoutBinding binding = descriptor_info.pBindings[i];
@@ -426,6 +429,8 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
                 break;
         }
     }
+
+    uint32_t hash = hasher.get_hash();
 
     vk::DescriptorSet vk_set;  // = find some way to get set.
 
