@@ -88,6 +88,7 @@ void CommandBuffer::bindTexture(uint32_t set, uint32_t binding, const ComputeTex
 void CommandBuffer::bindUniformBuffer(uint32_t set, uint32_t binding,
                                       const ComputeBufferPtr& buffer) {
     state_.pipeline_resources_.descriptors[set].bindings[binding].buffer_info = buffer->info();
+    state_.pipeline_resources_.descriptors[set].bindings[binding].type = buffer->type();
     descriptor_flags_ |= 1 << set;
 }
 
@@ -402,6 +403,34 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
     auto shader_pipeline = state_.shader_program_->pipeline();
     auto descriptor_layout = shader_pipeline.descriptor_layout(index);
     auto descriptor_info = descriptor_layout->info();
+    auto bind_point = state_.shader_program_->bind_point();
+
+    uint32_t binding_count = descriptor_info.bindingCount;
+    for (uint32_t i = 0; i < binding_count; i++) {
+        vk::DescriptorSetLayoutBinding binding = descriptor_info.pBindings[i];
+        vk::DescriptorType type = binding.descriptorType;
+
+        const auto& curr_data = state_.pipeline_resources_.descriptors[index].bindings[i];
+        CXL_DCHECK(curr_data.type == type);
+
+        switch (type) {
+            case vk::DescriptorType::eStorageBuffer:
+            case vk::DescriptorType::eUniformBuffer:
+                CXL_DCHECK(curr_data.buffer_info.buffer);
+                break;
+            case vk::DescriptorType::eStorageBufferDynamic:
+            case vk::DescriptorType::eUniformBufferDynamic:
+                break;
+            case vk::DescriptorType::eSampledImage:
+                CXL_DCHECK(curr_data.image_info.imageView);
+                break;
+        }
+    }
+
+    vk::DescriptorSet vk_set;  // = find some way to get set.
+
+    command_buffer_.bindDescriptorSets(bind_point, shader_pipeline.vk(), index, 1, &vk_set, 0,
+                                       nullptr);
 }
 
 void CommandBuffer::blit(ComputeTexturePtr src, ComputeTexturePtr dst, vk::Filter filter) {

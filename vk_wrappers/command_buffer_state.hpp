@@ -48,6 +48,7 @@ class CommandBufferState {
             vk::DescriptorImageInfo image_info;
         };
         uint64_t identifier;
+        vk::DescriptorType type;
     };
 
     struct DescriptorSet {
