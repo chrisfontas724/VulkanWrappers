@@ -87,6 +87,7 @@ class CommandBufferState {
     VertexDescription vertex_description_;
     BindCall bind_call_;
     std::map<uint32_t, vk::Pipeline> pipeline_hash_;
+    std::map<uint32_t, vk::DescriptorSet> descriptor_hash_;
     PipelineResources pipeline_resources_;
 };
 
