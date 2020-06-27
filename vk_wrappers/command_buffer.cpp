@@ -409,7 +409,7 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
     auto bind_point = state_.shader_program_->bind_point();
 
     cxl::Hasher hasher(0);
-
+    vk::DescriptorSet vk_set;
     uint32_t binding_count = descriptor_info.bindingCount;
     for (uint32_t i = 0; i < binding_count; i++) {
         vk::DescriptorSetLayoutBinding binding = descriptor_info.pBindings[i];
@@ -422,12 +422,49 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
         hasher.hash(curr_data.type);
         hasher.hash(index);
         hasher.hash(i);
+    }
 
+    uint32_t hash = hasher.get_hash();
+
+    if (!state_.descriptor_hash_.count(hash)) {
+        vk_set = descriptor_layout->createDescriptorSet()->vk();
+        state_.descriptor_hash_[hash] = vk_set;
+        writeDescriptorSet(index, vk_set);
+    } else {
+        vk_set = state_.descriptor_hash_[hash];
+    }
+
+    command_buffer_.bindDescriptorSets(bind_point, shader_pipeline.vk(), index, 1, &vk_set, 0,
+                                       nullptr);
+}
+
+void CommandBuffer::writeDescriptorSet(uint32_t index, vk::DescriptorSet vk_set) {
+    auto device = device_.lock();
+    CXL_DCHECK(device);
+
+    auto shader_pipeline = state_.shader_program_->pipeline();
+    auto descriptor_layout = shader_pipeline.descriptor_layout(index);
+    auto descriptor_info = descriptor_layout->info();
+
+    std::vector<vk::WriteDescriptorSet> write_infos;
+
+    for (uint32_t i = 0; i < descriptor_info.bindingCount; i++) {
+        vk::DescriptorSetLayoutBinding binding = descriptor_info.pBindings[i];
+        vk::DescriptorType type = binding.descriptorType;
+
+        const auto& curr_data = state_.pipeline_resources_.descriptors[index].bindings[i];
+        CXL_DCHECK(curr_data.type == type);
+
+        vk::WriteDescriptorSet write_info;
         switch (type) {
             case vk::DescriptorType::eStorageBuffer:
-            case vk::DescriptorType::eUniformBuffer:
-                CXL_DCHECK(curr_data.buffer_info.buffer);
+            case vk::DescriptorType::eUniformBuffer: {
+                auto& buffer = curr_data.buffer_info.buffer;
+                CXL_DCHECK(buffer);
+                write_info = vk::WriteDescriptorSet(vk_set, index, 0, 1, curr_data.type, nullptr,
+                                                    &curr_data.buffer_info);
                 break;
+            }
             case vk::DescriptorType::eStorageBufferDynamic:
             case vk::DescriptorType::eUniformBufferDynamic:
                 break;
@@ -435,26 +472,11 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
                 CXL_DCHECK(curr_data.image_info.imageView);
                 break;
         }
+
+        write_infos.push_back(write_info);
     }
 
-    uint32_t hash = hasher.get_hash();
-
-    vk::DescriptorSet vk_set;
-    if (!state_.descriptor_hash_.count(hash)) {
-        vk_set = descriptor_layout->createDescriptorSet()->vk();
-        state_.descriptor_hash_[hash] = vk_set;
-
-        // vk::WriteDescriptorSet write_info(vk_set, index, 0, 1, buffer->type(), nullptr,
-        //                                   &buffer);
-
-        // device->vk().updateDescriptorSets(1, &write_info, 0, nullptr);
-
-    } else {
-        vk_set = state_.descriptor_hash_[hash];
-    }
-
-    command_buffer_.bindDescriptorSets(bind_point, shader_pipeline.vk(), index, 1, &vk_set, 0,
-                                       nullptr);
+    device->vk().updateDescriptorSets(write_infos.size(), write_infos.data(), 0, nullptr);
 }
 
 void CommandBuffer::blit(ComputeTexturePtr src, ComputeTexturePtr dst, vk::Filter filter) {

@@ -97,7 +97,8 @@ class CommandBuffer {
     void prepareGraphicsPipelineData();
     void prepareComputePipelineData();
     void prepareDescriptorSets();
-    void prepareDescriptorSet(uint32_t index) ;
+    void prepareDescriptorSet(uint32_t index);
+    void writeDescriptorSet(uint32_t index, vk::DescriptorSet vk_set);
 
     using Flags = uint32_t;
     enum FlagBits {
