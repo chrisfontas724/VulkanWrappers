@@ -157,9 +157,24 @@ void CommandBuffer::setViewPort(vk::Viewport viewport) const {
 }
 
 void CommandBuffer::setProgram(ShaderProgramPtr program) {
+    if (state_.shader_program_ == program) {
+        return;
+    }
+
     CXL_CHECK(program);
     CXL_CHECK(state_.in_render_pass_ ==
               (program->bind_point() == vk::PipelineBindPoint::eGraphics));
+
+    if (!state_.shader_program_) {
+        descriptor_flags_ = ~0u;
+
+    // If we get here, then we know the old program and the new program are
+    // different, and we have to find the first descriptor set which differs
+    // between the two of them and dirty those flags.
+    } else {
+        
+    }
+
     state_.shader_program_ = program;
     state_.pipeline_ = vk::Pipeline();
     setChanged(kPipelineBit);
@@ -431,7 +446,6 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
     uint32_t hash = hasher.get_hash();
 
     if (!state_.descriptor_hash_.count(hash)) {
-        CXL_LOG(INFO) << "Create descriptor set!";
         vk_set = descriptor_layout->createDescriptorSet()->vk();
         state_.descriptor_hash_[hash] = vk_set;
         writeDescriptorSet(index, vk_set);
