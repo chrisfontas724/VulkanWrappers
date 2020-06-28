@@ -431,6 +431,7 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
     uint32_t hash = hasher.get_hash();
 
     if (!state_.descriptor_hash_.count(hash)) {
+        CXL_LOG(INFO) << "Create descriptor set!";
         vk_set = descriptor_layout->createDescriptorSet()->vk();
         state_.descriptor_hash_[hash] = vk_set;
         writeDescriptorSet(index, vk_set);
@@ -456,26 +457,26 @@ void CommandBuffer::writeDescriptorSet(uint32_t index, vk::DescriptorSet vk_set)
         vk::DescriptorSetLayoutBinding binding = descriptor_info.pBindings[i];
         vk::DescriptorType type = binding.descriptorType;
 
-        const auto& curr_data = state_.pipeline_resources_.descriptors[index].bindings[i];
-        CXL_DCHECK(curr_data.type == type);
+        const auto* curr_data = &state_.pipeline_resources_.descriptors[index].bindings[i];
+        CXL_DCHECK(curr_data->type == type);
 
         vk::WriteDescriptorSet write_info;
         switch (type) {
             case vk::DescriptorType::eStorageBuffer:
             case vk::DescriptorType::eUniformBuffer: {
-                auto& buffer = curr_data.buffer_info.buffer;
+                auto& buffer = curr_data->buffer_info.buffer;
                 CXL_DCHECK(buffer);
-                write_info = vk::WriteDescriptorSet(vk_set, index, 0, 1, curr_data.type, nullptr,
-                                                    &curr_data.buffer_info);
+                write_info = vk::WriteDescriptorSet(vk_set, i, 0, 1, curr_data->type, nullptr,
+                                                    &curr_data->buffer_info);
                 break;
             }
             case vk::DescriptorType::eStorageBufferDynamic:
             case vk::DescriptorType::eUniformBufferDynamic:
                 break;
             case vk::DescriptorType::eCombinedImageSampler: {
-                auto& image_info = curr_data.image_info;
-                vk::WriteDescriptorSet write_info(vk_set, index, 0, 1, curr_data.type, &image_info);
-                CXL_DCHECK(curr_data.image_info.imageView);
+                write_info = vk::WriteDescriptorSet(vk_set, i, 0, 1, curr_data->type,
+                                                    &curr_data->image_info);
+                CXL_DCHECK(curr_data->image_info.imageView);
                 break;
             }
         }
