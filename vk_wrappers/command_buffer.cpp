@@ -168,11 +168,22 @@ void CommandBuffer::setProgram(ShaderProgramPtr program) {
     if (!state_.shader_program_) {
         descriptor_flags_ = ~0u;
 
-    // If we get here, then we know the old program and the new program are
-    // different, and we have to find the first descriptor set which differs
-    // between the two of them and dirty those flags.
+        // If we get here, then we know the old program and the new program are
+        // different, and we have to find the first descriptor set which differs
+        // between the two of them and dirty those flags.
     } else {
-        
+        ShaderPipeline new_pipeline = program->pipeline();
+        ShaderPipeline old_pipeline = state_.shader_program_->pipeline();
+
+        for (uint32_t i = 0; i < 32; i++) {
+            auto new_descriptor_layout = new_pipeline.descriptor_layout(i);
+            auto old_descriptor_layout = old_pipeline.descriptor_layout(i);
+
+            // TODO: This equality check needs to fixed.
+            if (new_descriptor_layout != old_descriptor_layout) {
+                descriptor_flags_ |= ~((1 << i) - 1);
+            }
+        }
     }
 
     state_.shader_program_ = program;
