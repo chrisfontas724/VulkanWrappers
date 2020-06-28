@@ -154,7 +154,10 @@ std::vector<std::shared_ptr<DescriptorSetLayout>> Reflection::createLayouts() {
 
     uint32_t i = 0;
     for (auto& iter : binding_map) {
-        vk::DescriptorSetLayoutCreateInfo layout_create_info({}, iter.second.size(), iter.second.data());
+        uint32_t binding_count = iter.second.size();
+        auto bindings = new vk::DescriptorSetLayoutBinding[iter.second.size()];
+        memcpy(bindings, iter.second.data(), sizeof(vk::DescriptorSetLayoutBinding) * binding_count);
+        vk::DescriptorSetLayoutCreateInfo layout_create_info({}, binding_count, bindings);
         layouts[i] = std::make_shared<DescriptorSetLayout>(device, layout_create_info);
         i++;
     }

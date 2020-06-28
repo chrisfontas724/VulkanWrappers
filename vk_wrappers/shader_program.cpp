@@ -37,7 +37,6 @@ ShaderProgram::ShaderProgram(const LogicalDevicePtr& device,
     std::vector<SpirV> spirv_vec;
     for (auto iter : spirv) {
         spirv_vec.push_back(iter.second);
-        CXL_LOG(INFO) << "Making module: " << vk::to_string(iter.first);
         shader_modules_[iter.first] =
             std::make_unique<ShaderModule>(device, iter.first, iter.second);
     }

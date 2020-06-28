@@ -81,13 +81,16 @@ void CommandBuffer::bindIndexBuffer(const ComputeBufferPtr& buffer) {
 }
 
 void CommandBuffer::bindTexture(uint32_t set, uint32_t binding, const ComputeTexturePtr& texture) {
+    CXL_DCHECK(texture);
     state_.pipeline_resources_.descriptors[set].bindings[binding].image_info =
         texture->image_info();
+    state_.pipeline_resources_.descriptors[set].bindings[binding].type = texture->type();
     descriptor_flags_ |= 1 << set;
 }
 
 void CommandBuffer::bindUniformBuffer(uint32_t set, uint32_t binding,
                                       const ComputeBufferPtr& buffer) {
+    CXL_DCHECK(buffer);
     state_.pipeline_resources_.descriptors[set].bindings[binding].buffer_info = buffer->info();
     state_.pipeline_resources_.descriptors[set].bindings[binding].type = buffer->type();
     descriptor_flags_ |= 1 << set;
@@ -416,7 +419,8 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
         vk::DescriptorType type = binding.descriptorType;
 
         const auto& curr_data = state_.pipeline_resources_.descriptors[index].bindings[i];
-        CXL_DCHECK(curr_data.type == type);
+        CXL_DCHECK(curr_data.type == type)
+            << vk::to_string(curr_data.type) << " | " << vk::to_string(type);
 
         hasher.hash(curr_data.identifier);
         hasher.hash(curr_data.type);
@@ -468,9 +472,12 @@ void CommandBuffer::writeDescriptorSet(uint32_t index, vk::DescriptorSet vk_set)
             case vk::DescriptorType::eStorageBufferDynamic:
             case vk::DescriptorType::eUniformBufferDynamic:
                 break;
-            case vk::DescriptorType::eSampledImage:
+            case vk::DescriptorType::eCombinedImageSampler: {
+                auto& image_info = curr_data.image_info;
+                vk::WriteDescriptorSet write_info(vk_set, index, 0, 1, curr_data.type, &image_info);
                 CXL_DCHECK(curr_data.image_info.imageView);
                 break;
+            }
         }
 
         write_infos.push_back(write_info);

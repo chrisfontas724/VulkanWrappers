@@ -21,7 +21,7 @@ class ShaderPipeline {
     uint32_t descriptor_set_mask() const { return descriptor_set_mask_; }
 
     DescriptorSetLayout* descriptor_layout(uint32_t index) const {
-        CXL_DCHECK(index < 32);
+        CXL_DCHECK(descriptor_set_mask_ & (1 << index));
         return descriptor_layouts_[index].get();
     }
 
