@@ -27,6 +27,12 @@ class ShaderPipeline {
 
     vk::PipelineLayout vk() const { return layout_; }
 
+    const std::vector<vk::PushConstantRange>& push_ranges() const {
+        return push_ranges_;
+    }
+    
+    uint32_t push_constant_layout_hash() const;
+
    private:
     DescriptorSetLayoutPtr descriptor_layouts_[32];
     vk::PipelineLayoutCreateInfo layout_info_;

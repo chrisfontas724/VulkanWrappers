@@ -51,6 +51,13 @@ class CommandBuffer {
     void bindTexture(uint32_t set, uint32_t binding, const ComputeTexturePtr& texture);
     void bindUniformBuffer(uint32_t set, uint32_t binding, const ComputeBufferPtr& buffer);
 
+    template<typename T>
+    void pushConstants(const T& data, vk::DeviceSize offset = vk::DeviceSize(0)) {
+        pushConstants(&data, offset, static_cast<vk::DeviceSize>(sizeof(T)));
+    }
+
+    void pushConstants(const void* data, vk::DeviceSize offset, vk::DeviceSize size);
+
     void setDepth(bool test, bool write);
 
     void dispatch(uint32_t group_x, uint32_t group_y, uint32_t group_z);
@@ -103,6 +110,7 @@ class CommandBuffer {
     using Flags = uint32_t;
     enum FlagBits {
         kPipelineBit = 1 << 0,
+        kPushConstantBit = 1 << 1,
     };
 
     void setChanged(uint32_t mask) { changed_flags_ |= mask; }

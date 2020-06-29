@@ -4,6 +4,8 @@
 
 #include "vk_wrappers/shader_pipeline.hpp"
 
+#include "utils/hasher.hpp"
+
 namespace gfx {
 
 ShaderPipeline::ShaderPipeline(const LogicalDevicePtr& device,
@@ -29,6 +31,15 @@ ShaderPipeline::ShaderPipeline(const LogicalDevicePtr& device,
         std::cout << "vk::SystemError: " << err.what() << std::endl;
         exit(-1);
     }
+}
+
+uint32_t ShaderPipeline::push_constant_layout_hash() const {
+    cxl::Hasher hasher(0);
+    for (const auto& range : push_ranges_) {
+        hasher.hash(range.offset);
+        hasher.hash(range.size);
+    }
+    return hasher.get_hash();
 }
 
 }  // namespace gfx

@@ -96,6 +96,13 @@ void CommandBuffer::bindUniformBuffer(uint32_t set, uint32_t binding,
     descriptor_flags_ |= 1 << set;
 }
 
+void CommandBuffer::pushConstants(const void* data, vk::DeviceSize offset, vk::DeviceSize size) {
+    CXL_DCHECK(offset + size < 256);
+    uint8_t* ptr = &state_.pipeline_resources_.push_constants[offset];
+    memcpy(ptr, data, size);
+    setChanged(kPushConstantBit);
+}
+
 void CommandBuffer::reset() const {
     command_buffer_.reset(vk::CommandBufferResetFlagBits::eReleaseResources);
     state_.has_recording_ = false;
@@ -167,13 +174,19 @@ void CommandBuffer::setProgram(ShaderProgramPtr program) {
 
     if (!state_.shader_program_) {
         descriptor_flags_ = ~0u;
-
-        // If we get here, then we know the old program and the new program are
-        // different, and we have to find the first descriptor set which differs
-        // between the two of them and dirty those flags.
-    } else {
+        setChanged(kPushConstantBit);
+    }
+    // If we get here, then we know the old program and the new program are
+    // different, and we have to find the first descriptor set which differs
+    // between the two of them and dirty those flags.
+    else {
         ShaderPipeline new_pipeline = program->pipeline();
         ShaderPipeline old_pipeline = state_.shader_program_->pipeline();
+
+        //
+        if (new_pipeline.push_constant_layout_hash() != old_pipeline.push_constant_layout_hash()) {
+            setChanged(kPushConstantBit);
+        }
 
         for (uint32_t i = 0; i < 32; i++) {
             auto new_descriptor_layout = new_pipeline.descriptor_layout(i);
@@ -399,6 +412,16 @@ void CommandBuffer::prepareGraphicsPipelineData() {
                                           offsets);
         state_.bind_call_.buffers.clear();
         state_.bind_call_.offsets.clear();
+    }
+
+    if (getAndClear(kPushConstantBit)) {
+        auto& pipeline = state_.shader_program_->pipeline();
+        auto vk_layout = pipeline.vk();
+        const auto& push_ranges = pipeline.push_ranges();
+        for (const auto& range : push_ranges) {
+            command_buffer_.pushConstants(vk_layout, range.stageFlags, range.offset, range.size,
+                                          state_.pipeline_resources_.push_constants + range.offset);
+        }
     }
 
     prepareDescriptorSets();
