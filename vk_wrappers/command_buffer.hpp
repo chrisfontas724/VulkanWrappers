@@ -51,7 +51,7 @@ class CommandBuffer {
     void bindTexture(uint32_t set, uint32_t binding, const ComputeTexturePtr& texture);
     void bindUniformBuffer(uint32_t set, uint32_t binding, const ComputeBufferPtr& buffer);
 
-    template<typename T>
+    template <typename T>
     void pushConstants(const T& data, vk::DeviceSize offset = vk::DeviceSize(0)) {
         pushConstants(&data, offset, static_cast<vk::DeviceSize>(sizeof(T)));
     }

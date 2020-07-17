@@ -172,6 +172,7 @@ uint32_t PhysicalDevice::findMemoryType(uint32_t type_filter,
         }
     }
 
+    CXL_DCHECK(false);
     throw std::runtime_error("failed to find suitable memory type!");
 }
 

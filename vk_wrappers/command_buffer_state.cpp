@@ -40,7 +40,7 @@ void CommandBufferState::set_default_state(DefaultState state) {
             topology_ = vk::PrimitiveTopology::eTriangleList;
             rasterization_state_ = vk::PipelineRasterizationStateCreateInfo(
                 {}, VK_FALSE, VK_FALSE, vk::PolygonMode::eFill, vk::CullModeFlagBits::eBack,
-                vk::FrontFace::eClockwise,
+                vk::FrontFace::eCounterClockwise,
                 VK_FALSE,  // Depth bias enable
                 0,         // Depth bias constant factor
                 0,         // Depth bias clamp

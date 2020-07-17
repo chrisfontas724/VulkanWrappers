@@ -15,6 +15,7 @@ void createImage(std::shared_ptr<LogicalDevice> device, uint32_t width, uint32_t
                  vk::MemoryPropertyFlags properties, vk::Image& image, vk::ImageLayout layout,
                  vk::DeviceMemory& image_memory) {
     vk::ImageCreateInfo create_info;
+    create_info.flags = {};
     create_info.setImageType(vk::ImageType::e2D);
     create_info.setExtent(vk::Extent3D(width, height, 1));
     create_info.setMipLevels(1);
@@ -29,6 +30,7 @@ void createImage(std::shared_ptr<LogicalDevice> device, uint32_t width, uint32_t
     device->vk().createImage(&create_info, nullptr, &image);
 
     vk::MemoryRequirements mem_requirements = device->vk().getImageMemoryRequirements(image);
+    
     vk::MemoryAllocateInfo memory_info(
         mem_requirements.size,
         device->physical_device()->findMemoryType(mem_requirements.memoryTypeBits, properties));
@@ -54,6 +56,7 @@ ImageUtils::Data createImageAbstract(std::shared_ptr<LogicalDevice> device, uint
     if (pixels) {
         uint64_t size = width * height * data_size * channels;
         staging_buffer = ComputeBuffer::createSourceBuffer(device, size);
+        CXL_DCHECK(staging_buffer);
         staging_buffer->write<T>(pixels, width * height * channels);
     }
 
@@ -63,7 +66,6 @@ ImageUtils::Data createImageAbstract(std::shared_ptr<LogicalDevice> device, uint
     createImage(device, width, height, format, vk::ImageTiling::eOptimal, usage,
                 vk::MemoryPropertyFlagBits::eDeviceLocal, image, vk::ImageLayout::eUndefined,
                 memory);
-    CXL_VLOG(3) << "Created base image!";
 
     // Transition image layout.
     command_buffer->reset();
@@ -123,7 +125,7 @@ ComputeTexturePtr ImageUtils::create8BitUnormImage(std::shared_ptr<LogicalDevice
             break;
     };
 
-    auto data = createImageAbstract<uint8_t>(device, width, height, 4, sizeof(uint8_t), format, usage,
+    auto data = createImageAbstract<uint8_t>(device, width, height, channels, sizeof(uint8_t), format, usage,
                                         vk::ImageAspectFlagBits::eColor, src_layout, dst_layout,
                                         pixels);
     return std::make_shared<ComputeTexture>(device, data);                         
