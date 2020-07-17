@@ -50,7 +50,7 @@ class RenderPassBuilder {
                             AttachmentInfo info = kDefaultColorAttachment,
                             glm::vec4 clear_values = glm::vec4(0));
 
-    void addResolveAttachment(ComputeTexturePtr texture, AttachmentInfo info);
+    void addResolveAttachment(ComputeTexturePtr texture, AttachmentInfo info = kDefaultColorAttachment);
 
     void addDepthAttachment(ComputeTexturePtr texture,
                             AttachmentInfo info = kDefaultDepthAttachment,

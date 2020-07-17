@@ -26,13 +26,13 @@ class ImageUtils {
 
     static ComputeTexturePtr create8BitUnormImage(std::shared_ptr<LogicalDevice> device,
                                                   uint32_t width, uint32_t height,
-                                                  uint32_t channels, const uint8_t* pixels);
+                                                  uint32_t channels, vk::SampleCountFlagBits samples, const uint8_t* pixels);
 
     static ComputeTexturePtr createHDRImage(std::shared_ptr<LogicalDevice> device, uint32_t width,
                                             uint32_t height, const half* pixels);
 
     static ComputeTexturePtr createColorAttachment(std::shared_ptr<LogicalDevice> device,
-                                                   uint32_t width, uint32_t height);
+                                                   uint32_t width, uint32_t height, vk::SampleCountFlagBits samples = vk::SampleCountFlagBits::e1);
 
     static ComputeTexturePtr createAccumulationAttachment(std::shared_ptr<LogicalDevice> device,
                                                           uint32_t width, uint32_t height);

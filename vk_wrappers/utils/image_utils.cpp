@@ -13,7 +13,8 @@ namespace {
 void createImage(std::shared_ptr<LogicalDevice> device, uint32_t width, uint32_t height,
                  vk::Format format, vk::ImageTiling tiling, vk::ImageUsageFlags usage,
                  vk::MemoryPropertyFlags properties, vk::Image& image, vk::ImageLayout layout,
-                 vk::DeviceMemory& image_memory) {
+                 vk::DeviceMemory& image_memory,
+                 vk::SampleCountFlagBits samples = vk::SampleCountFlagBits::e1) {
     vk::ImageCreateInfo create_info;
     create_info.flags = {};
     create_info.setImageType(vk::ImageType::e2D);
@@ -24,7 +25,7 @@ void createImage(std::shared_ptr<LogicalDevice> device, uint32_t width, uint32_t
     create_info.setTiling(tiling);
     create_info.setInitialLayout(layout);
     create_info.setUsage(usage);
-    create_info.setSamples(vk::SampleCountFlagBits::e1);
+    create_info.setSamples(samples);
     create_info.setSharingMode(vk::SharingMode::eExclusive);
 
     device->vk().createImage(&create_info, nullptr, &image);
@@ -44,7 +45,7 @@ ImageUtils::Data createImageAbstract(std::shared_ptr<LogicalDevice> device, uint
                                      uint32_t height, uint32_t channels, uint32_t data_size,
                                      vk::Format format, vk::ImageUsageFlags usage,
                                      vk::ImageAspectFlagBits aspect, vk::ImageLayout src_layout,
-                                     vk::ImageLayout dst_layout, const T* pixels) {
+                                     vk::ImageLayout dst_layout, vk::SampleCountFlagBits samples, const T* pixels) {
     CXL_VLOG(3) << "CreateImageAbstract: " << data_size;
     auto command_buffer = gfx::CommandBuffer::create(device, gfx::Queue::Type::kTransfer,
                                                      vk::CommandBufferLevel::ePrimary);
@@ -65,7 +66,7 @@ ImageUtils::Data createImageAbstract(std::shared_ptr<LogicalDevice> device, uint
     vk::DeviceMemory memory;
     createImage(device, width, height, format, vk::ImageTiling::eOptimal, usage,
                 vk::MemoryPropertyFlagBits::eDeviceLocal, image, vk::ImageLayout::eUndefined,
-                memory);
+                memory, samples);
 
     // Transition image layout.
     command_buffer->reset();
@@ -103,7 +104,8 @@ ImageUtils::Data createImageAbstract(std::shared_ptr<LogicalDevice> device, uint
 
 ComputeTexturePtr ImageUtils::create8BitUnormImage(std::shared_ptr<LogicalDevice> device,
                                                   uint32_t width, uint32_t height,
-                                                  uint32_t channels, const uint8_t* pixels) {
+                                                  uint32_t channels,
+                                                  vk::SampleCountFlagBits samples, const uint8_t* pixels) {   
     auto src_layout = vk::ImageLayout::eTransferDstOptimal;
     auto dst_layout = vk::ImageLayout::eShaderReadOnlyOptimal;
     auto usage = vk::ImageUsageFlagBits::eTransferSrc | vk::ImageUsageFlagBits::eTransferDst |
@@ -127,7 +129,7 @@ ComputeTexturePtr ImageUtils::create8BitUnormImage(std::shared_ptr<LogicalDevice
 
     auto data = createImageAbstract<uint8_t>(device, width, height, channels, sizeof(uint8_t), format, usage,
                                         vk::ImageAspectFlagBits::eColor, src_layout, dst_layout,
-                                        pixels);
+                                        samples, pixels);
     return std::make_shared<ComputeTexture>(device, data);                         
 }
 
@@ -139,7 +141,7 @@ ComputeTexturePtr ImageUtils::createDepthTexture(LogicalDevicePtr device, uint32
     auto aspect = vk::ImageAspectFlagBits::eDepth;
     auto format = device->physical_device()->findDepthFormat();
     auto data = createImageAbstract<float>(device, width, height, 1, 0, format, usage, aspect,
-                                           src_layout, dst_layout, nullptr);
+                                           src_layout, dst_layout, vk::SampleCountFlagBits::e1, nullptr);
     return std::make_shared<ComputeTexture>(device, data);
 }
 
@@ -150,18 +152,18 @@ ComputeTexturePtr ImageUtils::createHDRImage(std::shared_ptr<LogicalDevice> devi
     auto usage = vk::ImageUsageFlagBits::eTransferDst | vk::ImageUsageFlagBits::eSampled;
     auto data = createImageAbstract<half>(
         device, width, height, 4, sizeof(half), vk::Format::eR16G16B16A16Sfloat, usage,
-        vk::ImageAspectFlagBits::eColor, src_layout, dst_layout, pixels);
+        vk::ImageAspectFlagBits::eColor, src_layout, dst_layout, vk::SampleCountFlagBits::e1, pixels);
     return std::make_shared<ComputeTexture>(device, data);
 }
 
 ComputeTexturePtr ImageUtils::createColorAttachment(std::shared_ptr<LogicalDevice> device,
-                                                    uint32_t width, uint32_t height) {
+                                                    uint32_t width, uint32_t height, vk::SampleCountFlagBits samples) {
     auto usage = vk::ImageUsageFlagBits::eTransferSrc | vk::ImageUsageFlagBits::eTransferDst |
                  vk::ImageUsageFlagBits::eColorAttachment | vk::ImageUsageFlagBits::eSampled;
     auto layout = vk::ImageLayout::eColorAttachmentOptimal;
     auto data = createImageAbstract<uint8_t>(
         device, width, height, 4, sizeof(uint8_t), vk::Format::eB8G8R8A8Unorm, usage,
-        vk::ImageAspectFlagBits::eColor, layout, layout, nullptr);
+        vk::ImageAspectFlagBits::eColor, layout, layout, samples, nullptr);
     return std::make_shared<ComputeTexture>(device, data);
 }
 
@@ -172,7 +174,7 @@ ComputeTexturePtr ImageUtils::createAccumulationAttachment(std::shared_ptr<Logic
     auto layout = vk::ImageLayout::eColorAttachmentOptimal;
     auto data = createImageAbstract<float>(
         device, width, height, 4, sizeof(float), vk::Format::eR32G32B32A32Sfloat, usage,
-        vk::ImageAspectFlagBits::eColor, layout, layout, nullptr);
+        vk::ImageAspectFlagBits::eColor, layout, layout, vk::SampleCountFlagBits::e1, nullptr);
     return std::make_shared<ComputeTexture>(device, data);
 }
 
