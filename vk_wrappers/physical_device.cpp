@@ -86,6 +86,7 @@ void PhysicalDevice::printDiagnostics() {
                   << properties_.limits.maxComputeWorkGroupInvocations;
     CXL_LOG(INFO) << "        d. Max Compute Work Group Size: "
                   << properties_.limits.maxComputeWorkGroupSize[0];
+    CXL_LOG(INFO) << "        e. Max MSAA samples: " << vk::to_string(maximumMSAA());
     CXL_LOG(INFO) << "    7. Features: ";
     CXL_LOG(INFO) << "        a. Has Geometry Shaders: "
                   << (features_.geometryShader ? "yes" : "no");

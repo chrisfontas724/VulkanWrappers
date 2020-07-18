@@ -19,10 +19,11 @@ class ImageUtils {
         vk::Extent2D extent;
         vk::ImageLayout layout;
         vk::ImageAspectFlagBits aspect;
+        vk::SampleCountFlagBits samples;
     };
 
     static ComputeTexturePtr createDepthTexture(LogicalDevicePtr device, uint32_t width,
-                                                uint32_t height);
+                                                uint32_t height, vk::SampleCountFlagBits samples = vk::SampleCountFlagBits::e1);
 
     static ComputeTexturePtr create8BitUnormImage(std::shared_ptr<LogicalDevice> device,
                                                   uint32_t width, uint32_t height,

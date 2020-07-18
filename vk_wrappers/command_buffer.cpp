@@ -137,6 +137,7 @@ void CommandBuffer::beginRenderPass(const RenderPassInfo& render_pass_info) cons
     state_.render_pass_ = render_pass_info.render_pass;
     state_.scissor_ = vk::Rect2D(offset, extent);
     state_.current_subpass_ = 0;
+    state_.msaa_samples_ = render_pass_info.textures[0]->samples();
     state_.num_subpasses_ = render_pass_info.num_subpasses;
 
     // Actually begin the render pass.

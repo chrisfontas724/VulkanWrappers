@@ -33,7 +33,6 @@ class RenderPassBuilder {
     struct AttachmentInfo {
         vk::AttachmentLoadOp load_op;
         vk::AttachmentStoreOp store_op;
-        vk::SampleCountFlagBits samples;
     };
 
     struct SubpassInfo {
@@ -65,13 +64,11 @@ class RenderPassBuilder {
     static constexpr AttachmentInfo kDefaultColorAttachment = {
         .load_op = vk::AttachmentLoadOp::eClear,
         .store_op = vk::AttachmentStoreOp::eStore,
-        .samples = vk::SampleCountFlagBits::e1,
     };
 
     static constexpr AttachmentInfo kDefaultDepthAttachment = {
         .load_op = vk::AttachmentLoadOp::eClear,
         .store_op = vk::AttachmentStoreOp::eDontCare,
-        .samples = vk::SampleCountFlagBits::e1,
     };
 
    private:

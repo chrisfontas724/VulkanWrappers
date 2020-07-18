@@ -31,6 +31,8 @@ class ComputeTexture {
 
     vk::ImageLayout layout() const { return layout_; }
 
+    vk::SampleCountFlagBits samples() const { return samples_; }
+
     vk::DescriptorImageInfo image_info() const {
         return vk::DescriptorImageInfo(sampler(), image_view(), layout());
     }
@@ -60,6 +62,7 @@ class ComputeTexture {
     uint32_t height_;
     uint32_t channels_;
     uint32_t channel_size_;
+    vk::SampleCountFlagBits samples_;
 };
 }  // namespace gfx
 

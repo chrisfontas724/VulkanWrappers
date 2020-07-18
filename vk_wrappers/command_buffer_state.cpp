@@ -180,6 +180,8 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
     depth_stencil_.stencilTestEnable = VK_FALSE;
     depth_stencil_.depthBoundsTestEnable = VK_FALSE;
 
+    multisampling_.rasterizationSamples = msaa_samples_;
+
     vk::GraphicsPipelineCreateInfo pipeline_info;
     pipeline_info.flags = {};
     pipeline_info.stageCount = 2;

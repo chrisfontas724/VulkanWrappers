@@ -14,6 +14,7 @@ ComputeTexture::ComputeTexture(std::shared_ptr<LogicalDevice> device,
     layout_ = image_data.layout;
     width_ = image_data.extent.width;
     height_ = image_data.extent.height;
+    samples_ = image_data.samples;
     image_view_ = ImageUtils::createImageView(device, image_data);
     sampler_ = Sampler::create(device, true, false);
 }
@@ -27,7 +28,8 @@ ComputeTexture::ComputeTexture(vk::ImageView view, vk::Image image, vk::ImageLay
       format_(format),
       sampler_(std::move(sampler)),
       width_(width),
-      height_(height) {}
+      height_(height),
+      samples_(vk::SampleCountFlagBits::e1) {}
 
 ComputeTexture::~ComputeTexture() {
     auto device = device_.lock();

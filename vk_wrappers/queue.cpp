@@ -17,7 +17,7 @@ void Queue::submit(const vk::SubmitInfo submit_info, const vk::Fence& fence) con
     std::lock_guard<std::mutex> lock(lock_);
     vk::Result result = queue_.submit(1, &submit_info, fence);
     if (result != vk::Result::eSuccess) {
-        CXL_LOG(ERROR) << "Could not submit info to queue";
+        CXL_LOG(ERROR) << "Could not submit info to queue: " << vk::to_string(result);
     }
 }
 
@@ -25,7 +25,7 @@ void Queue::submit(const std::vector<vk::SubmitInfo>& submit_info, const vk::Fen
     std::lock_guard<std::mutex> lock(lock_);
     vk::Result result = queue_.submit(submit_info.size(), submit_info.data(), fence);
     if (result != vk::Result::eSuccess) {
-        CXL_LOG(ERROR) << "Could not submit info to queue";
+        CXL_LOG(ERROR) << "Could not submit info to queue: " << vk::to_string(result);
     }
 }
 

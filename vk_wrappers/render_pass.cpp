@@ -16,14 +16,14 @@ void RenderPassBuilder::addColorAttachment(ComputeTexturePtr texture, Attachment
     vk::ImageLayout final_layout = is_swapchain_image ? vk::ImageLayout::ePresentSrcKHR
                                                       : vk::ImageLayout::eColorAttachmentOptimal;
 
-    CXL_CHECK(!(is_swapchain_image && info.samples != vk::SampleCountFlagBits::e1));
+    CXL_CHECK(!(is_swapchain_image && texture->samples() != vk::SampleCountFlagBits::e1));
 
     CXL_VLOG(3) << "Is swapchain image: " << is_swapchain_image;
     CXL_VLOG(3) << "FORMAT: " << vk::to_string(texture->format());
     vk::AttachmentDescription attachment(
         /*flags*/ {},
         /*format*/ texture->format(),
-        /*samples*/ info.samples,
+        /*samples*/ texture->samples(),
         /*loadOp*/ info.load_op,
         /*storeOp*/ info.store_op,
         /*stencilLoadOp*/ vk::AttachmentLoadOp::eDontCare,
@@ -38,10 +38,11 @@ void RenderPassBuilder::addColorAttachment(ComputeTexturePtr texture, Attachment
 
 void RenderPassBuilder::addResolveAttachment(ComputeTexturePtr texture, AttachmentInfo info) {
     CXL_CHECK(texture->layout() == vk::ImageLayout::ePresentSrcKHR);
+    CXL_DCHECK(texture->samples() == vk::SampleCountFlagBits::e1);
     vk::AttachmentDescription attachment(
         /*flags*/ {},
         /*format*/ texture->format(),
-        /*samples*/ info.samples,
+        /*samples*/ texture->samples(),
         /*loadOp*/ info.load_op,
         /*storeOp*/ info.store_op,
         /*stencilLoadOp*/ vk::AttachmentLoadOp::eDontCare,
@@ -58,7 +59,7 @@ void RenderPassBuilder::addDepthAttachment(ComputeTexturePtr texture, Attachment
     vk::AttachmentDescription attachment(
         /*flags*/ {},
         /*format*/ texture->format(),
-        /*samples*/ info.samples,
+        /*samples*/ texture->samples(),
         /*loadOp*/ info.load_op,
         /*storeOp*/ info.store_op,
         /*stencilLoadOp*/ vk::AttachmentLoadOp::eDontCare,
@@ -139,8 +140,9 @@ RenderPassInfo RenderPassBuilder::build() {
         if (subpass_info.resolve_index.has_value()) {
             uint32_t index = *subpass_info.resolve_index;
             const auto& resolve_attachment = resolve_attachments_[index];
+            CXL_VLOG(3) << "Resolve index: " << kNumCol + kNumDepth + index;
             resolve_reference = vk::AttachmentReference(kNumCol + kNumDepth + index,
-                                                        resolve_attachment.finalLayout);
+                                                        vk::ImageLayout::eColorAttachmentOptimal);
         }
 
         vk::SubpassDescription subpass(

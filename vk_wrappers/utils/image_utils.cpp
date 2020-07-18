@@ -97,7 +97,8 @@ ImageUtils::Data createImageAbstract(std::shared_ptr<LogicalDevice> device, uint
             .format = format,
             .extent = vk::Extent2D(width, height),
             .layout = dst_layout,
-            .aspect = aspect};
+            .aspect = aspect,
+            .samples = samples};
 }
 
 }  // anonymous namespace
@@ -134,14 +135,14 @@ ComputeTexturePtr ImageUtils::create8BitUnormImage(std::shared_ptr<LogicalDevice
 }
 
 ComputeTexturePtr ImageUtils::createDepthTexture(LogicalDevicePtr device, uint32_t width,
-                                                 uint32_t height) {
+                                                 uint32_t height, vk::SampleCountFlagBits samples) {
     auto src_layout = vk::ImageLayout::eUndefined;
     auto dst_layout = vk::ImageLayout::eUndefined;
     auto usage = vk::ImageUsageFlagBits::eDepthStencilAttachment;
     auto aspect = vk::ImageAspectFlagBits::eDepth;
     auto format = device->physical_device()->findDepthFormat();
     auto data = createImageAbstract<float>(device, width, height, 1, 0, format, usage, aspect,
-                                           src_layout, dst_layout, vk::SampleCountFlagBits::e1, nullptr);
+                                           src_layout, dst_layout, samples, nullptr);
     return std::make_shared<ComputeTexture>(device, data);
 }
 
