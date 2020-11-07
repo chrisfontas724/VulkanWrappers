@@ -41,7 +41,7 @@ ExternalProject_Add(glslang
 )
 
 ExternalProject_Add(openexr 
-  GIT_REPOSITORY    https://github.com/openexr/openexr.git
+  GIT_REPOSITORY    https://github.com/mitsuba-renderer/openexr.git
   GIT_TAG           master
   SOURCE_DIR        "${CMAKE_CURRENT_BINARY_DIR}/openexr-src"
   BINARY_DIR        "${CMAKE_CURRENT_BINARY_DIR}/openexr-build"
