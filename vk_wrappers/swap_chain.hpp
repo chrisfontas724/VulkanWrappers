@@ -6,7 +6,7 @@
 #define GRAPHICS_VK_WRAPPERS_SWAP_CHAIN_HPP_
 
 #include <tuple>
-
+#include <functional>
 #include "vk_wrappers/forward_declarations.hpp"
 
 namespace gfx {

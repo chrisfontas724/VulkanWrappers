@@ -46,7 +46,10 @@ vk::Extent2D chooseSwapExtent(const vk::SurfaceCapabilitiesKHR& capabilities, ui
 vk::SurfaceFormatKHR SwapChain::chooseSwapSurfaceFormat(
     const std::vector<vk::SurfaceFormatKHR>& availableFormats) {
     if (availableFormats.size() == 1 && availableFormats[0].format == vk::Format::eUndefined) {
-        return {vk::Format::eB8G8R8A8Unorm, vk::ColorSpaceKHR::eSrgbNonlinear};
+        vk::SurfaceFormatKHR result;
+        result.format = vk::Format::eB8G8R8A8Unorm;
+        result.colorSpace = vk::ColorSpaceKHR::eSrgbNonlinear;
+        return result;
     }
 
     for (const auto& availableFormat : availableFormats) {
