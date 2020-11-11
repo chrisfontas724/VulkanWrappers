@@ -52,6 +52,7 @@ void RenderPassBuilder::addResolveAttachment(ComputeTexturePtr texture, Attachme
 
     resolve_attachments_.push_back(attachment);
     resolve_textures_.push_back(texture);
+    color_clear_values_.push_back(glm::vec4(0));
 }
 
 void RenderPassBuilder::addDepthAttachment(ComputeTexturePtr texture, AttachmentInfo info,
