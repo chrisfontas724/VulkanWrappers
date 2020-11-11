@@ -6,6 +6,24 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/filesystem-src/streaming/buffer.cpp
+streaming/buffer.hpp
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/filesystem-src/streaming/streaming/buffer.hpp
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/filesystem-src/streaming/file_stream.cpp
+streaming/file_stream.hpp
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/filesystem-src/streaming/streaming/file_stream.hpp
+istream
+-
+iostream
+-
+
 C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/filesystem-src/streaming/file_system.cpp
 streaming/file_system.hpp
 C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/filesystem-src/streaming/streaming/file_system.hpp
@@ -40,10 +58,30 @@ windows.h
 unistd.h
 -
 
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/filesystem-src/streaming/memory_stream.cpp
+streaming/memory_stream.hpp
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/filesystem-src/streaming/streaming/memory_stream.hpp
+stdio.h
+-
+string.h
+-
+stdlib.h
+-
+
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/filesystem-src/streaming/stream.cpp
+streaming/stream.hpp
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/filesystem-src/streaming/streaming/stream.hpp
+
 filesystem-src/streaming/buffer.hpp
 cstdint
 -
 cstddef
+-
+
+filesystem-src/streaming/file_stream.hpp
+streaming/stream.hpp
+filesystem-src/streaming/streaming/stream.hpp
+sstream
 -
 
 filesystem-src/streaming/file_system.hpp
@@ -55,4 +93,16 @@ vector
 -
 map
 -
+
+filesystem-src/streaming/memory_stream.hpp
+streaming/stream.hpp
+filesystem-src/streaming/streaming/stream.hpp
+streaming/buffer.hpp
+filesystem-src/streaming/streaming/buffer.hpp
+string
+-
+
+filesystem-src/streaming/stream.hpp
+streaming/file_system.hpp
+filesystem-src/streaming/streaming/file_system.hpp
 

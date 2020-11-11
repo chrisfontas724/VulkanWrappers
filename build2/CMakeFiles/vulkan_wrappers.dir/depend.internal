@@ -26,7 +26,25 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/command_buffer.cpp.obj
  ../vk_wrappers/utils/image_utils.hpp
  ../vk_wrappers/utils/reflection/reflection.hpp
  ../vk_wrappers/utils/shader_compiler.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/command_buffer.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  C:/glm/glm/common.hpp
  C:/glm/glm/detail/_fixes.hpp
  C:/glm/glm/detail/_swizzle.hpp
@@ -187,7 +205,25 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/compute_buffer.cpp.obj
  ../vk_wrappers/utils/image_utils.hpp
  ../vk_wrappers/utils/reflection/reflection.hpp
  ../vk_wrappers/utils/shader_compiler.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/compute_buffer.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  C:/glm/glm/common.hpp
  C:/glm/glm/detail/_fixes.hpp
  C:/glm/glm/detail/_swizzle.hpp
@@ -297,9 +333,28 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/compute_texture.cpp.obj
  ../vk_wrappers/utils/image_utils.hpp
  ../vk_wrappers/utils/reflection/reflection.hpp
  ../vk_wrappers/utils/shader_compiler.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/compute_texture.cpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/compute_texture.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/forward_declarations.hpp
+ C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/vulkan.hpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  C:/glm/glm/common.hpp
  C:/glm/glm/detail/_fixes.hpp
  C:/glm/glm/detail/_swizzle.hpp
@@ -399,8 +454,26 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/descriptor_allocator.cpp.obj
  ../vk_wrappers/queue.hpp
  ../vk_wrappers/sampler.hpp
  ../vk_wrappers/utils/image_utils.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/descriptor_allocator.cpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/descriptor_allocator.hpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  coreclasses-src/logging/easylogging++.h
  coreclasses-src/logging/logging.hpp
  openexr-src/IlmBase/Half/half.h
@@ -413,15 +486,51 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/descriptor_set.cpp.obj
  ../vk_wrappers/queue.hpp
  ../vk_wrappers/sampler.hpp
  ../vk_wrappers/utils/image_utils.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/descriptor_set.cpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/descriptor_set.hpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  coreclasses-src/logging/easylogging++.h
  coreclasses-src/logging/logging.hpp
  openexr-src/IlmBase/Half/half.h
  openexr-src/IlmBase/Half/halfExport.h
 CMakeFiles/vulkan_wrappers.dir/vk_wrappers/error_handler.cpp.obj
  ../vk_wrappers/error_handler.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/error_handler.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  C:/glm/glm/common.hpp
  C:/glm/glm/detail/_fixes.hpp
  C:/glm/glm/detail/_swizzle.hpp
@@ -551,7 +660,25 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/instance.cpp.obj
  ../vk_wrappers/forward_declarations.hpp
  ../vk_wrappers/instance.hpp
  ../vk_wrappers/physical_device.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/instance.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  coreclasses-src/logging/easylogging++.h
  coreclasses-src/logging/logging.hpp
 CMakeFiles/vulkan_wrappers.dir/vk_wrappers/logical_device.cpp.obj
@@ -559,13 +686,49 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/logical_device.cpp.obj
  ../vk_wrappers/logical_device.hpp
  ../vk_wrappers/physical_device.hpp
  ../vk_wrappers/queue.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/logical_device.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  coreclasses-src/logging/easylogging++.h
  coreclasses-src/logging/logging.hpp
 CMakeFiles/vulkan_wrappers.dir/vk_wrappers/physical_device.cpp.obj
  ../vk_wrappers/forward_declarations.hpp
  ../vk_wrappers/physical_device.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/physical_device.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  coreclasses-src/logging/easylogging++.h
  coreclasses-src/logging/logging.hpp
 CMakeFiles/vulkan_wrappers.dir/vk_wrappers/queue.cpp.obj
@@ -587,7 +750,25 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/queue.cpp.obj
  ../vk_wrappers/utils/image_utils.hpp
  ../vk_wrappers/utils/reflection/reflection.hpp
  ../vk_wrappers/utils/shader_compiler.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/queue.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  C:/glm/glm/common.hpp
  C:/glm/glm/detail/_fixes.hpp
  C:/glm/glm/detail/_swizzle.hpp
@@ -686,7 +867,25 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/render_pass.cpp.obj
  ../vk_wrappers/render_pass.hpp
  ../vk_wrappers/sampler.hpp
  ../vk_wrappers/utils/image_utils.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/render_pass.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  C:/glm/glm/common.hpp
  C:/glm/glm/detail/_fixes.hpp
  C:/glm/glm/detail/_swizzle.hpp
@@ -775,14 +974,50 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/sampler.cpp.obj
  ../vk_wrappers/logical_device.hpp
  ../vk_wrappers/queue.hpp
  ../vk_wrappers/sampler.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/sampler.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
 CMakeFiles/vulkan_wrappers.dir/vk_wrappers/shader_module.cpp.obj
  ../vk_wrappers/forward_declarations.hpp
  ../vk_wrappers/logical_device.hpp
  ../vk_wrappers/queue.hpp
  ../vk_wrappers/shader_module.hpp
  ../vk_wrappers/utils/shader_compiler.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/shader_module.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  coreclasses-src/logging/easylogging++.h
  coreclasses-src/logging/logging.hpp
  filesystem-src/streaming/buffer.hpp
@@ -806,7 +1041,25 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/shader_pipeline.cpp.obj
  ../vk_wrappers/utils/image_utils.hpp
  ../vk_wrappers/utils/reflection/reflection.hpp
  ../vk_wrappers/utils/shader_compiler.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/shader_pipeline.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  coreclasses-src/logging/easylogging++.h
  coreclasses-src/logging/logging.hpp
  coreclasses-src/utils/hasher.hpp
@@ -834,7 +1087,25 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/shader_program.cpp.obj
  ../vk_wrappers/utils/image_utils.hpp
  ../vk_wrappers/utils/reflection/reflection.hpp
  ../vk_wrappers/utils/shader_compiler.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/shader_program.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  coreclasses-src/logging/easylogging++.h
  coreclasses-src/logging/logging.hpp
  filesystem-src/streaming/buffer.hpp
@@ -855,7 +1126,25 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/swap_chain.cpp.obj
  ../vk_wrappers/sampler.hpp
  ../vk_wrappers/swap_chain.hpp
  ../vk_wrappers/utils/image_utils.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/swap_chain.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  coreclasses-src/logging/easylogging++.h
  coreclasses-src/logging/logging.hpp
  openexr-src/IlmBase/Half/half.h
@@ -880,7 +1169,25 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/utils/image_utils.cpp.obj
  ../vk_wrappers/utils/image_utils.hpp
  ../vk_wrappers/utils/reflection/reflection.hpp
  ../vk_wrappers/utils/shader_compiler.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/utils/image_utils.cpp
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  C:/glm/glm/common.hpp
  C:/glm/glm/detail/_fixes.hpp
  C:/glm/glm/detail/_swizzle.hpp
@@ -981,10 +1288,28 @@ CMakeFiles/vulkan_wrappers.dir/vk_wrappers/utils/reflection/reflection.cpp.obj
  ../vk_wrappers/queue.hpp
  ../vk_wrappers/sampler.hpp
  ../vk_wrappers/utils/image_utils.hpp
+ ../vk_wrappers/vulkan.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/utils/reflection/reflection.cpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/utils/reflection/reflection.hpp
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/utils/reflection/spirv.h
  C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/utils/reflection/spirv_reflect.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vk_platform.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_android.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_beta.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_core.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_directfb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_fuchsia.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ggp.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_ios.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_macos.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_metal.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_vi.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_wayland.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_win32.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xcb.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib.h
+ C:/VulkanSDK/1.2.154.1/Include/vulkan/vulkan_xlib_xrandr.h
  coreclasses-src/logging/easylogging++.h
  coreclasses-src/logging/logging.hpp
  openexr-src/IlmBase/Half/half.h

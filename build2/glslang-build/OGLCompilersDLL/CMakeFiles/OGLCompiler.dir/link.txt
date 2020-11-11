@@ -1,2 +1,2 @@
-C:\TDM-GCC-32\bin\ar.exe qc libOGLCompiler.a CMakeFiles/OGLCompiler.dir/InitializeDll.cpp.obj
-C:\TDM-GCC-32\bin\ranlib.exe libOGLCompiler.a
+C:\TDM-GCC-32\bin\ar.exe qc libOGLCompilerd.a CMakeFiles/OGLCompiler.dir/InitializeDll.cpp.obj
+C:\TDM-GCC-32\bin\ranlib.exe libOGLCompilerd.a

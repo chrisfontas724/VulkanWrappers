@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/GenericCodeGen.dir/GenericCodeGen/CodeGen.cpp.obj"
   "CMakeFiles/GenericCodeGen.dir/GenericCodeGen/Link.cpp.obj"
-  "libGenericCodeGen.a"
-  "libGenericCodeGen.pdb"
+  "libGenericCodeGend.a"
+  "libGenericCodeGend.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

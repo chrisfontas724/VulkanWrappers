@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/SPVRemapper.dir/SPVRemapper.cpp.obj"
   "CMakeFiles/SPVRemapper.dir/doc.cpp.obj"
-  "libSPVRemapper.a"
-  "libSPVRemapper.pdb"
+  "libSPVRemapperd.a"
+  "libSPVRemapperd.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

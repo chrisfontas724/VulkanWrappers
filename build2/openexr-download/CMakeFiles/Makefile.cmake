@@ -7,8 +7,11 @@ set(CMAKE_DEPENDS_GENERATOR "MinGW Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
+  "C:/Program Files/CMake/share/cmake-3.19/Modules/CMakeDetermineSystem.cmake"
   "C:/Program Files/CMake/share/cmake-3.19/Modules/CMakeGenericSystem.cmake"
   "C:/Program Files/CMake/share/cmake-3.19/Modules/CMakeInitializeConfigs.cmake"
+  "C:/Program Files/CMake/share/cmake-3.19/Modules/CMakeMinGWFindMake.cmake"
+  "C:/Program Files/CMake/share/cmake-3.19/Modules/CMakeSystem.cmake.in"
   "C:/Program Files/CMake/share/cmake-3.19/Modules/CMakeSystemSpecificInformation.cmake"
   "C:/Program Files/CMake/share/cmake-3.19/Modules/CMakeSystemSpecificInitialize.cmake"
   "C:/Program Files/CMake/share/cmake-3.19/Modules/ExternalProject-gitupdate.cmake.in"
@@ -35,6 +38,7 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
+  "CMakeFiles/3.19.0-rc3/CMakeSystem.cmake"
   "filesystem-prefix/src/filesystem-stamp/filesystem-gitinfo.txt"
   "filesystem-prefix/tmp/filesystem-gitupdate.cmake"
   "filesystem-prefix/tmp/filesystem-cfgcmd.txt"

@@ -1,40 +1,40 @@
 Determining if the function fseeko exists failed with the following output:
 Change Dir: C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/CMakeFiles/CMakeTmp
 
-Run Build Command(s):C:/TDM-GCC-32/bin/mingw32-make.exe cmTC_56fde/fast && C:/TDM-GCC-32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_56fde.dir\build.make CMakeFiles/cmTC_56fde.dir/build
+Run Build Command(s):C:/TDM-GCC-32/bin/mingw32-make.exe cmTC_e83e4/fast && C:/TDM-GCC-32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_e83e4.dir\build.make CMakeFiles/cmTC_e83e4.dir/build
 mingw32-make.exe[1]: Entering directory 'C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_56fde.dir/CheckFunctionExists.c.obj
-C:\TDM-GCC-32\bin\gcc.exe   -DCHECK_FUNCTION_EXISTS=fseeko -o CMakeFiles\cmTC_56fde.dir\CheckFunctionExists.c.obj -c "C:\Program Files\CMake\share\cmake-3.19\Modules\CheckFunctionExists.c"
-Linking C executable cmTC_56fde.exe
-"C:\Program Files\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_56fde.dir\link.txt --verbose=1
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\cmTC_56fde.dir/objects.a
-C:\TDM-GCC-32\bin\ar.exe cr CMakeFiles\cmTC_56fde.dir/objects.a @CMakeFiles\cmTC_56fde.dir\objects1.rsp
-C:\TDM-GCC-32\bin\gcc.exe  -DCHECK_FUNCTION_EXISTS=fseeko -Wl,--whole-archive CMakeFiles\cmTC_56fde.dir/objects.a -Wl,--no-whole-archive -o cmTC_56fde.exe -Wl,--out-implib,libcmTC_56fde.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_56fde.dir\linklibs.rsp
-C:/TDM-GCC-32/bin/../lib/gcc/mingw32/9.2.0/../../../../mingw32/bin/ld.exe: CMakeFiles\cmTC_56fde.dir/objects.a(CheckFunctionExists.c.obj):CheckFunctionExists.c:(.text+0xc): undefined reference to `fseeko'
+Building C object CMakeFiles/cmTC_e83e4.dir/CheckFunctionExists.c.obj
+C:\TDM-GCC-32\bin\gcc.exe   -DCHECK_FUNCTION_EXISTS=fseeko -o CMakeFiles\cmTC_e83e4.dir\CheckFunctionExists.c.obj -c "C:\Program Files\CMake\share\cmake-3.19\Modules\CheckFunctionExists.c"
+Linking C executable cmTC_e83e4.exe
+"C:\Program Files\CMake\bin\cmake.exe" -E cmake_link_script CMakeFiles\cmTC_e83e4.dir\link.txt --verbose=1
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\cmTC_e83e4.dir/objects.a
+C:\TDM-GCC-32\bin\ar.exe cr CMakeFiles\cmTC_e83e4.dir/objects.a @CMakeFiles\cmTC_e83e4.dir\objects1.rsp
+C:\TDM-GCC-32\bin\gcc.exe  -DCHECK_FUNCTION_EXISTS=fseeko -Wl,--whole-archive CMakeFiles\cmTC_e83e4.dir/objects.a -Wl,--no-whole-archive -o cmTC_e83e4.exe -Wl,--out-implib,libcmTC_e83e4.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cmTC_e83e4.dir\linklibs.rsp
+C:/TDM-GCC-32/bin/../lib/gcc/mingw32/9.2.0/../../../../mingw32/bin/ld.exe: CMakeFiles\cmTC_e83e4.dir/objects.a(CheckFunctionExists.c.obj):CheckFunctionExists.c:(.text+0xc): undefined reference to `fseeko'
 collect2.exe: error: ld returned 1 exit status
-CMakeFiles\cmTC_56fde.dir\build.make:106: recipe for target 'cmTC_56fde.exe' failed
-mingw32-make.exe[1]: *** [cmTC_56fde.exe] Error 1
+CMakeFiles\cmTC_e83e4.dir\build.make:106: recipe for target 'cmTC_e83e4.exe' failed
+mingw32-make.exe[1]: *** [cmTC_e83e4.exe] Error 1
 mingw32-make.exe[1]: Leaving directory 'C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/CMakeFiles/CMakeTmp'
-Makefile:139: recipe for target 'cmTC_56fde/fast' failed
-mingw32-make.exe: *** [cmTC_56fde/fast] Error 2
+Makefile:139: recipe for target 'cmTC_e83e4/fast' failed
+mingw32-make.exe: *** [cmTC_e83e4/fast] Error 2
 
 
 
 Performing C++ SOURCE FILE Test HAVE_GCC_INLINE_ASM_AVX failed with the following output:
 Change Dir: C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/CMakeFiles/CMakeTmp
 
-Run Build Command(s):C:/TDM-GCC-32/bin/mingw32-make.exe cmTC_13c52/fast && C:/TDM-GCC-32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_13c52.dir\build.make CMakeFiles/cmTC_13c52.dir/build
+Run Build Command(s):C:/TDM-GCC-32/bin/mingw32-make.exe cmTC_2878b/fast && C:/TDM-GCC-32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_2878b.dir\build.make CMakeFiles/cmTC_2878b.dir/build
 mingw32-make.exe[1]: Entering directory 'C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_13c52.dir/src.cxx.obj
-C:\TDM-GCC-32\bin\g++.exe -DHAVE_GCC_INLINE_ASM_AVX  -std=gnu++17 -Wno-unused-result -Wno-deprecated  -o CMakeFiles\cmTC_13c52.dir\src.cxx.obj -c C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles\CMakeTmp\src.cxx
+Building CXX object CMakeFiles/cmTC_2878b.dir/src.cxx.obj
+C:\TDM-GCC-32\bin\g++.exe -DHAVE_GCC_INLINE_ASM_AVX  -std=gnu++17 -Wno-unused-result -Wno-deprecated  -o CMakeFiles\cmTC_2878b.dir\src.cxx.obj -c C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles\CMakeTmp\src.cxx
 C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles\CMakeTmp\src.cxx:13:5: error: #error No GCC style inline asm supported for AVX instructions
    13 |    #error No GCC style inline asm supported for AVX instructions
       |     ^~~~~
-CMakeFiles\cmTC_13c52.dir\build.make:83: recipe for target 'CMakeFiles/cmTC_13c52.dir/src.cxx.obj' failed
-mingw32-make.exe[1]: *** [CMakeFiles/cmTC_13c52.dir/src.cxx.obj] Error 1
+CMakeFiles\cmTC_2878b.dir\build.make:83: recipe for target 'CMakeFiles/cmTC_2878b.dir/src.cxx.obj' failed
+mingw32-make.exe[1]: *** [CMakeFiles/cmTC_2878b.dir/src.cxx.obj] Error 1
 mingw32-make.exe[1]: Leaving directory 'C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/CMakeFiles/CMakeTmp'
-Makefile:139: recipe for target 'cmTC_13c52/fast' failed
-mingw32-make.exe: *** [cmTC_13c52/fast] Error 2
+Makefile:139: recipe for target 'cmTC_2878b/fast' failed
+mingw32-make.exe: *** [cmTC_2878b/fast] Error 2
 
 
 Source file was:
@@ -57,10 +57,10 @@ Source file was:
 Performing C++ SOURCE FILE Test HAVE_SYSCONF_NPROCESSORS_ONLN failed with the following output:
 Change Dir: C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/CMakeFiles/CMakeTmp
 
-Run Build Command(s):C:/TDM-GCC-32/bin/mingw32-make.exe cmTC_3fc84/fast && C:/TDM-GCC-32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_3fc84.dir\build.make CMakeFiles/cmTC_3fc84.dir/build
+Run Build Command(s):C:/TDM-GCC-32/bin/mingw32-make.exe cmTC_555ad/fast && C:/TDM-GCC-32/bin/mingw32-make.exe  -f CMakeFiles\cmTC_555ad.dir\build.make CMakeFiles/cmTC_555ad.dir/build
 mingw32-make.exe[1]: Entering directory 'C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_3fc84.dir/src.cxx.obj
-C:\TDM-GCC-32\bin\g++.exe -DHAVE_SYSCONF_NPROCESSORS_ONLN  -std=gnu++17 -Wno-unused-result -Wno-deprecated  -o CMakeFiles\cmTC_3fc84.dir\src.cxx.obj -c C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles\CMakeTmp\src.cxx
+Building CXX object CMakeFiles/cmTC_555ad.dir/src.cxx.obj
+C:\TDM-GCC-32\bin\g++.exe -DHAVE_SYSCONF_NPROCESSORS_ONLN  -std=gnu++17 -Wno-unused-result -Wno-deprecated  -o CMakeFiles\cmTC_555ad.dir\src.cxx.obj -c C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles\CMakeTmp\src.cxx
 C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles\CMakeTmp\src.cxx: In function 'int main()':
 C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles\CMakeTmp\src.cxx:5:17: error: '_SC_NPROCESSORS_ONLN' was not declared in this scope; did you mean 'HAVE_SYSCONF_NPROCESSORS_ONLN'?
     5 |         sysconf(_SC_NPROCESSORS_ONLN);
@@ -69,11 +69,11 @@ C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles\CMakeTmp\src.cx
 C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles\CMakeTmp\src.cxx:5:9: error: 'sysconf' was not declared in this scope
     5 |         sysconf(_SC_NPROCESSORS_ONLN);
       |         ^~~~~~~
-CMakeFiles\cmTC_3fc84.dir\build.make:83: recipe for target 'CMakeFiles/cmTC_3fc84.dir/src.cxx.obj' failed
-mingw32-make.exe[1]: *** [CMakeFiles/cmTC_3fc84.dir/src.cxx.obj] Error 1
+CMakeFiles\cmTC_555ad.dir\build.make:83: recipe for target 'CMakeFiles/cmTC_555ad.dir/src.cxx.obj' failed
+mingw32-make.exe[1]: *** [CMakeFiles/cmTC_555ad.dir/src.cxx.obj] Error 1
 mingw32-make.exe[1]: Leaving directory 'C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/CMakeFiles/CMakeTmp'
-Makefile:139: recipe for target 'cmTC_3fc84/fast' failed
-mingw32-make.exe: *** [cmTC_3fc84/fast] Error 2
+Makefile:139: recipe for target 'cmTC_555ad/fast' failed
+mingw32-make.exe: *** [cmTC_555ad/fast] Error 2
 
 
 Source file was:

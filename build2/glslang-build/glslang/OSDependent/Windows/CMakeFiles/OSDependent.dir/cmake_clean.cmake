@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/OSDependent.dir/ossource.cpp.obj"
-  "libOSDependent.a"
-  "libOSDependent.pdb"
+  "libOSDependentd.a"
+  "libOSDependentd.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

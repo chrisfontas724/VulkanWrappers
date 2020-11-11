@@ -1,2 +1,2 @@
-C:\TDM-GCC-32\bin\ar.exe qc libglslang.a CMakeFiles/glslang.dir/CInterface/glslang_c_interface.cpp.obj
-C:\TDM-GCC-32\bin\ranlib.exe libglslang.a
+C:\TDM-GCC-32\bin\ar.exe qc libglslangd.a CMakeFiles/glslang.dir/CInterface/glslang_c_interface.cpp.obj
+C:\TDM-GCC-32\bin\ranlib.exe libglslangd.a

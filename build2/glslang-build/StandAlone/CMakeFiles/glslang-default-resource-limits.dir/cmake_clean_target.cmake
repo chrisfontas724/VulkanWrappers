@@ -1,3 +1,3 @@
 file(REMOVE_RECURSE
-  "libglslang-default-resource-limits.a"
+  "libglslang-default-resource-limitsd.a"
 )

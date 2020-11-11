@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/HLSL.dir/stub.cpp.obj"
-  "libHLSL.a"
-  "libHLSL.pdb"
+  "libHLSLd.a"
+  "libHLSLd.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

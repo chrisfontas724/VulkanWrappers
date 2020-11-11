@@ -6,7 +6,7 @@ CXX_DEFINES = -DENABLE_HLSL -DENABLE_OPT=0 -DGLSLANG_OSINCLUDE_WIN32
 
 CXX_INCLUDES = @CMakeFiles/MachineIndependent.dir/includes_CXX.rsp
 
-CXX_FLAGS = -std=gnu++17 -O3 -DNDEBUG -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -Wno-reorder -fno-rtti -Werror=deprecated-copy -std=c++11
+CXX_FLAGS = -std=gnu++17 -g -Wall -Wmaybe-uninitialized -Wuninitialized -Wunused -Wunused-local-typedefs -Wunused-parameter -Wunused-value -Wunused-variable -Wunused-but-set-parameter -Wunused-but-set-variable -fno-exceptions -Wno-reorder -fno-rtti -Werror=deprecated-copy -std=c++11
 
 # PCH options: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/cmake_pch.hxx.gch_OPTIONS = -Winvalid-pch;-x;c++-header;-include;C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/glslang-build/glslang/CMakeFiles/MachineIndependent.dir/cmake_pch.hxx
 

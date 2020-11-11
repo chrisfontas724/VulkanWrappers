@@ -674,49 +674,49 @@ MachineIndependent_OBJECTS = \
 # External object files for target MachineIndependent
 MachineIndependent_EXTERNAL_OBJECTS =
 
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/cmake_pch.hxx.gch
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/glslang_tab.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/attribute.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/Constant.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/iomapper.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/InfoSink.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/Initialize.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/IntermTraverse.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/Intermediate.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/ParseContextBase.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/ParseHelper.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/PoolAlloc.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/RemoveTree.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/Scan.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/ShaderLang.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/SymbolTable.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/Versions.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/intermOut.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/limits.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/linkValidate.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/parseConst.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/reflection.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/preprocessor/Pp.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/preprocessor/PpAtom.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/preprocessor/PpContext.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/preprocessor/PpScanner.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/preprocessor/PpTokens.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/propagateNoContraction.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslAttributes.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslParseHelper.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslScanContext.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslOpMap.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslTokenStream.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslGrammar.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslParseables.cpp.obj
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/build.make
-glslang-build/glslang/libMachineIndependent.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Linking CXX static library libMachineIndependent.a"
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/cmake_pch.hxx.gch
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/glslang_tab.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/attribute.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/Constant.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/iomapper.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/InfoSink.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/Initialize.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/IntermTraverse.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/Intermediate.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/ParseContextBase.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/ParseHelper.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/PoolAlloc.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/RemoveTree.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/Scan.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/ShaderLang.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/SymbolTable.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/Versions.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/intermOut.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/limits.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/linkValidate.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/parseConst.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/reflection.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/preprocessor/Pp.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/preprocessor/PpAtom.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/preprocessor/PpContext.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/preprocessor/PpScanner.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/preprocessor/PpTokens.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/MachineIndependent/propagateNoContraction.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslAttributes.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslParseHelper.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslScanContext.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslOpMap.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslTokenStream.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslGrammar.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/HLSL/hlslParseables.cpp.obj
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/build.make
+glslang-build/glslang/libMachineIndependentd.a: glslang-build/glslang/CMakeFiles/MachineIndependent.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Linking CXX static library libMachineIndependentd.a"
 	cd /d C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\glslang-build\glslang && $(CMAKE_COMMAND) -P CMakeFiles\MachineIndependent.dir\cmake_clean_target.cmake
 	cd /d C:\Users\Chris\Desktop\Projects\VulkanWrappers\build2\glslang-build\glslang && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\MachineIndependent.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-glslang-build/glslang/CMakeFiles/MachineIndependent.dir/build: glslang-build/glslang/libMachineIndependent.a
+glslang-build/glslang/CMakeFiles/MachineIndependent.dir/build: glslang-build/glslang/libMachineIndependentd.a
 
 .PHONY : glslang-build/glslang/CMakeFiles/MachineIndependent.dir/build
 

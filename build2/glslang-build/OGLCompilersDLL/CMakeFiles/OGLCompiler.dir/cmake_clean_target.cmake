@@ -1,3 +1,3 @@
 file(REMOVE_RECURSE
-  "libOGLCompiler.a"
+  "libOGLCompilerd.a"
 )

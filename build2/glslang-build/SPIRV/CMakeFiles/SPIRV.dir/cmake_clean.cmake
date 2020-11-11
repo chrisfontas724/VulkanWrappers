@@ -8,8 +8,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/SPIRV.dir/SpvTools.cpp.obj"
   "CMakeFiles/SPIRV.dir/disassemble.cpp.obj"
   "CMakeFiles/SPIRV.dir/doc.cpp.obj"
-  "libSPIRV.a"
-  "libSPIRV.pdb"
+  "libSPIRVd.a"
+  "libSPIRVd.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

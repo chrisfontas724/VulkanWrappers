@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/OGLCompiler.dir/InitializeDll.cpp.obj"
-  "libOGLCompiler.a"
-  "libOGLCompiler.pdb"
+  "libOGLCompilerd.a"
+  "libOGLCompilerd.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

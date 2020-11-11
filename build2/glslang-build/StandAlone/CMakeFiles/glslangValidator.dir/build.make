@@ -98,14 +98,14 @@ glslangValidator_EXTERNAL_OBJECTS =
 
 glslang-build/StandAlone/glslangValidator.exe: glslang-build/StandAlone/CMakeFiles/glslangValidator.dir/StandAlone.cpp.obj
 glslang-build/StandAlone/glslangValidator.exe: glslang-build/StandAlone/CMakeFiles/glslangValidator.dir/build.make
-glslang-build/StandAlone/glslangValidator.exe: glslang-build/glslang/libglslang.a
-glslang-build/StandAlone/glslangValidator.exe: glslang-build/SPIRV/libSPIRV.a
-glslang-build/StandAlone/glslangValidator.exe: glslang-build/StandAlone/libglslang-default-resource-limits.a
-glslang-build/StandAlone/glslangValidator.exe: glslang-build/SPIRV/libSPVRemapper.a
-glslang-build/StandAlone/glslangValidator.exe: glslang-build/glslang/libMachineIndependent.a
-glslang-build/StandAlone/glslangValidator.exe: glslang-build/OGLCompilersDLL/libOGLCompiler.a
-glslang-build/StandAlone/glslangValidator.exe: glslang-build/glslang/OSDependent/Windows/libOSDependent.a
-glslang-build/StandAlone/glslangValidator.exe: glslang-build/glslang/libGenericCodeGen.a
+glslang-build/StandAlone/glslangValidator.exe: glslang-build/glslang/libglslangd.a
+glslang-build/StandAlone/glslangValidator.exe: glslang-build/SPIRV/libSPIRVd.a
+glslang-build/StandAlone/glslangValidator.exe: glslang-build/StandAlone/libglslang-default-resource-limitsd.a
+glslang-build/StandAlone/glslangValidator.exe: glslang-build/SPIRV/libSPVRemapperd.a
+glslang-build/StandAlone/glslangValidator.exe: glslang-build/glslang/libMachineIndependentd.a
+glslang-build/StandAlone/glslangValidator.exe: glslang-build/OGLCompilersDLL/libOGLCompilerd.a
+glslang-build/StandAlone/glslangValidator.exe: glslang-build/glslang/OSDependent/Windows/libOSDependentd.a
+glslang-build/StandAlone/glslangValidator.exe: glslang-build/glslang/libGenericCodeGend.a
 glslang-build/StandAlone/glslangValidator.exe: glslang-build/StandAlone/CMakeFiles/glslangValidator.dir/linklibs.rsp
 glslang-build/StandAlone/glslangValidator.exe: glslang-build/StandAlone/CMakeFiles/glslangValidator.dir/objects1.rsp
 glslang-build/StandAlone/glslangValidator.exe: glslang-build/StandAlone/CMakeFiles/glslangValidator.dir/link.txt

@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/glslang.dir/CInterface/glslang_c_interface.cpp.obj"
-  "libglslang.a"
-  "libglslang.pdb"
+  "libglslangd.a"
+  "libglslangd.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

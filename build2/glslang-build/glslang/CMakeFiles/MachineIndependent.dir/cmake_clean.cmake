@@ -34,8 +34,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/MachineIndependent.dir/MachineIndependent/propagateNoContraction.cpp.obj"
   "CMakeFiles/MachineIndependent.dir/MachineIndependent/reflection.cpp.obj"
   "CMakeFiles/MachineIndependent.dir/cmake_pch.hxx.gch"
-  "libMachineIndependent.a"
-  "libMachineIndependent.pdb"
+  "libMachineIndependentd.a"
+  "libMachineIndependentd.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

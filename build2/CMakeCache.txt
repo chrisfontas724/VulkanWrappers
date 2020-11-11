@@ -833,5 +833,5 @@ Vulkan_LIBRARY-ADVANCED:INTERNAL=1
 //Have include unistd.h
 Z_HAVE_UNISTD_H:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
-_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=install
+_GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Program Files (x86)/VulkanWrappers
 

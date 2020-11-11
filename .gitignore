@@ -1,4 +1,7 @@
 build/
 build/*
 
+build2/
+build2/*
+
 ./clang-format

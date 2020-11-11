@@ -1,3 +1,3 @@
 file(REMOVE_RECURSE
-  "libglslang.a"
+  "libglslangd.a"
 )
