@@ -1,2 +1,0 @@
-C:\TDM-GCC-32\bin\ar.exe qc libSPVRemapperd.a CMakeFiles/SPVRemapper.dir/SPVRemapper.cpp.obj CMakeFiles/SPVRemapper.dir/doc.cpp.obj
-C:\TDM-GCC-32\bin\ranlib.exe libSPVRemapperd.a

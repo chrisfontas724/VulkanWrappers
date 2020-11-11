@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\Half.dir/objects.a
-C:\TDM-GCC-32\bin\ar.exe cr CMakeFiles\Half.dir/objects.a @CMakeFiles\Half.dir\objects1.rsp
-C:\TDM-GCC-32\bin\g++.exe -std=gnu++17 -Wno-unused-result -Wno-deprecated -O3 -DNDEBUG -shared -o libHalf.dll -Wl,--out-implib,libHalf.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\Half.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\Half.dir\linklibs.rsp

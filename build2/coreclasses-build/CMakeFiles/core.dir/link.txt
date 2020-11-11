@@ -1,2 +1,0 @@
-C:\TDM-GCC-32\bin\ar.exe qc libcore.a CMakeFiles/core.dir/logging/easylogging++.cc.obj CMakeFiles/core.dir/threading/dispatch_queue.cpp.obj CMakeFiles/core.dir/utils/hasher.cpp.obj
-C:\TDM-GCC-32\bin\ranlib.exe libcore.a

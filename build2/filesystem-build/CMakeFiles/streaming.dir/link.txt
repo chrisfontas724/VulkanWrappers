@@ -1,2 +1,0 @@
-C:\TDM-GCC-32\bin\ar.exe qc libstreaming.a CMakeFiles/streaming.dir/streaming/buffer.cpp.obj CMakeFiles/streaming.dir/streaming/file_stream.cpp.obj CMakeFiles/streaming.dir/streaming/file_system.cpp.obj CMakeFiles/streaming.dir/streaming/memory_stream.cpp.obj CMakeFiles/streaming.dir/streaming/stream.cpp.obj
-C:\TDM-GCC-32\bin\ranlib.exe libstreaming.a

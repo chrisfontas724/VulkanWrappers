@@ -1,3 +1,0 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\b44ExpLogTable.dir/objects.a
-C:\TDM-GCC-32\bin\ar.exe cr CMakeFiles\b44ExpLogTable.dir/objects.a @CMakeFiles\b44ExpLogTable.dir\objects1.rsp
-C:\TDM-GCC-32\bin\g++.exe -std=gnu++17 -Wno-unused-result -Wno-deprecated -O3 -DNDEBUG -Wl,--whole-archive CMakeFiles\b44ExpLogTable.dir/objects.a -Wl,--no-whole-archive -o b44ExpLogTable.exe -Wl,--out-implib,libb44ExpLogTable.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\b44ExpLogTable.dir\linklibs.rsp

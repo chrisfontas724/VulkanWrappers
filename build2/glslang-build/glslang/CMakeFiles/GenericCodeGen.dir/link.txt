@@ -1,2 +1,0 @@
-C:\TDM-GCC-32\bin\ar.exe qc libGenericCodeGend.a CMakeFiles/GenericCodeGen.dir/GenericCodeGen/CodeGen.cpp.obj CMakeFiles/GenericCodeGen.dir/GenericCodeGen/Link.cpp.obj
-C:\TDM-GCC-32\bin\ranlib.exe libGenericCodeGend.a
