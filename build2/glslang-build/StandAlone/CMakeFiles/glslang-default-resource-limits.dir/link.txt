@@ -1,0 +1,2 @@
+C:\TDM-GCC-32\bin\ar.exe qc libglslang-default-resource-limits.a CMakeFiles/glslang-default-resource-limits.dir/ResourceLimits.cpp.obj CMakeFiles/glslang-default-resource-limits.dir/resource_limits_c.cpp.obj
+C:\TDM-GCC-32\bin\ranlib.exe libglslang-default-resource-limits.a

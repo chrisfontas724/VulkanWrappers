@@ -1,4 +1,5 @@
 cmake_minimum_required (VERSION 3.7)
+project(VulkanWrappers)
 set (CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
@@ -125,16 +126,17 @@ set(VK_INCLUDE_DIRS
 )
 
 # Get GLM - This is a requirement so we fail early if it cannot be found.
-find_package(glm REQUIRED)
-if(NOT glm_FOUND)
-    message(Error "GLM not found")
-endif(NOT glm_FOUND)
+set(GLM_INCLUDE_DIR C:/glm)
+#find_package(glm REQUIRED)
+#if(NOT glm_FOUND)
+#    message(Error "GLM not found")
+#endif(NOT glm_FOUND)
 
 
 message(STATUS "Version1: GLM included at ${GLM_INCLUDE_DIR}")
 message(STATUS "Version2: GLM included at ${glm_INCLUDE_DIR}")
 message(STATUS ${GLM_INCLUDE_DIR})
-include_directories(${GLM_INCLUDE_DIRS})
+include_directories(${GLM_INCLUDE_DIR})
 link_directories(${GLM_LIBRARY_DIRS})
 add_definitions(${GLM_DEFINITIONS})
 

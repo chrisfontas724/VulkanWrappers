@@ -1,0 +1,2 @@
+C:\TDM-GCC-32\bin\ar.exe qc libHLSL.a CMakeFiles/HLSL.dir/stub.cpp.obj
+C:\TDM-GCC-32\bin\ranlib.exe libHLSL.a

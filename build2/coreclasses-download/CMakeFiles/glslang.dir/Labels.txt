@@ -1,0 +1,14 @@
+# Target labels
+ glslang
+# Source files and their labels
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/CMakeFiles/glslang
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/CMakeFiles/glslang.rule
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/CMakeFiles/glslang-complete.rule
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/glslang-prefix/src/glslang-stamp/glslang-install.rule
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/glslang-prefix/src/glslang-stamp/glslang-mkdir.rule
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/glslang-prefix/src/glslang-stamp/glslang-download.rule
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/glslang-prefix/src/glslang-stamp/glslang-update.rule
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/glslang-prefix/src/glslang-stamp/glslang-patch.rule
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/glslang-prefix/src/glslang-stamp/glslang-configure.rule
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/glslang-prefix/src/glslang-stamp/glslang-build.rule
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/coreclasses-download/glslang-prefix/src/glslang-stamp/glslang-test.rule

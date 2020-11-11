@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\IlmImf.dir/objects.a
+C:\TDM-GCC-32\bin\ar.exe cr CMakeFiles\IlmImf.dir/objects.a @CMakeFiles\IlmImf.dir\objects1.rsp
+C:\TDM-GCC-32\bin\g++.exe -std=gnu++17 -Wno-unused-result -Wno-deprecated -O3 -DNDEBUG -shared -o libIlmImf-2_2.dll -Wl,--out-implib,libIlmImf-2_2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 -Wl,--whole-archive CMakeFiles\IlmImf.dir/objects.a -Wl,--no-whole-archive @CMakeFiles\IlmImf.dir\linklibs.rsp

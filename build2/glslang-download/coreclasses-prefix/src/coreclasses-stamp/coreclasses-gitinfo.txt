@@ -1,0 +1,3 @@
+repository='https://github.com/chrisfontas724/CoreClasses.git'
+module=''
+tag='origin'

@@ -1,0 +1,6 @@
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/glslang-download/CMakeFiles/openexr.dir
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/glslang-download/CMakeFiles/filesystem.dir
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/glslang-download/CMakeFiles/coreclasses.dir
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/glslang-download/CMakeFiles/glslang.dir
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/glslang-download/CMakeFiles/edit_cache.dir
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/glslang-download/CMakeFiles/rebuild_cache.dir

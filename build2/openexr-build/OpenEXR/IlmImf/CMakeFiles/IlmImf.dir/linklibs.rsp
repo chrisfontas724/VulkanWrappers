@@ -1,0 +1,1 @@
+ ../../IlmBase/Half/libHalf.dll.a ../../IlmBase/Imath/libImath-2_2.dll.a ../../IlmBase/IlmThread/libIlmThread-2_2.dll.a ../../zlib/libzlib.dll.a ../../IlmBase/Iex/libIex-2_2.dll.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

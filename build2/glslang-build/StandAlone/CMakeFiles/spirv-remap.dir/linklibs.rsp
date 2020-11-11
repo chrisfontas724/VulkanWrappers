@@ -1,0 +1,1 @@
+ ../glslang/libglslang.a ../SPIRV/libSPIRV.a libglslang-default-resource-limits.a ../SPIRV/libSPVRemapper.a -lpsapi ../glslang/libMachineIndependent.a ../OGLCompilersDLL/libOGLCompiler.a ../glslang/OSDependent/Windows/libOSDependent.a ../glslang/libGenericCodeGen.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

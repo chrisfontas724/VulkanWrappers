@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/glslang-src/glslang/OSDependent/Windows/ossource.cpp
+../osinclude.h
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/glslang-src/glslang/OSDependent/osinclude.h
+windows.h
+-
+cassert
+-
+process.h
+-
+psapi.h
+-
+cstdio
+-
+cstdint
+-
+
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/build2/glslang-src/glslang/OSDependent/osinclude.h
+

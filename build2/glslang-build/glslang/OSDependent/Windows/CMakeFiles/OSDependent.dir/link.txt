@@ -1,0 +1,2 @@
+C:\TDM-GCC-32\bin\ar.exe qc libOSDependent.a CMakeFiles/OSDependent.dir/ossource.cpp.obj
+C:\TDM-GCC-32\bin\ranlib.exe libOSDependent.a

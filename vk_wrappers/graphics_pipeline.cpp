@@ -73,7 +73,7 @@ void GraphicsPipeline::initialize() {
         &dynamic_state,  // Dynamic State
         pipeline_layout_, render_pass_, 0, vk::Pipeline(), 0);
 
-    pipeline_ = device->vk().createGraphicsPipelines(vk::PipelineCache(), {pipeline_info})[0];
+    pipeline_ = device->vk().createGraphicsPipelines(vk::PipelineCache(), {pipeline_info}).value[0];
     CXL_VLOG(7) << "Finish creating graphics pipeline!\n\n";
 }
 

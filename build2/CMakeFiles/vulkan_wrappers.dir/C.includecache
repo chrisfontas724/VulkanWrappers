@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/utils/reflection/spirv.h
+
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/utils/reflection/spirv_reflect.c
+spirv_reflect.h
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/utils/reflection/spirv_reflect.h
+assert.h
+-
+stdbool.h
+-
+string.h
+-
+stdlib.h
+-
+crtdbg.h
+-
+stdlib.h
+-
+
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/utils/reflection/spirv_reflect.h
+spirv.h
+C:/Users/Chris/Desktop/Projects/VulkanWrappers/vk_wrappers/utils/reflection/spirv.h
+stdint.h
+-
+string.h
+-
+cstdlib
+-
+string
+-
+vector
+-
+

@@ -220,7 +220,7 @@ void CommandBufferState::generateGraphicsPipeline(LogicalDevicePtr device) {
         CXL_LOG(INFO) << "HASH: " << hash;
 
         try {
-            pipeline_ = device->vk().createGraphicsPipelines(pipeline_cache_, {pipeline_info})[0];
+            pipeline_ = device->vk().createGraphicsPipelines(pipeline_cache_, {pipeline_info}).value[0];
             pipeline_hash_[hash] = pipeline_;
             CXL_VLOG(7) << "Finish creating graphics pipeline!\n\n";
         } catch (vk::SystemError err) {
@@ -254,7 +254,7 @@ void CommandBufferState::generateComputePipeline(LogicalDevicePtr device) {
         pipeline_ = pipeline_hash_[hash];
     } else {
         try {
-            pipeline_ = device->vk().createComputePipelines(pipeline_cache_, {pipeline_info})[0];
+            pipeline_ = device->vk().createComputePipelines(pipeline_cache_, {pipeline_info}).value[0];
             pipeline_hash_[hash] = pipeline_;
         } catch (vk::SystemError err) {
             std::cout << "vk::SystemError: " << err.what() << std::endl;
