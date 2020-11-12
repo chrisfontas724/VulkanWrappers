@@ -79,12 +79,16 @@ Instance::Instance(const std::string& name, const std::vector<const char*>& exte
 
     try {
         // Initialize the vk::ApplicationInfo structure.
-        vk::ApplicationInfo applicationInfo(name.c_str(), 1, "christalz", 1, VK_API_VERSION_1_1);
+        vk::ApplicationInfo applicationInfo(name.c_str(), 1, "christalz", 1, VK_API_VERSION_1_2);
+
+        // Add more necessary extensions.
+        auto total_extensions = extensions;
+        total_extensions.push_back(VK_KHR_GET_PHYSICAL_DEVICE_PROPERTIES_2_EXTENSION_NAME);
 
         // Initialize the vk::InstanceCreateInfo.
         vk::InstanceCreateInfo instanceCreateInfo(
             /*flags*/ {}, &applicationInfo, validation ? validationLayers.size() : 0,
-            validation ? validationLayers.data() : nullptr, extensions.size(), extensions.data());
+            validation ? validationLayers.data() : nullptr, total_extensions.size(), total_extensions.data());
 
         // Setup debug information.
         vk::DebugUtilsMessengerCreateInfoEXT debugCreateInfo;

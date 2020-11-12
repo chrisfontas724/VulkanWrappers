@@ -66,7 +66,7 @@ class PhysicalDevice {
 
     vk::SampleCountFlagBits maximumMSAA() const;
 
-    const std::string name() const { return properties_.deviceName; }
+    const std::string name() const { return properties_.properties.deviceName; }
 
     const vk::PhysicalDeviceFeatures features() const { return features_; }
 
@@ -81,7 +81,8 @@ class PhysicalDevice {
     QueueFamilyIndices findQueueFamilies(const vk::SurfaceKHR& surface) const;
 
     vk::PhysicalDevice physical_device_;
-    vk::PhysicalDeviceProperties properties_;
+    vk::PhysicalDeviceProperties2 properties_;
+    vk::PhysicalDeviceRayTracingPropertiesNV ray_trace_properties_;
     vk::PhysicalDeviceFeatures features_;
     std::vector<vk::QueueFamilyProperties> queue_family_properties_;
     std::vector<vk::LayerProperties> layer_properties_;

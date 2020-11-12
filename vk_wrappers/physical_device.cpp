@@ -10,11 +10,15 @@ namespace {
 
 bool checkDeviceExtensionSupport(const vk::PhysicalDevice& device,
                                  const std::vector<const char*>& input_extensions) {
-    std::vector<vk::ExtensionProperties> available_extensions =
-        device.enumerateDeviceExtensionProperties();
+
+    std::vector<vk::ExtensionProperties> available_extensions = 
+                device.enumerateDeviceExtensionProperties();
+
     std::set<std::string> required_extensions(input_extensions.begin(), input_extensions.end());
 
+    CXL_VLOG(7) << "Extensions: ";
     for (const auto& extension : available_extensions) {
+        CXL_VLOG(7) << extension.extensionName;
         required_extensions.erase(extension.extensionName);
     }
     return required_extensions.empty();
@@ -43,12 +47,20 @@ PhysicalDevice::PhysicalDevice(vk::PhysicalDevice physical_device)
     queue_family_properties_ = physical_device_.getQueueFamilyProperties();
     layer_properties_ = physical_device_.enumerateDeviceLayerProperties();
 
-    properties_ = physical_device_.getProperties();
     features_ = physical_device_.getFeatures();
+
+    // Requesting ray tracing properties
+    auto properties_chain = physical_device_.getProperties2<vk::PhysicalDeviceProperties2,
+                                                    vk::PhysicalDeviceRayTracingPropertiesNV>();
+    
+    properties_ = properties_chain.get<vk::PhysicalDeviceProperties2>();
+    ray_trace_properties_  = properties_chain.get<vk::PhysicalDeviceRayTracingPropertiesNV>();
+    CXL_VLOG(2) << "MAX RECURSION DEPTH: " << ray_trace_properties_.maxRecursionDepth;
+    CXL_VLOG(2) << "MAX TRIANGLE COUNT: " << ray_trace_properties_.maxTriangleCount;
 }
 
 vk::SampleCountFlagBits PhysicalDevice::maximumMSAA() const {
-    vk::SampleCountFlags counts = properties_.limits.framebufferColorSampleCounts;
+    vk::SampleCountFlags counts = properties_.properties.limits.framebufferColorSampleCounts;
     if (counts & vk::SampleCountFlagBits::e64) {
         return vk::SampleCountFlagBits::e64;
     }
@@ -71,21 +83,21 @@ vk::SampleCountFlagBits PhysicalDevice::maximumMSAA() const {
 }
 
 void PhysicalDevice::printDiagnostics() {
-    CXL_LOG(INFO) << "Device: " << properties_.deviceName;
-    CXL_LOG(INFO) << "    1. ID: " << properties_.deviceID;
-    CXL_LOG(INFO) << "    2. Type: " << vk::to_string(properties_.deviceType);
-    CXL_LOG(INFO) << "    3. Vendor: " << properties_.vendorID;
-    CXL_LOG(INFO) << "    4. API Version: " << properties_.apiVersion;
-    CXL_LOG(INFO) << "    5. Driver Version: " << properties_.driverVersion;
+    CXL_LOG(INFO) << "Device: " << properties_.properties.deviceName;
+    CXL_LOG(INFO) << "    1. ID: " << properties_.properties.deviceID;
+    CXL_LOG(INFO) << "    2. Type: " << vk::to_string(properties_.properties.deviceType);
+    CXL_LOG(INFO) << "    3. Vendor: " << properties_.properties.vendorID;
+    CXL_LOG(INFO) << "    4. API Version: " << properties_.properties.apiVersion;
+    CXL_LOG(INFO) << "    5. Driver Version: " << properties_.properties.driverVersion;
     CXL_LOG(INFO) << "    6. Limits: ";
     CXL_LOG(INFO) << "        a. Max Image Dimensions 2D: "
-                  << properties_.limits.maxImageDimension2D;
+                  << properties_.properties.limits.maxImageDimension2D;
     CXL_LOG(INFO) << "        b. Max Storage Buffer Range: "
-                  << properties_.limits.maxStorageBufferRange;
+                  << properties_.properties.limits.maxStorageBufferRange;
     CXL_LOG(INFO) << "        c. Max Compute Work Group Invocations: "
-                  << properties_.limits.maxComputeWorkGroupInvocations;
+                  << properties_.properties.limits.maxComputeWorkGroupInvocations;
     CXL_LOG(INFO) << "        d. Max Compute Work Group Size: "
-                  << properties_.limits.maxComputeWorkGroupSize[0];
+                  << properties_.properties.limits.maxComputeWorkGroupSize[0];
     CXL_LOG(INFO) << "        e. Max MSAA samples: " << vk::to_string(maximumMSAA());
     CXL_LOG(INFO) << "    7. Features: ";
     CXL_LOG(INFO) << "        a. Has Geometry Shaders: "
@@ -101,14 +113,14 @@ uint32_t PhysicalDevice::performanceScore(const vk::SurfaceKHR& surface,
     // TODO: Figure out which is actually better. Seems like the integrated GPU is
     // performing better, but online guides say discrete GPUs are better...so this
     // needs more research. For now, will give a higher weight to the discrete GPU.
-    if (properties_.deviceType == vk::PhysicalDeviceType::eIntegratedGpu) {
+    if (properties_.properties.deviceType == vk::PhysicalDeviceType::eIntegratedGpu) {
         score += 1000;
-    } else if (properties_.deviceType == vk::PhysicalDeviceType::eDiscreteGpu) {
+    } else if (properties_.properties.deviceType == vk::PhysicalDeviceType::eDiscreteGpu) {
         score += 1500;
     }
 
     // Maximum possible size of textures affects graphics quality
-    score += properties_.limits.maxImageDimension2D;
+    score += properties_.properties.limits.maxImageDimension2D;
 
     QueueFamilyIndices indices = findQueueFamilies(surface);
     bool extensions_supported = checkDeviceExtensionSupport(physical_device_, extensions);
