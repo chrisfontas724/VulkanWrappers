@@ -49,12 +49,15 @@ class ComputeTexture {
 
     vk::Format format() const { return format_; }
 
+    vk::ImageAspectFlagBits aspect() const { return aspect_; }
+
    private:
     LogicalDeviceWeakPtr device_;
     SamplerPtr sampler_;
 
     vk::ImageView image_view_;
     vk::Format format_;
+    vk::ImageAspectFlagBits aspect_;
     vk::Image image_;
     vk::DeviceMemory memory_;
     vk::ImageLayout layout_;

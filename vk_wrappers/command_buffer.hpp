@@ -89,7 +89,7 @@ class CommandBuffer {
     void copyImageToImage(ComputeTexturePtr src, ComputeTexturePtr dst);
     void clearColorImage(ComputeTexturePtr image, std::array<float, 4> color);
 
-    void transitionImageLayout(vk::Image& image, vk::Format, vk::ImageLayout old_layout,
+    void transitionImageLayout(vk::Image& image, vk::Format, vk::ImageAspectFlagBits aspect, vk::ImageLayout old_layout,
                                vk::ImageLayout new_layout);
 
     void blit(ComputeTexturePtr src, ComputeTexturePtr dst, vk::Filter filter);

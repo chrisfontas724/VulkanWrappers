@@ -71,7 +71,12 @@ ImageUtils::Data createImageAbstract(std::shared_ptr<LogicalDevice> device, uint
     // Transition image layout.
     command_buffer->reset();
     command_buffer->beginRecording();
-    command_buffer->transitionImageLayout(image, format, vk::ImageLayout::eUndefined, src_layout);
+
+    CXL_VLOG(3) << "Transitioning to source layout!";
+    CXL_VLOG(3) << "FORMAT: " << vk::to_string(src_layout);
+    if (src_layout != vk::ImageLayout::eUndefined && src_layout != vk::ImageLayout::ePreinitialized) {
+      command_buffer->transitionImageLayout(image, format, aspect, vk::ImageLayout::eUndefined, src_layout);
+    }
 
     if (pixels) {
         // Copy buffer.
@@ -79,9 +84,10 @@ ImageUtils::Data createImageAbstract(std::shared_ptr<LogicalDevice> device, uint
         command_buffer->copyBufferToImage(staging_buffer, image, width, height);
     }
 
+    CXL_VLOG(3) << "Transitioning to destination layout!!!!";
     if (src_layout != dst_layout) {
         // Transition image layout.
-        command_buffer->transitionImageLayout(image, format, src_layout, dst_layout);
+        command_buffer->transitionImageLayout(image, format, aspect, src_layout, dst_layout);
     }
 
     command_buffer->endRecording();
@@ -136,8 +142,9 @@ ComputeTexturePtr ImageUtils::create8BitUnormImage(std::shared_ptr<LogicalDevice
 
 ComputeTexturePtr ImageUtils::createDepthTexture(LogicalDevicePtr device, uint32_t width,
                                                  uint32_t height, vk::SampleCountFlagBits samples) {
+    CXL_VLOG(3) << "ImageUtils::CreateDepthTexture() !!!";
     auto src_layout = vk::ImageLayout::eUndefined;
-    auto dst_layout = vk::ImageLayout::eUndefined;
+    auto dst_layout = vk::ImageLayout::eDepthAttachmentOptimal;
     auto usage = vk::ImageUsageFlagBits::eDepthStencilAttachment;
     auto aspect = vk::ImageAspectFlagBits::eDepth;
     auto format = device->physical_device()->findDepthFormat();

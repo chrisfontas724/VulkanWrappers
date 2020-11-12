@@ -287,9 +287,9 @@ void CommandBuffer::clearColorImage(ComputeTexturePtr image, std::array<float, 4
     image->transitionImageLayout(*this, layout);
 }
 
-void CommandBuffer::transitionImageLayout(vk::Image& image, vk::Format, vk::ImageLayout old_layout,
+void CommandBuffer::transitionImageLayout(vk::Image& image, vk::Format, vk::ImageAspectFlagBits aspect, vk::ImageLayout old_layout,
                                           vk::ImageLayout new_layout) {
-    vk::ImageSubresourceRange resource_range(vk::ImageAspectFlagBits::eColor, 0, 1, 0, 1);
+    vk::ImageSubresourceRange resource_range(aspect, 0, 1, 0, 1);
 
     vk::ImageMemoryBarrier barrier(vk::AccessFlags(), vk::AccessFlags(), old_layout, new_layout,
                                    VK_QUEUE_FAMILY_IGNORED, VK_QUEUE_FAMILY_IGNORED, image,
@@ -337,6 +337,18 @@ void CommandBuffer::transitionImageLayout(vk::Image& image, vk::Format, vk::Imag
     }
 
     switch (new_layout) {
+        // Catch errors here - we cannot go back to undefined or pre-initialized once
+        // the image already has a valid layout.
+        case vk::ImageLayout::eUndefined:
+        case vk::ImageLayout::ePreinitialized: {
+            CXL_CHECK(false) << "Cannot transition to undefined or preinitialized";
+            break;
+        }
+        case vk::ImageLayout::eDepthAttachmentOptimal: {
+            barrier.setDstAccessMask(vk::AccessFlagBits::eDepthStencilAttachmentWrite);
+            destination_stage = vk::PipelineStageFlagBits::eAllGraphics;
+            break;
+        }
         case vk::ImageLayout::eTransferSrcOptimal: {
             barrier.setDstAccessMask(vk::AccessFlags());
             destination_stage = vk::PipelineStageFlagBits::eTransfer;

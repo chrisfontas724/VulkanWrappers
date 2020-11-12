@@ -84,6 +84,7 @@ class RenderPassBuilder {
 
     std::vector<glm::vec4> color_clear_values_;
     std::vector<glm::vec2> depth_clear_values_;
+    std::vector<glm::vec4> resolve_clear_values_;
 
     std::vector<SubpassInfo> subpasses_;
 };

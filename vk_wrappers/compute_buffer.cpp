@@ -34,7 +34,7 @@ ComputeBuffer::ComputeBuffer(std::shared_ptr<LogicalDevice> device, vk::DeviceSi
 
         vk::MemoryRequirements mem_requirements = device->vk().getBufferMemoryRequirements(buffer_);
         vk::MemoryAllocateInfo allocate_info(
-            size,
+            mem_requirements.size,
             findMemoryType(device->physical_device(), mem_requirements.memoryTypeBits, properties));
         buffer_memory_ = device->vk().allocateMemory(allocate_info);
 

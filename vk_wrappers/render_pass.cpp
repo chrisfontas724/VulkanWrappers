@@ -37,6 +37,7 @@ void RenderPassBuilder::addColorAttachment(ComputeTexturePtr texture, Attachment
 }
 
 void RenderPassBuilder::addResolveAttachment(ComputeTexturePtr texture, AttachmentInfo info) {
+    CXL_VLOG(3) << "Inside call resolve attachment!";
     CXL_CHECK(texture->layout() == vk::ImageLayout::ePresentSrcKHR);
     CXL_DCHECK(texture->samples() == vk::SampleCountFlagBits::e1);
     vk::AttachmentDescription attachment(
@@ -50,9 +51,10 @@ void RenderPassBuilder::addResolveAttachment(ComputeTexturePtr texture, Attachme
         /*initialLayout*/ vk::ImageLayout::eUndefined,
         /*finalLayout*/ vk::ImageLayout::ePresentSrcKHR);
 
+    CXL_VLOG(3) << "Adding resolve attachment!";
     resolve_attachments_.push_back(attachment);
     resolve_textures_.push_back(texture);
-    color_clear_values_.push_back(glm::vec4(0));
+    resolve_clear_values_.push_back(glm::vec4(0));
 }
 
 void RenderPassBuilder::addDepthAttachment(ComputeTexturePtr texture, AttachmentInfo info,
@@ -88,6 +90,9 @@ RenderPassInfo RenderPassBuilder::build() {
                            depth_attachments_.end());
     all_attachments.insert(all_attachments.end(), resolve_attachments_.begin(),
                            resolve_attachments_.end());
+
+
+    CXL_VLOG(3) << "ATTACHMENT TEST: " << color_attachments_.size() << " " << depth_attachments_.size() << " " << resolve_attachments_.size() << " " << all_attachments.size();
 
     std::vector<vk::SubpassDescription> subpasses;
 
@@ -170,6 +175,7 @@ RenderPassInfo RenderPassBuilder::build() {
     render_pass_info.dependencyCount = 1;
     render_pass_info.pDependencies = &dependency;
 
+    CXL_VLOG(3) << "Creating render pass from info: " << all_attachments.size();
     vk::RenderPass render_pass = device->vk().createRenderPass(render_pass_info);
     uint32_t width = color_textures_[0]->width();
     uint32_t height = color_textures_[0]->height();
@@ -197,6 +203,11 @@ RenderPassInfo RenderPassBuilder::build() {
 
     for (auto val : depth_clear_values_) {
         vk::ClearDepthStencilValue clear_val(val.x, val.y);
+        clear_values.push_back(clear_val);
+    }
+
+    for (auto val : resolve_clear_values_) {
+        vk::ClearColorValue clear_val(std::array<float, 4>{val.x, val.y, val.z, val.w});
         clear_values.push_back(clear_val);
     }
 

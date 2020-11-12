@@ -11,6 +11,7 @@ ComputeTexture::ComputeTexture(std::shared_ptr<LogicalDevice> device,
     image_ = image_data.image;
     memory_ = image_data.memory;
     format_ = image_data.format;
+    aspect_ = image_data.aspect;
     layout_ = image_data.layout;
     width_ = image_data.extent.width;
     height_ = image_data.extent.height;
@@ -41,7 +42,7 @@ ComputeTexture::~ComputeTexture() {
 }
 
 void ComputeTexture::transitionImageLayout(CommandBuffer& command_buffer, vk::ImageLayout layout) {
-    command_buffer.transitionImageLayout(image_, format_, layout_, layout);
+    command_buffer.transitionImageLayout(image_, format_, aspect_, layout_, layout);
     layout_ = layout;
 }
 
