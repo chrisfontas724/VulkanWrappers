@@ -129,8 +129,8 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, ui
             auto image_view = ImageUtils::createImageView(
                 logical_device, image, surface_format_.format, vk::ImageAspectFlagBits::eColor);
             auto sampler = Sampler::create(logical_device);
-            auto texture = std::make_shared<ComputeTexture>(
-                image_view, images_[index], vk::ImageLayout::ePresentSrcKHR, surface_format_.format,
+            auto texture = std::make_shared<ComputeTexture>(logical_device,
+                image_view, std::move(images_[index]), vk::ImageLayout::ePresentSrcKHR, surface_format_.format,
                 std::move(sampler), extent_.width, extent_.height);
             textures_.push_back(texture);
             index++;
@@ -155,18 +155,20 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, ui
 }
 
 SwapChain::~SwapChain() {
-    if (const auto& device = logical_device_.lock()) {
-        swap_chain_.reset();
-        for (const auto& semaphore : image_available_semaphores_) {
-            device->destroy(semaphore);
-        }
-        for (const auto& fence : in_flight_fences_) {
-            device->destroy(fence);
-        }
-        for (auto& texture : textures_) {
-            texture.reset();
-        }
+    CXL_VLOG(5) << "Delete swapchain!";
+    auto device = logical_device_.lock();
+    CXL_DCHECK(device);
+    for (const auto& semaphore : image_available_semaphores_) {
+        device->destroy(semaphore);
     }
+    for (const auto& fence : in_flight_fences_) {
+     device->destroy(fence);
+    }
+    for (auto& texture : textures_) {
+        CXL_VLOG(5) << "Swapchain delete texture";
+        texture.reset();
+    }
+    swap_chain_.reset();
 }
 
 void SwapChain::beginFrame(RenderFunction callback) {

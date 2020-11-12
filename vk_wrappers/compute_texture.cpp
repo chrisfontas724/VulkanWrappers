@@ -20,10 +20,12 @@ ComputeTexture::ComputeTexture(std::shared_ptr<LogicalDevice> device,
     sampler_ = Sampler::create(device, true, false);
 }
 
-ComputeTexture::ComputeTexture(vk::ImageView view, vk::Image image, vk::ImageLayout layout,
+ComputeTexture::ComputeTexture(std::shared_ptr<LogicalDevice> device,
+                               vk::ImageView view, vk::Image image, vk::ImageLayout layout,
                                vk::Format format, SamplerPtr sampler, uint32_t width,
                                uint32_t height)
-    : image_view_(view),
+    : device_(device),
+      image_view_(view),
       image_(image),
       layout_(layout),
       format_(format),
@@ -33,12 +35,15 @@ ComputeTexture::ComputeTexture(vk::ImageView view, vk::Image image, vk::ImageLay
       samples_(vk::SampleCountFlagBits::e1) {}
 
 ComputeTexture::~ComputeTexture() {
+    CXL_VLOG(5) << "Delete texture!";
     auto device = device_.lock();
-    if (device) {
-        device->vk().destroyImageView(image_view_);
+    CXL_DCHECK(device);
+    if (image_) {
         device->vk().destroyImage(image_);
-        device->vk().freeMemory(memory_);
     }
+    device->vk().destroyImageView(image_view_);
+    device->vk().freeMemory(memory_);
+    sampler_.reset();
 }
 
 void ComputeTexture::transitionImageLayout(CommandBuffer& command_buffer, vk::ImageLayout layout) {

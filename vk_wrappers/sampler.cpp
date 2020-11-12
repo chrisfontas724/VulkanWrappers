@@ -5,6 +5,7 @@
 #include "vk_wrappers/sampler.hpp"
 
 #include "vk_wrappers/logical_device.hpp"
+#include "logging/logging.hpp"
 
 namespace gfx {
 
@@ -13,7 +14,7 @@ SamplerPtr Sampler::create(LogicalDevicePtr device, bool lerp, bool unnormalized
 }
 
 Sampler::Sampler(LogicalDevicePtr device, bool lerp, bool unnormalized)
-    : lerp_(lerp), unnormalized_(unnormalized) {
+    : device_(device), lerp_(lerp), unnormalized_(unnormalized) {
     vk::SamplerCreateInfo create_info(
         vk::SamplerCreateFlags(), lerp ? vk::Filter::eLinear : vk::Filter::eNearest,
         lerp ? vk::Filter::eLinear : vk::Filter::eNearest,
@@ -27,6 +28,12 @@ Sampler::Sampler(LogicalDevicePtr device, bool lerp, bool unnormalized)
         VK_TRUE && !unnormalized, 16, VK_FALSE, vk::CompareOp::eAlways, 0, 0,
         vk::BorderColor::eIntOpaqueBlack, unnormalized);
     sampler_ = device->vk().createSampler(create_info);
+}
+
+Sampler::~Sampler() {
+    auto device = device_.lock();
+    CXL_DCHECK(device);
+    device->vk().destroySampler(sampler_);
 }
 
 }  // namespace gfx

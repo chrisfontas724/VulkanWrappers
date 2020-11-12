@@ -17,7 +17,8 @@ namespace gfx {
 class ComputeTexture {
    public:
     ComputeTexture(std::shared_ptr<LogicalDevice> device, const ImageUtils::Data& data);
-    ComputeTexture(vk::ImageView view, vk::Image image, vk::ImageLayout layout, vk::Format format,
+    ComputeTexture(std::shared_ptr<LogicalDevice> device,
+                   vk::ImageView view, vk::Image image, vk::ImageLayout layout, vk::Format format,
                    SamplerPtr sampler, uint32_t width, uint32_t height);
     ~ComputeTexture();
 

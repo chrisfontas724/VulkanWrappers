@@ -10,7 +10,8 @@ namespace gfx {
 class Sampler {
    public:
     static SamplerPtr create(LogicalDevicePtr device, bool lerp = true, bool unnormalized = false);
-
+    ~Sampler();
+    
     const vk::Sampler& vk() const { return sampler_; }
 
     bool lerp() const { return lerp_; }
@@ -20,6 +21,7 @@ class Sampler {
    private:
     explicit Sampler(LogicalDevicePtr device, bool lerp, bool unnormalized);
 
+    LogicalDeviceWeakPtr device_;
     vk::Sampler sampler_;
     bool lerp_;
     bool unnormalized_;
