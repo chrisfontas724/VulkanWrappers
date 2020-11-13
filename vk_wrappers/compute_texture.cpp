@@ -21,12 +21,11 @@ ComputeTexture::ComputeTexture(std::shared_ptr<LogicalDevice> device,
 }
 
 ComputeTexture::ComputeTexture(std::shared_ptr<LogicalDevice> device,
-                               vk::ImageView view, vk::Image image, vk::ImageLayout layout,
+                               vk::ImageView view, vk::ImageLayout layout,
                                vk::Format format, SamplerPtr sampler, uint32_t width,
                                uint32_t height)
     : device_(device),
       image_view_(view),
-      image_(image),
       layout_(layout),
       format_(format),
       sampler_(std::move(sampler)),
@@ -38,6 +37,7 @@ ComputeTexture::~ComputeTexture() {
     CXL_VLOG(5) << "Delete texture!";
     auto device = device_.lock();
     CXL_DCHECK(device);
+    CXL_VLOG(5) << "Delete texture's image!";
     if (image_) {
         device->vk().destroyImage(image_);
     }

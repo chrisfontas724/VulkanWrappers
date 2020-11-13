@@ -130,7 +130,7 @@ SwapChain::SwapChain(LogicalDevicePtr logical_device, vk::SurfaceKHR surface, ui
                 logical_device, image, surface_format_.format, vk::ImageAspectFlagBits::eColor);
             auto sampler = Sampler::create(logical_device);
             auto texture = std::make_shared<ComputeTexture>(logical_device,
-                image_view, std::move(images_[index]), vk::ImageLayout::ePresentSrcKHR, surface_format_.format,
+                image_view, vk::ImageLayout::ePresentSrcKHR, surface_format_.format,
                 std::move(sampler), extent_.width, extent_.height);
             textures_.push_back(texture);
             index++;
