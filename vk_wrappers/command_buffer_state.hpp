@@ -29,6 +29,11 @@ class CommandBufferState {
 
     struct VertexBinding {
         vk::Format formats[8];
+        VertexBinding() {
+            for (uint32_t i = 0; i < 8; i++) {
+                formats[i] = vk::Format::eUndefined;
+            }
+        }
     };
 
     struct VertexDescription {

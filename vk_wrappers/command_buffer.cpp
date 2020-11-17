@@ -31,11 +31,11 @@ std::shared_ptr<CommandBuffer> CommandBuffer::create(std::shared_ptr<LogicalDevi
     return result;
 }
 
-std::vector<CommandBuffer> CommandBuffer::create(std::shared_ptr<LogicalDevice>& device,
+std::vector<std::shared_ptr<CommandBuffer>> CommandBuffer::create(std::shared_ptr<LogicalDevice>& device,
                                                  Queue::Type queue, vk::CommandBufferLevel level,
                                                  uint32_t num) {
     CXL_CHECK(num > 0);
-    std::vector<CommandBuffer> result;
+    std::vector<std::shared_ptr<CommandBuffer>> result;
     try {
         auto pool = device->createCommandPool(queue);
         vk::CommandBufferAllocateInfo alloc_info(pool, level, num);
@@ -43,10 +43,10 @@ std::vector<CommandBuffer> CommandBuffer::create(std::shared_ptr<LogicalDevice>&
         CXL_CHECK(buffers.size() == num);
 
         for (uint32_t i = 0; i < buffers.size(); i++) {
-            result.push_back(CommandBuffer());
-            result[i].command_buffer_ = buffers[i];
-            result[i].device_ = device;
-            result[i].identifier_ = reference_++;
+            result.push_back(std::shared_ptr<CommandBuffer>(new CommandBuffer()));
+            result[i]->command_buffer_ = buffers[i];
+            result[i]->device_ = device;
+            result[i]->identifier_ = reference_++;
         }
     } catch (vk::SystemError err) {
         std::cout << "vk::SystemError: " << err.what() << std::endl;

@@ -19,7 +19,7 @@ class CommandBuffer {
     static std::shared_ptr<CommandBuffer> create(LogicalDevicePtr device, Queue::Type queue,
                                                  vk::CommandBufferLevel level);
 
-    static std::vector<CommandBuffer> create(LogicalDevicePtr& device, Queue::Type queue,
+    static std::vector<std::shared_ptr<CommandBuffer>> create(LogicalDevicePtr& device, Queue::Type queue,
                                              vk::CommandBufferLevel level, uint32_t num);
 
     const vk::CommandBuffer& vk() const { return command_buffer_; }

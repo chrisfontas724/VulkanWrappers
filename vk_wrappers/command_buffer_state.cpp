@@ -122,7 +122,7 @@ CommandBufferState::createVertexBindingsAndAttributes() {
         uint32_t stride = 0;
         for (uint32_t j = 0; j < 8; j++) {
             auto format = binding.formats[j];
-            if (format == vk::Format()) {
+            if (format == vk::Format::eUndefined) {
                 break;
             }
 
