@@ -59,6 +59,11 @@ std::vector<std::shared_ptr<CommandBuffer>> CommandBuffer::create(std::shared_pt
     return result;
 }
 
+CommandBuffer::~CommandBuffer() {
+    auto device = device_.lock();
+    CXL_DCHECK(device);
+}
+
 void CommandBuffer::bindVertexBuffer(const ComputeBufferPtr& buffer) {
     CXL_CHECK(buffer);
     CXL_CHECK(buffer->size() > 0);

@@ -18,6 +18,8 @@ class ShaderPipeline {
                    const std::vector<DescriptorSetLayoutPtr>& descriptor_layouts,
                    const std::vector<vk::PushConstantRange>& push_ranges);
 
+    ~ShaderPipeline();
+
     uint32_t descriptor_set_mask() const { return descriptor_set_mask_; }
 
     DescriptorSetLayout* descriptor_layout(uint32_t index) const {
@@ -32,6 +34,7 @@ class ShaderPipeline {
     uint32_t push_constant_layout_hash() const;
 
    private:
+    LogicalDeviceWeakPtr device_;
     DescriptorSetLayoutPtr descriptor_layouts_[32];
     vk::PipelineLayoutCreateInfo layout_info_;
     vk::PipelineLayout layout_;

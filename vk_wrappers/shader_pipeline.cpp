@@ -10,7 +10,8 @@ namespace gfx {
 
 ShaderPipeline::ShaderPipeline(const LogicalDevicePtr& device,
                                const std::vector<DescriptorSetLayoutPtr>& descriptor_layouts,
-                               const std::vector<vk::PushConstantRange>& push_ranges) {
+                               const std::vector<vk::PushConstantRange>& push_ranges)
+: device_(device) {
     uint32_t index = 0;
     std::vector<vk::DescriptorSetLayout> vk_layouts;
     for (auto& layout : descriptor_layouts) {
@@ -32,6 +33,13 @@ ShaderPipeline::ShaderPipeline(const LogicalDevicePtr& device,
         exit(-1);
     }
 }
+
+ShaderPipeline::~ShaderPipeline() {
+    auto device = device_.lock();
+    CXL_DCHECK(device);
+   // device->vk().destroyPipelineLayout(layout_);
+}
+
 
 uint32_t ShaderPipeline::push_constant_layout_hash() const {
     cxl::Hasher hasher(0);
