@@ -62,6 +62,10 @@ std::vector<std::shared_ptr<CommandBuffer>> CommandBuffer::create(std::shared_pt
 CommandBuffer::~CommandBuffer() {
     auto device = device_.lock();
     CXL_DCHECK(device);
+
+    for (auto& [_, pipeline] : state_.pipeline_hash_) {
+        device->vk().destroyPipeline(pipeline);
+    }
 }
 
 void CommandBuffer::bindVertexBuffer(const ComputeBufferPtr& buffer) {
@@ -186,10 +190,9 @@ void CommandBuffer::setProgram(ShaderProgramPtr program) {
     // different, and we have to find the first descriptor set which differs
     // between the two of them and dirty those flags.
     else {
-        ShaderPipeline new_pipeline = program->pipeline();
-        ShaderPipeline old_pipeline = state_.shader_program_->pipeline();
+        const ShaderPipeline& new_pipeline = program->pipeline();
+        const ShaderPipeline& old_pipeline = state_.shader_program_->pipeline();
 
-        //
         if (new_pipeline.push_constant_layout_hash() != old_pipeline.push_constant_layout_hash()) {
             setChanged(kPushConstantBit);
         }
@@ -433,7 +436,7 @@ void CommandBuffer::prepareGraphicsPipelineData() {
     }
 
     if (getAndClear(kPushConstantBit)) {
-        auto& pipeline = state_.shader_program_->pipeline();
+        const auto& pipeline = state_.shader_program_->pipeline();
         auto vk_layout = pipeline.vk();
         const auto& push_ranges = pipeline.push_ranges();
         for (const auto& range : push_ranges) {
@@ -457,7 +460,7 @@ void CommandBuffer::prepareComputePipelineData() {
 void CommandBuffer::prepareDescriptorSets() {
     CXL_DCHECK(state_.shader_program_);
 
-    auto shader_pipeline = state_.shader_program_->pipeline();
+    const auto& shader_pipeline = state_.shader_program_->pipeline();
     uint32_t descriptors_to_update = descriptor_flags_ & shader_pipeline.descriptor_set_mask();
 
     for (uint32_t i = 0; i < 32; i++) {
@@ -473,7 +476,10 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
     CXL_DCHECK(device);
     CXL_DCHECK(state_.shader_program_);
 
-    auto shader_pipeline = state_.shader_program_->pipeline();
+    CXL_VLOG(5) << "Grab pipeline!";
+    const auto& shader_pipeline = state_.shader_program_->pipeline();
+    CXL_VLOG(5) << "Grabbed pipeline!";
+
     auto descriptor_layout = shader_pipeline.descriptor_layout(index);
     auto descriptor_info = descriptor_layout->info();
     auto bind_point = state_.shader_program_->bind_point();
@@ -495,25 +501,31 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
         hasher.hash(i);
     }
 
+    CXL_VLOG(5) << "Test....";
+
     uint32_t hash = hasher.get_hash();
 
     if (!state_.descriptor_hash_.count(hash)) {
         vk_set = descriptor_layout->createDescriptorSet()->vk();
         state_.descriptor_hash_[hash] = vk_set;
+        CXL_VLOG(5) << "Huh...?";
         writeDescriptorSet(index, vk_set);
+        CXL_VLOG(5) << "Moo...";
     } else {
         vk_set = state_.descriptor_hash_[hash];
     }
 
+    CXL_VLOG(5) << "About to call...";
     command_buffer_.bindDescriptorSets(bind_point, shader_pipeline.vk(), index, 1, &vk_set, 0,
                                        nullptr);
+    CXL_VLOG(5) << "End of function!";
 }
 
 void CommandBuffer::writeDescriptorSet(uint32_t index, vk::DescriptorSet vk_set) {
     auto device = device_.lock();
     CXL_DCHECK(device);
 
-    auto shader_pipeline = state_.shader_program_->pipeline();
+    const auto& shader_pipeline = state_.shader_program_->pipeline();
     auto descriptor_layout = shader_pipeline.descriptor_layout(index);
     auto descriptor_info = descriptor_layout->info();
 

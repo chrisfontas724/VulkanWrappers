@@ -37,9 +37,10 @@ ShaderPipeline::ShaderPipeline(const LogicalDevicePtr& device,
 ShaderPipeline::~ShaderPipeline() {
     auto device = device_.lock();
     CXL_DCHECK(device);
-   // device->vk().destroyPipelineLayout(layout_);
+    CXL_VLOG(5) << "Deleting shader pipeline!";
+    device->vk().destroyPipelineLayout(layout_);
+    CXL_VLOG(5) << "Finished deleting shader pipeline!";
 }
-
 
 uint32_t ShaderPipeline::push_constant_layout_hash() const {
     cxl::Hasher hasher(0);
