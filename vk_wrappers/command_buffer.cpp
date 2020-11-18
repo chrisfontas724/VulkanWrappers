@@ -476,9 +476,7 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
     CXL_DCHECK(device);
     CXL_DCHECK(state_.shader_program_);
 
-    CXL_VLOG(5) << "Grab pipeline!";
     const auto& shader_pipeline = state_.shader_program_->pipeline();
-    CXL_VLOG(5) << "Grabbed pipeline!";
 
     auto descriptor_layout = shader_pipeline.descriptor_layout(index);
     auto descriptor_info = descriptor_layout->info();
@@ -493,7 +491,7 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
 
         const auto& curr_data = state_.pipeline_resources_.descriptors[index].bindings[i];
         CXL_DCHECK(curr_data.type == type)
-            << vk::to_string(curr_data.type) << " | " << vk::to_string(type);
+            << vk::to_string(curr_data.type) << " | " << vk::to_string(type) << " Set: " << index << " Binding: " << i;
 
         hasher.hash(curr_data.identifier);
         hasher.hash(curr_data.type);
@@ -501,24 +499,18 @@ void CommandBuffer::prepareDescriptorSet(uint32_t index) {
         hasher.hash(i);
     }
 
-    CXL_VLOG(5) << "Test....";
-
     uint32_t hash = hasher.get_hash();
 
     if (!state_.descriptor_hash_.count(hash)) {
         vk_set = descriptor_layout->createDescriptorSet()->vk();
         state_.descriptor_hash_[hash] = vk_set;
-        CXL_VLOG(5) << "Huh...?";
         writeDescriptorSet(index, vk_set);
-        CXL_VLOG(5) << "Moo...";
     } else {
         vk_set = state_.descriptor_hash_[hash];
     }
 
-    CXL_VLOG(5) << "About to call...";
     command_buffer_.bindDescriptorSets(bind_point, shader_pipeline.vk(), index, 1, &vk_set, 0,
                                        nullptr);
-    CXL_VLOG(5) << "End of function!";
 }
 
 void CommandBuffer::writeDescriptorSet(uint32_t index, vk::DescriptorSet vk_set) {

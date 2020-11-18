@@ -162,6 +162,9 @@ bool ShaderCompiler::compile(const EShLanguage shader_type, const std::string& s
     glslang::EShTargetLanguageVersion TargetVersion = glslang::EShTargetSpv_1_0;
     const int DefaultVersion = 450;
 
+    // Clear the output.
+    output->clear();
+
     // Include directory information.
     DirStackFileIncluder includer;
 
