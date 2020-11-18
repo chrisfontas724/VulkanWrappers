@@ -38,7 +38,6 @@ void RenderPassBuilder::addColorAttachment(ComputeTexturePtr texture, Attachment
 
 void RenderPassBuilder::addResolveAttachment(ComputeTexturePtr texture, AttachmentInfo info) {
     CXL_VLOG(3) << "Inside call resolve attachment!";
-    CXL_CHECK(texture->layout() == vk::ImageLayout::ePresentSrcKHR);
     CXL_DCHECK(texture->samples() == vk::SampleCountFlagBits::e1);
     vk::AttachmentDescription attachment(
         /*flags*/ {},
@@ -49,7 +48,7 @@ void RenderPassBuilder::addResolveAttachment(ComputeTexturePtr texture, Attachme
         /*stencilLoadOp*/ vk::AttachmentLoadOp::eDontCare,
         /*stencilStoreOp*/ vk::AttachmentStoreOp::eDontCare,
         /*initialLayout*/ vk::ImageLayout::eUndefined,
-        /*finalLayout*/ vk::ImageLayout::ePresentSrcKHR);
+        /*finalLayout*/ texture->layout());
 
     CXL_VLOG(3) << "Adding resolve attachment!";
     resolve_attachments_.push_back(attachment);
