@@ -8,7 +8,7 @@
 #include <map>
 
 #include "vk_wrappers/forward_declarations.hpp"
-#include "vk_wrappers/vulkan.hpp"
+#include <vulkan/vulkan.hpp>
 
 namespace gfx {
 

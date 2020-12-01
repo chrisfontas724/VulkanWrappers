@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "vulkan.hpp"
+#include <vulkan/vulkan.hpp>
 
 namespace gfx {
 

@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include "vk_wrappers/vulkan.hpp"
+#include <vulkan/vulkan.hpp>
 
 namespace gfx {
 class ErrorHandler {
