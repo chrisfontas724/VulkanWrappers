@@ -1,71 +1,57 @@
-cmake_minimum_required (VERSION 3.7)
-project(VulkanWrappers)
-set (CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS ON)
-set(CMAKE_CXX_FLAGS "-std=gnu++17")
+# Copyright 2019 Chris Fontas. All rights reserved.
+# Use of this source code is governed by the license that can be
+# found in the LICENSE file.
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src
-                    ${CMAKE_CURRENT_BINARY_DIR}/openexr-src
-                    ${CMAKE_CURRENT_BINARY_DIR}/glslang-src
-                    ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src)
+# Works with 3.11 and tested through 3.19
+cmake_minimum_required(VERSION 3.11...3.19)
 
-# Add filesystem classes
-configure_file(CMakeLists.txt.in filesystem-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/filesystem-download )
-if(result)
-  message(FATAL_ERROR "CMake step for filesystem failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/filesystem-download )
-if(result)
-  message(FATAL_ERROR "Build step for filesystem failed: ${result}")
+# Project name and a few useful settings. Other commands can pick up the results
+project(
+  VulkanWrappers
+  VERSION 0.1
+  DESCRIPTION "VK C++ Wrapper Classes"
+  LANGUAGES CXX)
+
+# Only do these if this is the main project, and not if it is included through add_subdirectory
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    # C++ Compiler Settings.
+    set (CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    set(CMAKE_CXX_EXTENSIONS ON)
+    set(CMAKE_CXX_FLAGS "-std=gnu++17")
 endif()
 
-add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src 
-                 ${CMAKE_CURRENT_BINARY_DIR}/filesystem-build 
-                 EXCLUDE_FROM_ALL)
 
-# Add core classes
-configure_file(CMakeLists.txt.in coreclasses-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-download )
-if(result)
-  message(FATAL_ERROR "CMake step for filesystem failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-download )
-if(result)
-  message(FATAL_ERROR "Build step for filesystem failed: ${result}")
-endif()
+include_directories(/usr/include/)
 
-add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src 
-                 ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-build 
-                 EXCLUDE_FROM_ALL)
 
-# Add gslang directory
-configure_file(CMakeLists.txt.in glslang-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/glslang-download )
-if(result)
-  message(FATAL_ERROR "CMake step for glslang failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/glslang-download )
-if(result)
-  message(FATAL_ERROR "Build step for glslang failed: ${result}")
-endif()
+# Find vulkan
+find_package(Vulkan REQUIRED)
 
-add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/glslang-src 
-                 ${CMAKE_CURRENT_BINARY_DIR}/glslang-build 
-                 EXCLUDE_FROM_ALL)
+
+# Get GLM - This is a requirement so we fail early if it cannot be found.
+set(GLM_INCLUDE_DIR C:/glm)
+#find_package(glm REQUIRED)
+#if(NOT glm_FOUND)
+#    message(Error "GLM not found")
+#endif(NOT glm_FOUND)
+message(STATUS "Version1: GLM included at ${GLM_INCLUDE_DIR}")
+message(STATUS "Version2: GLM included at ${glm_INCLUDE_DIR}")
+message(STATUS ${GLM_INCLUDE_DIR})
+include_directories(${GLM_INCLUDE_DIR})
+link_directories(${GLM_LIBRARY_DIRS})
+add_definitions(${GLM_DEFINITIONS})
+
+set(CMAKE_C_COMPILE_OBJECT
+"cmake\
+-DWINE=${WINE}\
+-DCOMPILER=<CMAKE_C_COMPILER>\
+-DSOURCE=<SOURCE>\
+-DINCLUDES=\"<INCLUDES>\"\
+-DFLAGS=\"<DEFINES> <FLAGS>\"\
+-DOBJECT=<OBJECT>\
+-P \"${CMAKE_CURRENT_LIST_DIR}/C8051Compile.cmake\""
+)
 
 # Add openexr classes
 configure_file(CMakeLists.txt.in openexr-download/CMakeLists.txt)
@@ -86,63 +72,12 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/openexr-src
                  ${CMAKE_CURRENT_BINARY_DIR}/openexr-build 
                  EXCLUDE_FROM_ALL)
 
-add_library (vulkan_wrappers
-    vk_wrappers/command_buffer.cpp
-    vk_wrappers/command_buffer_state.cpp
-    vk_wrappers/compute_buffer.cpp
-    vk_wrappers/graphics_pipeline.cpp
-    vk_wrappers/compute_texture.cpp
-    vk_wrappers/descriptor_allocator.cpp
-    vk_wrappers/descriptor_set.cpp
-    vk_wrappers/error_handler.cpp
-    vk_wrappers/instance.cpp
-    vk_wrappers/logical_device.cpp
-    vk_wrappers/render_pass.cpp
-    vk_wrappers/physical_device.cpp
-    vk_wrappers/sampler.cpp
-    vk_wrappers/shader_module.cpp
-    vk_wrappers/shader_pipeline.cpp
-    vk_wrappers/shader_program.cpp
-    vk_wrappers/swap_chain.cpp
-    vk_wrappers/queue.cpp
-    vk_wrappers/utils/image_utils.cpp
-    vk_wrappers/utils/shader_compiler.cpp
-    vk_wrappers/utils/reflection/reflection.cpp
-    vk_wrappers/utils/reflection/spirv_reflect.c
-)
-
-find_package(Vulkan REQUIRED)
-
-# This is so that a parent project that links this library knows
-# which headers to include.
-set(VK_INCLUDE_DIRS
-   ${VK_INCLUDE_DIRS}
-   ${CMAKE_CURRENT_BINARY_DIR}/filesystem-src
-   ${CMAKE_CURRENT_BINARY_DIR}/openexr-src
-   ${CMAKE_CURRENT_BINARY_DIR}/glslang-src
-   ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src
-   /usr/include/
-   PARENT_SCOPE
-)
-
-# Get GLM - This is a requirement so we fail early if it cannot be found.
-set(GLM_INCLUDE_DIR C:/glm)
-#find_package(glm REQUIRED)
-#if(NOT glm_FOUND)
-#    message(Error "GLM not found")
-#endif(NOT glm_FOUND)
 
 
-message(STATUS "Version1: GLM included at ${GLM_INCLUDE_DIR}")
-message(STATUS "Version2: GLM included at ${glm_INCLUDE_DIR}")
-message(STATUS ${GLM_INCLUDE_DIR})
-include_directories(${GLM_INCLUDE_DIR})
-link_directories(${GLM_LIBRARY_DIRS})
-add_definitions(${GLM_DEFINITIONS})
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src
+                    ${CMAKE_CURRENT_BINARY_DIR}/openexr-src
+                    ${CMAKE_CURRENT_BINARY_DIR}/glslang-src
+                    ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src/include)
 
-include_directories(/usr/include/)
 
-# Link the dependencies.
-target_link_libraries(vulkan_wrappers Vulkan::Vulkan glslang SPIRV streaming core)
-target_include_directories(vulkan_wrappers PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-
+add_subdirectory(src)
