@@ -2,12 +2,12 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#include "vk_wrappers/command_buffer_state.hpp"
+#include "command_buffer_state.hpp"
 
-#include "logging/logging.hpp"
-#include "utils/hasher.hpp"
-#include "vk_wrappers/logical_device.hpp"
-#include "vk_wrappers/shader_program.hpp"
+#include <core/logging.hpp>
+#include <core/hasher.hpp>
+#include "logical_device.hpp"
+#include "shader_program.hpp"
 
 namespace {
 

@@ -16,9 +16,9 @@
 #include <stdexcept>
 #include <vector>
 
-#include "logging/logging.hpp"
-#include "vk_wrappers/error_handler.hpp"
-#include "vk_wrappers/physical_device.hpp"
+#include <core/logging.hpp>
+#include "error_handler.hpp"
+#include "physical_device.hpp"
 
 namespace {
 

@@ -2,10 +2,10 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#include "vk_wrappers/shader_module.hpp"
+#include "shader_module.hpp"
+#include "shader_compiler.hpp"
 
-#include "logging/logging.hpp"
-#include "vk_wrappers/utils/shader_compiler.hpp"
+#include <core/logging.hpp>
 
 namespace gfx {
 

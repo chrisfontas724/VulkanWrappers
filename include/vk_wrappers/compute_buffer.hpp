@@ -5,8 +5,8 @@
 #ifndef GRAPHICS_VK_WRAPPERS_COMPUTE_BUFFER_HPP_
 #define GRAPHICS_VK_WRAPPERS_COMPUTE_BUFFER_HPP_
 
-#include "logging/logging.hpp"
-#include "vk_wrappers/logical_device.hpp"
+#include <core/logging.hpp>
+#include "logical_device.hpp"
 
 namespace gfx {
 class ComputeBuffer {

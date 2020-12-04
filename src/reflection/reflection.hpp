@@ -5,7 +5,7 @@
 #ifndef GRAPHICS_SHADERS_REFLECTION_REFLECTION_HPP_
 #define GRAPHICS_SHADERS_REFLECTION_REFLECTION_HPP_
 
-#include "vk_wrappers/descriptor_allocator.hpp"
+#include "descriptor_allocator.hpp"
 #include <vector>
 
 namespace gfx {

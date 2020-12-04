@@ -1,8 +1,8 @@
-#include "vk_wrappers/physical_device.hpp"
+#include "physical_device.hpp"
 
 #include <set>
 
-#include "logging/logging.hpp"
+#include <core/logging.hpp>
 
 namespace gfx {
 

@@ -2,10 +2,10 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#include "vk_wrappers/utils/image_utils.hpp"
+#include "image_utils.hpp"
 
-#include "vk_wrappers/command_buffer.hpp"
-#include "vk_wrappers/physical_device.hpp"
+#include "command_buffer.hpp"
+#include "physical_device.hpp"
 
 namespace gfx {
 

@@ -5,11 +5,10 @@
 //  Created by FontasChristopher on 6/3/19.
 //  Copyright © 2019 SicStudios. All rights reserved.
 //
-#include "vk_wrappers/error_handler.hpp"
-
+#include "error_handler.hpp"
+#include <glm/glm.hpp>
 #include <cstddef>
 #include <fstream>
-#include <glm/glm.hpp>
 #include <optional>
 
 namespace gfx {

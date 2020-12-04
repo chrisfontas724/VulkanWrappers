@@ -1,7 +1,7 @@
 #include "vk_wrappers/queue.hpp"
+#include "command_buffer.hpp"
 
-#include "logging/logging.hpp"
-#include "vk_wrappers/command_buffer.hpp"
+#include <core/logging.hpp>
 
 namespace gfx {
 

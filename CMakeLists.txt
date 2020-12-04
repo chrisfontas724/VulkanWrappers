@@ -42,16 +42,8 @@ include_directories(${GLM_INCLUDE_DIR})
 link_directories(${GLM_LIBRARY_DIRS})
 add_definitions(${GLM_DEFINITIONS})
 
-set(CMAKE_C_COMPILE_OBJECT
-"cmake\
--DWINE=${WINE}\
--DCOMPILER=<CMAKE_C_COMPILER>\
--DSOURCE=<SOURCE>\
--DINCLUDES=\"<INCLUDES>\"\
--DFLAGS=\"<DEFINES> <FLAGS>\"\
--DOBJECT=<OBJECT>\
--P \"${CMAKE_CURRENT_LIST_DIR}/C8051Compile.cmake\""
-)
+set(CMAKE_C_COMPILE_OBJECT "${CMAKE_C_COMPILE_OBJECT}")
+
 
 # Add openexr classes
 configure_file(CMakeLists.txt.in openexr-download/CMakeLists.txt)

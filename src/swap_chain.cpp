@@ -6,10 +6,10 @@
 
 #include <map>
 
-#include "logging/logging.hpp"
-#include "vk_wrappers/compute_texture.hpp"
-#include "vk_wrappers/physical_device.hpp"
-#include "vk_wrappers/utils/image_utils.hpp"
+#include <core/logging.hpp>
+#include "compute_texture.hpp"
+#include "physical_device.hpp"
+#include "image_utils.hpp"
 
 namespace gfx {
 

@@ -1,7 +1,7 @@
 #include "compute_texture.hpp"
 
-#include "vk_wrappers/command_buffer.hpp"
-#include "vk_wrappers/utils/image_utils.hpp"
+#include "command_buffer.hpp"
+#include "image_utils.hpp"
 
 namespace gfx {
 

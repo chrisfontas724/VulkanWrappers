@@ -2,13 +2,13 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#include "vk_wrappers/logical_device.hpp"
+#include "logical_device.hpp"
 
 #include <iostream>
 
-#include "logging/logging.hpp"
-#include "vk_wrappers/physical_device.hpp"
-#include "vk_wrappers/queue.hpp"
+#include <core/logging.hpp>
+#include "physical_device.hpp"
+#include "queue.hpp"
 
 namespace gfx {
 

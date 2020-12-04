@@ -5,8 +5,8 @@
 #ifndef GRAPHICS_VK_WRAPPERS_DESCRIPTOR_ALLOCATOR_HPP_
 #define GRAPHICS_VK_WRAPPERS_DESCRIPTOR_ALLOCATOR_HPP_
 
-#include "vk_wrappers/descriptor_set.hpp"
-#include "vk_wrappers/logical_device.hpp"
+#include "descriptor_set.hpp"
+#include "logical_device.hpp"
 
 namespace gfx {
 

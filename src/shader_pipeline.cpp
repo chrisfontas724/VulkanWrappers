@@ -2,9 +2,9 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#include "vk_wrappers/shader_pipeline.hpp"
+#include "shader_pipeline.hpp"
 
-#include "utils/hasher.hpp"
+#include <core/hasher.hpp>
 
 namespace gfx {
 

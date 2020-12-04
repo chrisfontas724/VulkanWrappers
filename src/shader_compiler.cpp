@@ -1,4 +1,4 @@
-#include "vk_wrappers/utils/shader_compiler.hpp"
+#include "shader_compiler.hpp"
 
 #include <OGLCompilersDLL/InitializeDll.h>
 #include <SPIRV/GlslangToSpv.h>
@@ -7,8 +7,8 @@
 #include <glslang/MachineIndependent/reflection.h>
 #include <glslang/Public/ShaderLang.h>
 
-#include "logging/logging.hpp"
-#include "utils/string_utils.hpp"
+#include <core/logging.hpp>
+#include <core/string_utils.hpp>
 
 namespace {
 struct Initializer {

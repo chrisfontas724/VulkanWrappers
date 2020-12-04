@@ -44,7 +44,7 @@ add_library (vk_wrappers
     image_utils.cpp
     shader_compiler.cpp
     reflection/reflection.cpp
-    reflection/spirv_reflect.c
+    reflection/spirv_reflect.cpp
     ${HEADER_LIST}
 )
 

@@ -2,9 +2,9 @@
 // Use of this source code is governed by our license that can be
 // found in the LICENSE file.
 
-#include "vk_wrappers/render_pass.hpp"
+#include "render_pass.hpp"
 
-#include "logging/logging.hpp"
+#include <core/logging.hpp>
 
 namespace gfx {
 
