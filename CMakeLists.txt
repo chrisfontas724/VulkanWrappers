@@ -45,25 +45,22 @@ add_definitions(${GLM_DEFINITIONS})
 set(CMAKE_C_COMPILE_OBJECT "${CMAKE_C_COMPILE_OBJECT}")
 
 
-# Add openexr classes
-configure_file(CMakeLists.txt.in openexr-download/CMakeLists.txt)
+# Add externa projects
+configure_file(CMakeLists.txt.in downloads/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
   RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/openexr-download )
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/downloads)
 if(result)
-  message(FATAL_ERROR "CMake step for openexr failed: ${result}")
+  message(FATAL_ERROR "CMake step for downloaded projects failed: ${result}")
 endif()
+
 execute_process(COMMAND ${CMAKE_COMMAND} --build .
   RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/openexr-download )
+  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/downloads)
+  
 if(result)
-  message(FATAL_ERROR "Build step for openexr failed: ${result}")
+  message(FATAL_ERROR "Build step for downloaded projects failed: ${result}")
 endif()
-
-add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/openexr-src 
-                 ${CMAKE_CURRENT_BINARY_DIR}/openexr-build 
-                 EXCLUDE_FROM_ALL)
-
 
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src
