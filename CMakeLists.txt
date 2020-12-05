@@ -19,24 +19,22 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     set(CMAKE_CXX_EXTENSIONS ON)
     set(CMAKE_CXX_FLAGS "-std=gnu++17")
+    set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_C_COMPILE_OBJECT "${CMAKE_C_COMPILE_OBJECT}")
 endif()
-
-
-include_directories(/usr/include/)
 
 
 # Find vulkan
 find_package(Vulkan REQUIRED)
 include_directories(${VUlkan_INCLUDE_DIRS})
 
-# Get GLM - This is a requirement so we fail early if it cannot be found.
+# Find GLM
 find_package(glm REQUIRED)
 message(STATUS "Version1: GLM included at ${GLM_INCLUDE_DIRS}")
 include_directories(${GLM_INCLUDE_DIRS})
 link_directories(${GLM_LIBRARY_DIRS})
 add_definitions(${GLM_DEFINITIONS})
 
-set(CMAKE_C_COMPILE_OBJECT "${CMAKE_C_COMPILE_OBJECT}")
 
 # Add external projects
 configure_file(CMakeLists.txt.in downloads/CMakeLists.txt)
@@ -46,11 +44,9 @@ execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
 if(result)
   message(FATAL_ERROR "CMake step for downloaded projects failed: ${result}")
 endif()
-
 execute_process(COMMAND ${CMAKE_COMMAND} --build .
   RESULT_VARIABLE result
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/downloads)
-  
 if(result)
   message(FATAL_ERROR "Build step for downloaded projects failed: ${result}")
 endif()
