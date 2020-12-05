@@ -30,20 +30,13 @@ find_package(Vulkan REQUIRED)
 
 
 # Get GLM - This is a requirement so we fail early if it cannot be found.
-set(GLM_INCLUDE_DIR C:/glm)
-#find_package(glm REQUIRED)
-#if(NOT glm_FOUND)
-#    message(Error "GLM not found")
-#endif(NOT glm_FOUND)
-message(STATUS "Version1: GLM included at ${GLM_INCLUDE_DIR}")
-message(STATUS "Version2: GLM included at ${glm_INCLUDE_DIR}")
-message(STATUS ${GLM_INCLUDE_DIR})
-include_directories(${GLM_INCLUDE_DIR})
+find_package(glm REQUIRED)
+message(STATUS "Version1: GLM included at ${GLM_INCLUDE_DIRS}")
+include_directories(${GLM_INCLUDE_DIRS})
 link_directories(${GLM_LIBRARY_DIRS})
 add_definitions(${GLM_DEFINITIONS})
 
 set(CMAKE_C_COMPILE_OBJECT "${CMAKE_C_COMPILE_OBJECT}")
-
 
 # Add externa projects
 configure_file(CMakeLists.txt.in downloads/CMakeLists.txt)
