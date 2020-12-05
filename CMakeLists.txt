@@ -27,7 +27,7 @@ include_directories(/usr/include/)
 
 # Find vulkan
 find_package(Vulkan REQUIRED)
-
+include_directories(${VUlkan_INCLUDE_DIRS})
 
 # Get GLM - This is a requirement so we fail early if it cannot be found.
 find_package(glm REQUIRED)
@@ -38,7 +38,7 @@ add_definitions(${GLM_DEFINITIONS})
 
 set(CMAKE_C_COMPILE_OBJECT "${CMAKE_C_COMPILE_OBJECT}")
 
-# Add externa projects
+# Add external projects
 configure_file(CMakeLists.txt.in downloads/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
   RESULT_VARIABLE result
@@ -62,4 +62,34 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src
                     ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src/include)
 
 
+# This is so that a parent project that links this library knows
+# which headers to include.
+set(VK_INCLUDE_DIRS
+   ${VK_INCLUDE_DIRS}	  
+   ${CMAKE_CURRENT_BINARY_DIR}/filesystem-src	  
+   ${CMAKE_CURRENT_BINARY_DIR}/openexr-src	
+   ${CMAKE_CURRENT_BINARY_DIR}/glslang-src	
+   ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src	  
+   PARENT_SCOPE
+)	
+
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/glslang-src 
+                 ${CMAKE_CURRENT_BINARY_DIR}/glslang-build 
+                 EXCLUDE_FROM_ALL)
+
+
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src 
+                 ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-build 
+                 EXCLUDE_FROM_ALL)
+
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src 
+                 ${CMAKE_CURRENT_BINARY_DIR}/filesystem-build 
+                 EXCLUDE_FROM_ALL)
+
+
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/openexr-src 
+                 ${CMAKE_CURRENT_BINARY_DIR}/openexr-build 
+                 EXCLUDE_FROM_ALL)
+
 add_subdirectory(src)
+add_subdirectory(apps)

@@ -60,7 +60,7 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
 target_include_directories(vk_wrappers PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
 # Link the dependencies.
-target_link_libraries(vk_wrappers Vulkan::Vulkan glslang SPIRV streaming core)
+target_link_libraries(vk_wrappers PUBLIC Vulkan::Vulkan glslang SPIRV streaming core)
 
 
 # All users of this library will need at least C++11
