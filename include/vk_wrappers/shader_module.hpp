@@ -5,7 +5,7 @@
 #ifndef GRAPHICS_SHADERS_SHADER_MODULE_HPP_
 #define GRAPHICS_SHADERS_SHADER_MODULE_HPP_
 
-#include "streaming/file_stream.hpp"
+#include <streaming/file_stream.hpp>
 #include "logical_device.hpp"
 #include "shader_compiler.hpp"
 

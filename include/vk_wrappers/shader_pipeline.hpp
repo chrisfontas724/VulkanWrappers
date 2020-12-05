@@ -8,7 +8,7 @@
 #include "descriptor_allocator.hpp"
 #include "forward_declarations.hpp"
 #include "shader_module.hpp"
-#include "reflection/reflection.hpp"
+#include "reflection.hpp"
 
 namespace gfx {
 

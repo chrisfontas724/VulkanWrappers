@@ -60,12 +60,14 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/filesystem-src
 
 # This is so that a parent project that links this library knows
 # which headers to include.
-set(VK_INCLUDE_DIRS
-   ${VK_INCLUDE_DIRS}	  
+set(VULKAN_WRAPPER_INCLUDE_DIRS
+   ${GLM_INCLUDE_DIRS}
+   ${Vulkan_INCLUDE_DIR}	  
    ${CMAKE_CURRENT_BINARY_DIR}/filesystem-src	  
    ${CMAKE_CURRENT_BINARY_DIR}/openexr-src	
    ${CMAKE_CURRENT_BINARY_DIR}/glslang-src	
    ${CMAKE_CURRENT_BINARY_DIR}/coreclasses-src	  
+   ${VulkanWrappers_SRC_DIR}/include
    PARENT_SCOPE
 )	
 
@@ -88,4 +90,7 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/openexr-src
                  EXCLUDE_FROM_ALL)
 
 add_subdirectory(src)
-add_subdirectory(apps)
+
+if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    add_subdirectory(apps)
+endif()

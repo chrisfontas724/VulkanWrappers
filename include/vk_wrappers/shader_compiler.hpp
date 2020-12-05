@@ -7,7 +7,7 @@
 
 #include <glslang/Public/ShaderLang.h>
 
-#include "streaming/file_system.hpp"
+#include <streaming/file_system.hpp>
 
 namespace gfx {
 class ShaderCompiler {

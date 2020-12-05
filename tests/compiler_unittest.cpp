@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "vk_wrappers/utils/shader_compiler.hpp"
 #include "vk_wrappers/utils/reflection/spirv_reflect.h"
-#include "streaming/file_system.hpp"
+#include <streaming/file_system.hpp>
 #include "logging/logging.hpp"
 
 int SpirvReflectExample(const void* spirv_code, size_t spirv_nbytes) {

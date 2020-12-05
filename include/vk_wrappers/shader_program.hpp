@@ -5,10 +5,10 @@
 #ifndef GRAPHICS_VK_WRAPPERS_SHADER_PROGRAM_HPP_
 #define GRAPHICS_VK_WRAPPERS_SHADER_PROGRAM_HPP_
 
-#include "forward_declarations.hpp"
-#include "shader_module.hpp"
-#include "shader_pipeline.hpp"
-#include "reflection/reflection.hpp"
+#include <vk_wrappers/forward_declarations.hpp>
+#include <vk_wrappers/shader_module.hpp>
+#include <vk_wrappers/shader_pipeline.hpp>
+#include <vk_wrappers/reflection.hpp>
 
 namespace gfx {
 

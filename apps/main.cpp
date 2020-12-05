@@ -3,11 +3,13 @@
 // found in the LICENSE file.
 
 #include <vk_wrappers/instance.hpp>
+#include <vk_wrappers/compute_texture.hpp>
 #include <core/logging.hpp>
 
 INITIALIZE_EASYLOGGINGPP
 
 int main(int argc, char** argv) {
   CXL_LOG(INFO) << "Hello, world!";
+  gfx::ComputeTexture* texture;
   return 0;
 }
